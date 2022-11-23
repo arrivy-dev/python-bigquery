@@ -106,6 +106,10 @@ def _record_from_json(value, field):
         return record
 
 
+def _json(value, field):
+    return value
+
+
 _CELLDATA_FROM_JSON = {
     'INTEGER': _int_from_json,
     'INT64': _int_from_json,
@@ -120,6 +124,7 @@ _CELLDATA_FROM_JSON = {
     'DATE': _date_from_json,
     'TIME': _time_from_json,
     'RECORD': _record_from_json,
+    'JSON': _json,
 }
 
 
@@ -290,6 +295,7 @@ class _TypedProperty(_ConfigurationProperty):
     :type property_type: type or sequence of types
     :param property_type: type to be validated
     """
+
     def __init__(self, name, property_type):
         super(_TypedProperty, self).__init__(name)
         self.property_type = property_type
@@ -312,6 +318,7 @@ class _EnumProperty(_ConfigurationProperty):
     :type name: str
     :param name:  name of the property.
     """
+
     def _validate(self, value):
         """Check that ``value`` is one of the allowed values.
 
@@ -333,6 +340,7 @@ class UDFResource(object):
     See
     https://cloud.google.com/bigquery/user-defined-functions#api
     """
+
     def __init__(self, udf_type, value):
         self.udf_type = udf_type
         self.value = value
@@ -396,6 +404,7 @@ class ScalarQueryParameter(AbstractQueryParameter):
                  :class:`datetime.date`.
     :param value: the scalar parameter value.
     """
+
     def __init__(self, name, type_, value):
         self.name = name
         self.type_ = type_
@@ -473,6 +482,7 @@ class ArrayQueryParameter(AbstractQueryParameter):
     :type values: list of appropriate scalar type.
     :param values: the parameter array values.
     """
+
     def __init__(self, name, array_type, values):
         self.name = name
         self.array_type = array_type
@@ -556,6 +566,7 @@ class StructQueryParameter(AbstractQueryParameter):
     :type sub_params: tuple of :class:`ScalarQueryParameter`
     :param sub_params: the sub-parameters for the struct
     """
+
     def __init__(self, name, *sub_params):
         self.name = name
         types = self.struct_types = OrderedDict()
