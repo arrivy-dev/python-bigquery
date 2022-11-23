@@ -31,10 +31,10 @@ from google.cloud.streaming.http_wrapper import Request
 from google.cloud.streaming.http_wrapper import make_api_request
 from google.cloud.streaming.transfer import RESUMABLE_UPLOAD
 from google.cloud.streaming.transfer import Upload
-from google.cloud.bigquery.schema import SchemaField
-from google.cloud.bigquery._helpers import _item_to_row
-from google.cloud.bigquery._helpers import _rows_page_start
-from google.cloud.bigquery._helpers import _SCALAR_VALUE_TO_JSON_ROW
+from arrivy.google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery._helpers import _item_to_row
+from arrivy.google.cloud.bigquery._helpers import _rows_page_start
+from arrivy.google.cloud.bigquery._helpers import _SCALAR_VALUE_TO_JSON_ROW
 
 
 _TABLE_HAS_NO_SCHEMA = "Table has no schema:  call 'table.reload()'"
@@ -50,7 +50,7 @@ class Table(object):
     :type name: str
     :param name: the name of the table
 
-    :type dataset: :class:`google.cloud.bigquery.dataset.Dataset`
+    :type dataset: :class:`arrivy.google.cloud.bigquery.dataset.Dataset`
     :param dataset: The dataset which contains the table.
 
     :type schema: list of :class:`SchemaField`
@@ -374,7 +374,7 @@ class Table(object):
     def list_partitions(self, client=None):
         """List the partitions in a table.
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -395,10 +395,10 @@ class Table(object):
         :type resource: dict
         :param resource: table resource representation returned from the API
 
-        :type dataset: :class:`google.cloud.bigquery.dataset.Dataset`
+        :type dataset: :class:`arrivy.google.cloud.bigquery.dataset.Dataset`
         :param dataset: The dataset containing the table.
 
-        :rtype: :class:`google.cloud.bigquery.table.Table`
+        :rtype: :class:`arrivy.google.cloud.bigquery.table.Table`
         :returns: Table parsed from ``resource``.
         """
         if ('tableReference' not in resource or
@@ -413,12 +413,12 @@ class Table(object):
     def _require_client(self, client):
         """Check client or verify over-ride.
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
 
-        :rtype: :class:`google.cloud.bigquery.client.Client`
+        :rtype: :class:`arrivy.google.cloud.bigquery.client.Client`
         :returns: The client passed in or the currently bound client.
         """
         if client is None:
@@ -484,7 +484,7 @@ class Table(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/insert
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -502,7 +502,7 @@ class Table(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/get
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -526,7 +526,7 @@ class Table(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/get
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -550,7 +550,7 @@ class Table(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/patch
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -618,7 +618,7 @@ class Table(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/update
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -634,7 +634,7 @@ class Table(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/delete
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -663,11 +663,11 @@ class Table(object):
         :param page_token: (Optional) Token representing a cursor into the
                            table's rows.
 
-        :type client: :class:`~google.cloud.bigquery.client.Client`
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client`
         :param client: (Optional) The client to use.  If not passed, falls
                        back to the ``client`` stored on the current dataset.
 
-        :rtype: :class:`~google.cloud.iterator.Iterator`
+        :rtype: :class:`~arrivy.google.cloud.iterator.Iterator`
         :returns: Iterator of row data :class:`tuple`s. During each page, the
                   iterator will have the ``total_rows`` attribute set,
                   which counts the total number of rows **in the table**
@@ -722,7 +722,7 @@ class Table(object):
             on the schema of the template table. See
             https://cloud.google.com/bigquery/streaming-data-into-bigquery#template-tables
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -817,7 +817,7 @@ class Table(object):
         :type source_format: str
         :param source_format: one of 'CSV' or 'NEWLINE_DELIMITED_JSON'.
                               job configuration option; see
-                              :meth:`google.cloud.bigquery.job.LoadJob`
+                              :meth:`arrivy.google.cloud.bigquery.job.LoadJob`
 
         :type rewind: bool
         :param rewind: If True, seek to the beginning of the file handle before
@@ -834,50 +834,50 @@ class Table(object):
 
         :type allow_jagged_rows: bool
         :param allow_jagged_rows: job configuration option;  see
-                                  :meth:`google.cloud.bigquery.job.LoadJob`.
+                                  :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type allow_quoted_newlines: bool
         :param allow_quoted_newlines: job configuration option; see
-                                      :meth:`google.cloud.bigquery.job.LoadJob`.
+                                      :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type create_disposition: str
         :param create_disposition: job configuration option; see
-                                   :meth:`google.cloud.bigquery.job.LoadJob`.
+                                   :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type encoding: str
         :param encoding: job configuration option; see
-                         :meth:`google.cloud.bigquery.job.LoadJob`.
+                         :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type field_delimiter: str
         :param field_delimiter: job configuration option; see
-                                :meth:`google.cloud.bigquery.job.LoadJob`.
+                                :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type ignore_unknown_values: bool
         :param ignore_unknown_values: job configuration option; see
-                                      :meth:`google.cloud.bigquery.job.LoadJob`.
+                                      :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type max_bad_records: int
         :param max_bad_records: job configuration option; see
-                                :meth:`google.cloud.bigquery.job.LoadJob`.
+                                :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type quote_character: str
         :param quote_character: job configuration option; see
-                                :meth:`google.cloud.bigquery.job.LoadJob`.
+                                :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type skip_leading_rows: int
         :param skip_leading_rows: job configuration option; see
-                                  :meth:`google.cloud.bigquery.job.LoadJob`.
+                                  :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
         :type write_disposition: str
         :param write_disposition: job configuration option; see
-                                  :meth:`google.cloud.bigquery.job.LoadJob`.
+                                  :meth:`arrivy.google.cloud.bigquery.job.LoadJob`.
 
-        :type client: :class:`~google.cloud.storage.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.storage.client.Client` or
                       ``NoneType``
         :param client: Optional. The client to use.  If not passed, falls back
                        to the ``client`` stored on the current dataset.
 
-        :rtype: :class:`google.cloud.bigquery.jobs.LoadTableFromStorageJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.jobs.LoadTableFromStorageJob`
         :returns: the job instance used to load the data (e.g., for
                   querying status). Note that the job is already started:
                   do not call ``job.begin()``.
@@ -1089,6 +1089,7 @@ class _UploadConfig(object):
 
 class _UrlBuilder(object):
     """Faux builder FBO apitools' 'configure_request'"""
+
     def __init__(self):
         self.query_params = {}
         self._relative_path = ''

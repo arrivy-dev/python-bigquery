@@ -138,7 +138,7 @@ def _row_from_json(row, schema):
 
     :type schema: tuple
     :param schema: A tuple of
-                   :class:`~google.cloud.bigquery.schema.SchemaField`.
+                   :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`.
 
     :rtype: tuple
     :returns: A tuple of data converted to native types.
@@ -700,7 +700,7 @@ def _item_to_row(iterator, resource):
         added to the iterator after being created, which
         should be done by the caller.
 
-    :type iterator: :class:`~google.cloud.iterator.Iterator`
+    :type iterator: :class:`~arrivy.google.cloud.iterator.Iterator`
     :param iterator: The iterator that is currently in use.
 
     :type resource: dict
@@ -714,12 +714,12 @@ def _item_to_row(iterator, resource):
 
 # pylint: disable=unused-argument
 def _rows_page_start(iterator, page, response):
-    """Grab total rows when :class:`~google.cloud.iterator.Page` starts.
+    """Grab total rows when :class:`~arrivy.google.cloud.iterator.Page` starts.
 
-    :type iterator: :class:`~google.cloud.iterator.Iterator`
+    :type iterator: :class:`~arrivy.google.cloud.iterator.Iterator`
     :param iterator: The iterator that is currently in use.
 
-    :type page: :class:`~google.cloud.iterator.Page`
+    :type page: :class:`~arrivy.google.cloud.iterator.Page`
     :param page: The page that was just created.
 
     :type response: dict

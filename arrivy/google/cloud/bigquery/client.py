@@ -16,13 +16,13 @@
 
 
 from google.cloud.client import ClientWithProject
-from google.cloud.bigquery._http import Connection
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.job import CopyJob
-from google.cloud.bigquery.job import ExtractTableToStorageJob
-from google.cloud.bigquery.job import LoadTableFromStorageJob
-from google.cloud.bigquery.job import QueryJob
-from google.cloud.bigquery.query import QueryResults
+from arrivy.google.cloud.bigquery._http import Connection
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.job import CopyJob
+from arrivy.google.cloud.bigquery.job import ExtractTableToStorageJob
+from arrivy.google.cloud.bigquery.job import LoadTableFromStorageJob
+from arrivy.google.cloud.bigquery.job import QueryJob
+from arrivy.google.cloud.bigquery.query import QueryResults
 from google.cloud.iterator import HTTPIterator
 
 
@@ -38,6 +38,7 @@ class Project(object):
     :type friendly_name: str
     :param friendly_name: Display name of the project
     """
+
     def __init__(self, project_id, numeric_id, friendly_name):
         self.project_id = project_id
         self.numeric_id = numeric_id
@@ -98,8 +99,8 @@ class Client(ClientWithProject):
                            not passed, the API will return the first page of
                            projects.
 
-        :rtype: :class:`~google.cloud.iterator.Iterator`
-        :returns: Iterator of :class:`~google.cloud.bigquery.client.Project`
+        :rtype: :class:`~arrivy.google.cloud.iterator.Iterator`
+        :returns: Iterator of :class:`~arrivy.google.cloud.bigquery.client.Project`
                   accessible to the current client.
         """
         return HTTPIterator(
@@ -126,8 +127,8 @@ class Client(ClientWithProject):
                            not passed, the API will return the first page of
                            datasets.
 
-        :rtype: :class:`~google.cloud.iterator.Iterator`
-        :returns: Iterator of :class:`~google.cloud.bigquery.dataset.Dataset`.
+        :rtype: :class:`~arrivy.google.cloud.iterator.Iterator`
+        :returns: Iterator of :class:`~arrivy.google.cloud.bigquery.dataset.Dataset`.
                   accessible to the current client.
         """
         extra_params = {}
@@ -149,7 +150,7 @@ class Client(ClientWithProject):
         :param project: (Optional) project ID for the dataset (defaults to
                         the project of the client).
 
-        :rtype: :class:`google.cloud.bigquery.dataset.Dataset`
+        :rtype: :class:`arrivy.google.cloud.bigquery.dataset.Dataset`
         :returns: a new ``Dataset`` instance
         """
         return Dataset(dataset_name, client=self, project=project)
@@ -161,11 +162,11 @@ class Client(ClientWithProject):
         :param resource: one job resource from API response
 
         :rtype: One of:
-                :class:`google.cloud.bigquery.job.LoadTableFromStorageJob`,
-                :class:`google.cloud.bigquery.job.CopyJob`,
-                :class:`google.cloud.bigquery.job.ExtractTableToStorageJob`,
-                :class:`google.cloud.bigquery.job.QueryJob`,
-                :class:`google.cloud.bigquery.job.RunSyncQueryJob`
+                :class:`arrivy.google.cloud.bigquery.job.LoadTableFromStorageJob`,
+                :class:`arrivy.google.cloud.bigquery.job.CopyJob`,
+                :class:`arrivy.google.cloud.bigquery.job.ExtractTableToStorageJob`,
+                :class:`arrivy.google.cloud.bigquery.job.QueryJob`,
+                :class:`arrivy.google.cloud.bigquery.job.RunSyncQueryJob`
         :returns: the job instance, constructed via the resource
         """
         config = resource['configuration']
@@ -207,7 +208,7 @@ class Client(ClientWithProject):
                              * ``"pending"``
                              * ``"running"``
 
-        :rtype: :class:`~google.cloud.iterator.Iterator`
+        :rtype: :class:`~arrivy.google.cloud.iterator.Iterator`
         :returns: Iterable of job instances.
         """
         extra_params = {'projection': 'full'}
@@ -233,14 +234,14 @@ class Client(ClientWithProject):
         :type job_name: str
         :param job_name: Name of the job.
 
-        :type destination: :class:`google.cloud.bigquery.table.Table`
+        :type destination: :class:`arrivy.google.cloud.bigquery.table.Table`
         :param destination: Table into which data is to be loaded.
 
         :type source_uris: sequence of string
         :param source_uris: URIs of data files to be loaded; in format
                             ``gs://<bucket_name>/<object_name_or_glob>``.
 
-        :rtype: :class:`google.cloud.bigquery.job.LoadTableFromStorageJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.LoadTableFromStorageJob`
         :returns: a new ``LoadTableFromStorageJob`` instance
         """
         return LoadTableFromStorageJob(job_name, destination, source_uris,
@@ -255,13 +256,13 @@ class Client(ClientWithProject):
         :type job_name: str
         :param job_name: Name of the job.
 
-        :type destination: :class:`google.cloud.bigquery.table.Table`
+        :type destination: :class:`arrivy.google.cloud.bigquery.table.Table`
         :param destination: Table into which data is to be copied.
 
-        :type sources: sequence of :class:`google.cloud.bigquery.table.Table`
+        :type sources: sequence of :class:`arrivy.google.cloud.bigquery.table.Table`
         :param sources: tables to be copied.
 
-        :rtype: :class:`google.cloud.bigquery.job.CopyJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.CopyJob`
         :returns: a new ``CopyJob`` instance
         """
         return CopyJob(job_name, destination, sources, client=self)
@@ -275,7 +276,7 @@ class Client(ClientWithProject):
         :type job_name: str
         :param job_name: Name of the job.
 
-        :type source: :class:`google.cloud.bigquery.table.Table`
+        :type source: :class:`arrivy.google.cloud.bigquery.table.Table`
         :param source: table to be extracted.
 
         :type destination_uris: sequence of string
@@ -283,7 +284,7 @@ class Client(ClientWithProject):
                                  table data is to be extracted; in format
                                  ``gs://<bucket_name>/<object_name_or_glob>``.
 
-        :rtype: :class:`google.cloud.bigquery.job.ExtractTableToStorageJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.ExtractTableToStorageJob`
         :returns: a new ``ExtractTableToStorageJob`` instance
         """
         return ExtractTableToStorageJob(job_name, source, destination_uris,
@@ -304,16 +305,16 @@ class Client(ClientWithProject):
 
         :type udf_resources: tuple
         :param udf_resources: An iterable of
-                            :class:`google.cloud.bigquery._helpers.UDFResource`
+                            :class:`arrivy.google.cloud.bigquery._helpers.UDFResource`
                             (empty by default)
 
         :type query_parameters: tuple
         :param query_parameters:
             An iterable of
-            :class:`google.cloud.bigquery._helpers.AbstractQueryParameter`
+            :class:`arrivy.google.cloud.bigquery._helpers.AbstractQueryParameter`
             (empty by default)
 
-        :rtype: :class:`google.cloud.bigquery.job.QueryJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.QueryJob`
         :returns: a new ``QueryJob`` instance
         """
         return QueryJob(job_name, query, client=self,
@@ -328,16 +329,16 @@ class Client(ClientWithProject):
 
         :type udf_resources: tuple
         :param udf_resources: An iterable of
-                            :class:`google.cloud.bigquery._helpers.UDFResource`
+                            :class:`arrivy.google.cloud.bigquery._helpers.UDFResource`
                             (empty by default)
 
         :type query_parameters: tuple
         :param query_parameters:
             An iterable of
-            :class:`google.cloud.bigquery._helpers.AbstractQueryParameter`
+            :class:`arrivy.google.cloud.bigquery._helpers.AbstractQueryParameter`
             (empty by default)
 
-        :rtype: :class:`google.cloud.bigquery.query.QueryResults`
+        :rtype: :class:`arrivy.google.cloud.bigquery.query.QueryResults`
         :returns: a new ``QueryResults`` instance
         """
         return QueryResults(query, client=self,
@@ -349,7 +350,7 @@ class Client(ClientWithProject):
 def _item_to_project(iterator, resource):
     """Convert a JSON project to the native object.
 
-    :type iterator: :class:`~google.cloud.iterator.Iterator`
+    :type iterator: :class:`~arrivy.google.cloud.iterator.Iterator`
     :param iterator: The iterator that is currently in use.
 
     :type resource: dict
@@ -365,7 +366,7 @@ def _item_to_project(iterator, resource):
 def _item_to_dataset(iterator, resource):
     """Convert a JSON dataset to the native object.
 
-    :type iterator: :class:`~google.cloud.iterator.Iterator`
+    :type iterator: :class:`~arrivy.google.cloud.iterator.Iterator`
     :param iterator: The iterator that is currently in use.
 
     :type resource: dict
@@ -380,7 +381,7 @@ def _item_to_dataset(iterator, resource):
 def _item_to_job(iterator, resource):
     """Convert a JSON job to the native object.
 
-    :type iterator: :class:`~google.cloud.iterator.Iterator`
+    :type iterator: :class:`~arrivy.google.cloud.iterator.Iterator`
     :param iterator: The iterator that is currently in use.
 
     :type resource: dict

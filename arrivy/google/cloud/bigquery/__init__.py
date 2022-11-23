@@ -24,16 +24,16 @@ The main concepts with this API are:
 
 
 from pkg_resources import get_distribution
-__version__ = get_distribution('google-cloud-bigquery').version
+__version__ = get_distribution('arrivy-google-cloud-bigquery').version
 
-from google.cloud.bigquery._helpers import ArrayQueryParameter
-from google.cloud.bigquery._helpers import ScalarQueryParameter
-from google.cloud.bigquery._helpers import StructQueryParameter
-from google.cloud.bigquery.client import Client
-from google.cloud.bigquery.dataset import AccessGrant
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.schema import SchemaField
-from google.cloud.bigquery.table import Table
+from arrivy.google.cloud.bigquery._helpers import ArrayQueryParameter
+from arrivy.google.cloud.bigquery._helpers import ScalarQueryParameter
+from arrivy.google.cloud.bigquery._helpers import StructQueryParameter
+from arrivy.google.cloud.bigquery.client import Client
+from arrivy.google.cloud.bigquery.dataset import AccessGrant
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery.table import Table
 
 __all__ = [
     '__version__', 'AccessGrant', 'ArrayQueryParameter', 'Client',

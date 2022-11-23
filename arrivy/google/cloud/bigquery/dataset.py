@@ -17,7 +17,7 @@ import six
 
 from google.cloud._helpers import _datetime_from_microseconds
 from google.cloud.exceptions import NotFound
-from google.cloud.bigquery.table import Table
+from arrivy.google.cloud.bigquery.table import Table
 from google.cloud.iterator import HTTPIterator
 
 
@@ -95,7 +95,7 @@ class Dataset(object):
     :type name: str
     :param name: the name of the dataset
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
 
@@ -304,11 +304,11 @@ class Dataset(object):
         :type resource: dict
         :param resource: dataset resource representation returned from the API
 
-        :type client: :class:`google.cloud.bigquery.client.Client`
+        :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
         :param client: Client which holds credentials and project
                        configuration for the dataset.
 
-        :rtype: :class:`google.cloud.bigquery.dataset.Dataset`
+        :rtype: :class:`arrivy.google.cloud.bigquery.dataset.Dataset`
         :returns: Dataset parsed from ``resource``.
         """
         if ('datasetReference' not in resource or
@@ -323,12 +323,12 @@ class Dataset(object):
     def _require_client(self, client):
         """Check client or verify over-ride.
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
 
-        :rtype: :class:`google.cloud.bigquery.client.Client`
+        :rtype: :class:`arrivy.google.cloud.bigquery.client.Client`
         :returns: The client passed in or the currently bound client.
         """
         if client is None:
@@ -420,7 +420,7 @@ class Dataset(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/insert
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -437,7 +437,7 @@ class Dataset(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets/get
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -461,7 +461,7 @@ class Dataset(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets/get
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -478,7 +478,7 @@ class Dataset(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets/patch
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -517,7 +517,7 @@ class Dataset(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets/update
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -533,7 +533,7 @@ class Dataset(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/tables/delete
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -556,8 +556,8 @@ class Dataset(object):
                            datasets. If not passed, the API will return the
                            first page of datasets.
 
-        :rtype: :class:`~google.cloud.iterator.Iterator`
-        :returns: Iterator of :class:`~google.cloud.bigquery.table.Table`
+        :rtype: :class:`~arrivy.google.cloud.iterator.Iterator`
+        :returns: Iterator of :class:`~arrivy.google.cloud.bigquery.table.Table`
                   contained within the current dataset.
         """
         path = '/projects/%s/datasets/%s/tables' % (self.project, self.name)
@@ -573,10 +573,10 @@ class Dataset(object):
         :type name: str
         :param name: Name of the table.
 
-        :type schema: list of :class:`google.cloud.bigquery.table.SchemaField`
+        :type schema: list of :class:`arrivy.google.cloud.bigquery.table.SchemaField`
         :param schema: The table's schema
 
-        :rtype: :class:`google.cloud.bigquery.table.Table`
+        :rtype: :class:`arrivy.google.cloud.bigquery.table.Table`
         :returns: a new ``Table`` instance
         """
         return Table(name, dataset=self, schema=schema)
@@ -585,13 +585,13 @@ class Dataset(object):
 def _item_to_table(iterator, resource):
     """Convert a JSON table to the native object.
 
-    :type iterator: :class:`~google.cloud.iterator.Iterator`
+    :type iterator: :class:`~arrivy.google.cloud.iterator.Iterator`
     :param iterator: The iterator that is currently in use.
 
     :type resource: dict
     :param resource: An item to be converted to a table.
 
-    :rtype: :class:`~google.cloud.bigquery.table.Table`
+    :rtype: :class:`~arrivy.google.cloud.bigquery.table.Table`
     :returns: The next table in the page.
     """
     return Table.from_api_repr(resource, iterator.dataset)

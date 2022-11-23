@@ -26,8 +26,8 @@ with open(os.path.join(PACKAGE_ROOT, 'README.rst')) as file_obj:
 # NOTE: This is duplicated throughout and we should try to
 #       consolidate.
 SETUP_BASE = {
-    'author': 'Google Cloud Platform',
-    'author_email': 'jjg+google-cloud-python@google.com',
+    'author': 'Arrivy',
+    'author_email': 'support@arrivy.com',
     'scripts': [],
     'url': 'https://github.com/GoogleCloudPlatform/google-cloud-python',
     'license': 'Apache 2.0',
@@ -55,13 +55,13 @@ REQUIREMENTS = [
 ]
 
 setup(
-    name='google-cloud-bigquery',
-    version='0.25.0',
+    name='arrivy-google-cloud-bigquery',
+    version='0.0.6',
     description='Python Client for Google BigQuery',
     long_description=README,
     namespace_packages=[
-        'google',
-        'google.cloud',
+        'arrivy',
+        'arrivy.google.cloud',
     ],
     packages=find_packages(exclude=('tests*',)),
     install_requires=REQUIREMENTS,

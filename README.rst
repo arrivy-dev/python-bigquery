@@ -16,7 +16,7 @@ Quick Start
 
 .. code-block:: console
 
-    $ pip install --upgrade google-cloud-bigquery
+    $ pip install --upgrade arrivy-google-cloud-bigquery
 
 Authentication
 --------------

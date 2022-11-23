@@ -17,15 +17,15 @@
 import six
 
 from google.cloud.iterator import HTTPIterator
-from google.cloud.bigquery._helpers import _TypedProperty
-from google.cloud.bigquery._helpers import _rows_from_json
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.job import QueryJob
-from google.cloud.bigquery.table import _parse_schema_resource
-from google.cloud.bigquery._helpers import QueryParametersProperty
-from google.cloud.bigquery._helpers import UDFResourcesProperty
-from google.cloud.bigquery._helpers import _item_to_row
-from google.cloud.bigquery._helpers import _rows_page_start
+from arrivy.google.cloud.bigquery._helpers import _TypedProperty
+from arrivy.google.cloud.bigquery._helpers import _rows_from_json
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.job import QueryJob
+from arrivy.google.cloud.bigquery.table import _parse_schema_resource
+from arrivy.google.cloud.bigquery._helpers import QueryParametersProperty
+from arrivy.google.cloud.bigquery._helpers import UDFResourcesProperty
+from arrivy.google.cloud.bigquery._helpers import _item_to_row
+from arrivy.google.cloud.bigquery._helpers import _rows_page_start
 
 
 class _SyncQueryConfiguration(object):
@@ -48,19 +48,19 @@ class QueryResults(object):
     :type query: str
     :param query: SQL query string
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
 
     :type udf_resources: tuple
     :param udf_resources: An iterable of
-                        :class:`google.cloud.bigquery.job.UDFResource`
+                        :class:`arrivy.google.cloud.bigquery.job.UDFResource`
                         (empty by default)
 
     :type query_parameters: tuple
     :param query_parameters:
         An iterable of
-        :class:`google.cloud.bigquery._helpers.AbstractQueryParameter`
+        :class:`arrivy.google.cloud.bigquery._helpers.AbstractQueryParameter`
         (empty by default)
     """
 
@@ -80,7 +80,7 @@ class QueryResults(object):
     def from_query_job(cls, job):
         """Factory: construct from an existing job.
 
-        :type job: :class:`~google.cloud.bigquery.job.QueryJob`
+        :type job: :class:`~arrivy.google.cloud.bigquery.job.QueryJob`
         :param job: existing job
 
         :rtype: :class:`QueryResults`
@@ -110,12 +110,12 @@ class QueryResults(object):
     def _require_client(self, client):
         """Check client or verify over-ride.
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
 
-        :rtype: :class:`google.cloud.bigquery.client.Client`
+        :rtype: :class:`arrivy.google.cloud.bigquery.client.Client`
         :returns: The client passed in or the currently bound client.
         """
         if client is None:
@@ -178,7 +178,7 @@ class QueryResults(object):
     def job(self):
         """Job instance used to run the query.
 
-        :rtype: :class:`google.cloud.bigquery.job.QueryJob`, or ``NoneType``
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.QueryJob`, or ``NoneType``
         :returns: Job instance used to run the query (None until
                   ``jobReference`` property is set by the server).
         """
@@ -367,7 +367,7 @@ class QueryResults(object):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -409,7 +409,7 @@ class QueryResults(object):
             and read the results. The default value is 10000 milliseconds (10
             seconds).
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -450,7 +450,7 @@ class QueryResults(object):
 
 
 def _rows_page_start_query(iterator, page, response):
-    """Update query response when :class:`~google.cloud.iterator.Page` starts.
+    """Update query response when :class:`~arrivy.google.cloud.iterator.Page` starts.
 
     .. note::
 
@@ -458,10 +458,10 @@ def _rows_page_start_query(iterator, page, response):
         added to the iterator after being created, which
         should be done by the caller.
 
-    :type iterator: :class:`~google.cloud.iterator.Iterator`
+    :type iterator: :class:`~arrivy.google.cloud.iterator.Iterator`
     :param iterator: The iterator that is currently in use.
 
-    :type page: :class:`~google.cloud.iterator.Page`
+    :type page: :class:`~arrivy.google.cloud.iterator.Page`
     :param page: The page that was just created.
 
     :type response: dict

@@ -16,7 +16,7 @@
 
 from google.cloud import _http
 
-from google.cloud.bigquery import __version__
+from arrivy.google.cloud.bigquery import __version__
 
 
 _CLIENT_INFO = _http.CLIENT_INFO_TEMPLATE.format(__version__)
@@ -25,7 +25,7 @@ _CLIENT_INFO = _http.CLIENT_INFO_TEMPLATE.format(__version__)
 class Connection(_http.JSONConnection):
     """A connection to Google BigQuery via the JSON REST API.
 
-    :type client: :class:`~google.cloud.bigquery.client.Client`
+    :type client: :class:`~arrivy.google.cloud.bigquery.client.Client`
     :param client: The client that owns the current connection.
     """
 

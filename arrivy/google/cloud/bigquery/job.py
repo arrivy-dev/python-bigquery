@@ -18,15 +18,15 @@ import six
 
 from google.cloud.exceptions import NotFound
 from google.cloud._helpers import _datetime_from_microseconds
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.schema import SchemaField
-from google.cloud.bigquery.table import Table
-from google.cloud.bigquery.table import _build_schema_resource
-from google.cloud.bigquery.table import _parse_schema_resource
-from google.cloud.bigquery._helpers import QueryParametersProperty
-from google.cloud.bigquery._helpers import UDFResourcesProperty
-from google.cloud.bigquery._helpers import _EnumProperty
-from google.cloud.bigquery._helpers import _TypedProperty
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery.table import Table
+from arrivy.google.cloud.bigquery.table import _build_schema_resource
+from arrivy.google.cloud.bigquery.table import _parse_schema_resource
+from arrivy.google.cloud.bigquery._helpers import QueryParametersProperty
+from arrivy.google.cloud.bigquery._helpers import UDFResourcesProperty
+from arrivy.google.cloud.bigquery._helpers import _EnumProperty
+from arrivy.google.cloud.bigquery._helpers import _TypedProperty
 
 
 class Compression(_EnumProperty):
@@ -85,10 +85,11 @@ class WriteDisposition(_EnumProperty):
 class _BaseJob(object):
     """Base class for jobs.
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
     """
+
     def __init__(self, client):
         self._client = client
         self._properties = {}
@@ -105,12 +106,12 @@ class _BaseJob(object):
     def _require_client(self, client):
         """Check client or verify over-ride.
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
 
-        :rtype: :class:`google.cloud.bigquery.client.Client`
+        :rtype: :class:`arrivy.google.cloud.bigquery.client.Client`
         :returns: The client passed in or the currently bound client.
         """
         if client is None:
@@ -124,10 +125,11 @@ class _AsyncJob(_BaseJob):
     :type name: str
     :param name: the name of the job
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
     """
+
     def __init__(self, name, client):
         super(_AsyncJob, self).__init__(client)
         self.name = name
@@ -304,7 +306,7 @@ class _AsyncJob(_BaseJob):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -326,7 +328,7 @@ class _AsyncJob(_BaseJob):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/get
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -350,7 +352,7 @@ class _AsyncJob(_BaseJob):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/get
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -367,7 +369,7 @@ class _AsyncJob(_BaseJob):
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/cancel
 
-        :type client: :class:`~google.cloud.bigquery.client.Client` or
+        :type client: :class:`~arrivy.google.cloud.bigquery.client.Client` or
                       ``NoneType``
         :param client: the client to use.  If not passed, falls back to the
                        ``client`` stored on the current dataset.
@@ -403,18 +405,18 @@ class LoadTableFromStorageJob(_AsyncJob):
     :type name: str
     :param name: the name of the job
 
-    :type destination: :class:`google.cloud.bigquery.table.Table`
+    :type destination: :class:`arrivy.google.cloud.bigquery.table.Table`
     :param destination: Table into which data is to be loaded.
 
     :type source_uris: sequence of string
     :param source_uris: URIs of one or more data files to be loaded, in
                         format ``gs://<bucket_name>/<object_name_or_glob>``.
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
 
-    :type schema: list of :class:`google.cloud.bigquery.table.SchemaField`
+    :type schema: list of :class:`arrivy.google.cloud.bigquery.table.SchemaField`
     :param schema: The job's schema
     """
 
@@ -620,11 +622,11 @@ class LoadTableFromStorageJob(_AsyncJob):
         :type resource: dict
         :param resource: dataset job representation returned from the API
 
-        :type client: :class:`google.cloud.bigquery.client.Client`
+        :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
         :param client: Client which holds credentials and project
                        configuration for the dataset.
 
-        :rtype: :class:`google.cloud.bigquery.job.LoadTableFromStorageJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.LoadTableFromStorageJob`
         :returns: Job parsed from ``resource``.
         """
         name, config = cls._get_resource_config(resource)
@@ -652,13 +654,13 @@ class CopyJob(_AsyncJob):
     :type name: str
     :param name: the name of the job
 
-    :type destination: :class:`google.cloud.bigquery.table.Table`
+    :type destination: :class:`arrivy.google.cloud.bigquery.table.Table`
     :param destination: Table into which data is to be loaded.
 
-    :type sources: list of :class:`google.cloud.bigquery.table.Table`
+    :type sources: list of :class:`arrivy.google.cloud.bigquery.table.Table`
     :param sources: Table into which data is to be loaded.
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
     """
@@ -730,11 +732,11 @@ class CopyJob(_AsyncJob):
         :type resource: dict
         :param resource: dataset job representation returned from the API
 
-        :type client: :class:`google.cloud.bigquery.client.Client`
+        :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
         :param client: Client which holds credentials and project
                        configuration for the dataset.
 
-        :rtype: :class:`google.cloud.bigquery.job.CopyJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.CopyJob`
         :returns: Job parsed from ``resource``.
         """
         name, config = cls._get_resource_config(resource)
@@ -774,7 +776,7 @@ class ExtractTableToStorageJob(_AsyncJob):
     :type name: str
     :param name: the name of the job
 
-    :type source: :class:`google.cloud.bigquery.table.Table`
+    :type source: :class:`arrivy.google.cloud.bigquery.table.Table`
     :param source: Table into which data is to be loaded.
 
     :type destination_uris: list of string
@@ -782,7 +784,7 @@ class ExtractTableToStorageJob(_AsyncJob):
                              extracted data will be written, in format
                              ``gs://<bucket_name>/<object_name_or_glob>``.
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
     """
@@ -863,11 +865,11 @@ class ExtractTableToStorageJob(_AsyncJob):
         :type resource: dict
         :param resource: dataset job representation returned from the API
 
-        :type client: :class:`google.cloud.bigquery.client.Client`
+        :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
         :param client: Client which holds credentials and project
                        configuration for the dataset.
 
-        :rtype: :class:`google.cloud.bigquery.job.ExtractTableToStorageJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.ExtractTableToStorageJob`
         :returns: Job parsed from ``resource``.
         """
         name, config = cls._get_resource_config(resource)
@@ -908,19 +910,19 @@ class QueryJob(_AsyncJob):
     :type query: str
     :param query: SQL query string
 
-    :type client: :class:`google.cloud.bigquery.client.Client`
+    :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
     :param client: A client which holds credentials and project configuration
                    for the dataset (which requires a project).
 
     :type udf_resources: tuple
     :param udf_resources: An iterable of
-                        :class:`google.cloud.bigquery._helpers.UDFResource`
+                        :class:`arrivy.google.cloud.bigquery._helpers.UDFResource`
                         (empty by default)
 
     :type query_parameters: tuple
     :param query_parameters:
         An iterable of
-        :class:`google.cloud.bigquery._helpers.AbstractQueryParameter`
+        :class:`arrivy.google.cloud.bigquery._helpers.AbstractQueryParameter`
         (empty by default)
     """
     _JOB_TYPE = 'query'
@@ -1114,11 +1116,11 @@ class QueryJob(_AsyncJob):
         :type resource: dict
         :param resource: dataset job representation returned from the API
 
-        :type client: :class:`google.cloud.bigquery.client.Client`
+        :type client: :class:`arrivy.google.cloud.bigquery.client.Client`
         :param client: Client which holds credentials and project
                        configuration for the dataset.
 
-        :rtype: :class:`google.cloud.bigquery.job.RunAsyncQueryJob`
+        :rtype: :class:`arrivy.google.cloud.bigquery.job.RunAsyncQueryJob`
         :returns: Job parsed from ``resource``.
         """
         name, config = cls._get_resource_config(resource)
@@ -1130,8 +1132,8 @@ class QueryJob(_AsyncJob):
     def results(self):
         """Construct a QueryResults instance, bound to this job.
 
-        :rtype: :class:`~google.cloud.bigquery.query.QueryResults`
+        :rtype: :class:`~arrivy.google.cloud.bigquery.query.QueryResults`
         :returns: results instance
         """
-        from google.cloud.bigquery.query import QueryResults
+        from arrivy.google.cloud.bigquery.query import QueryResults
         return QueryResults.from_query_job(self)
