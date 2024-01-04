@@ -1,5 +1,5 @@
 db-dtypes==1.1.1
-google.cloud.bigquery==3.11.4
+arrivy.google.cloud.bigquery==3.11.4
 google-cloud-bigquery-storage==2.22.0
 ipython===7.31.1; python_version == '3.7'
 ipython===8.0.1; python_version == '3.8'

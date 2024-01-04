@@ -24,10 +24,10 @@ import google.api_core.retry
 import mock
 import requests
 
-from google.cloud.bigquery.client import _LIST_ROWS_FROM_QUERY_RESULTS_FIELDS
-import google.cloud.bigquery._job_helpers
-import google.cloud.bigquery.query
-from google.cloud.bigquery.table import _EmptyRowIterator
+from arrivy.google.cloud.bigquery.client import _LIST_ROWS_FROM_QUERY_RESULTS_FIELDS
+import arrivy.google.cloud.bigquery._job_helpers
+import arrivy.google.cloud.bigquery.query
+from arrivy.google.cloud.bigquery.table import _EmptyRowIterator
 
 from ..helpers import make_connection
 
@@ -42,7 +42,7 @@ class TestQueryJob(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         return QueryJob
 
@@ -248,8 +248,8 @@ class TestQueryJob(_Base):
         self.assertIsNone(job.schema_update_options)
 
     def test_ctor_w_udf_resources(self):
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.query import UDFResource
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.query import UDFResource
 
         RESOURCE_URI = "gs://some-bucket/js/lib.js"
         udf_resources = [UDFResource("resourceUri", RESOURCE_URI)]
@@ -260,8 +260,8 @@ class TestQueryJob(_Base):
         self.assertEqual(job.udf_resources, udf_resources)
 
     def test_ctor_w_query_parameters(self):
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         query_parameters = [ScalarQueryParameter("foo", "INT64", 123)]
         client = _make_client(project=self.PROJECT)
@@ -341,9 +341,9 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_from_api_repr_w_properties(self):
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import SchemaUpdateOption
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import SchemaUpdateOption
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         client = _make_client(project=self.PROJECT)
         RESOURCE = self._make_resource()
@@ -447,7 +447,7 @@ class TestQueryJob(_Base):
 
     def test__done_or_raise_w_job_query_results_ok_reload_error(self):
         client = _make_client(project=self.PROJECT)
-        query_results = google.cloud.bigquery.query._QueryResults(
+        query_results = arrivy.google.cloud.bigquery.query._QueryResults(
             properties={
                 "jobComplete": True,
                 "jobReference": {"projectId": self.PROJECT, "jobId": "12345"},
@@ -467,8 +467,8 @@ class TestQueryJob(_Base):
 
     def test_query_plan(self):
         from google.cloud._helpers import _RFC3339_MICROS
-        from google.cloud.bigquery.job import QueryPlanEntry
-        from google.cloud.bigquery.job import QueryPlanEntryStep
+        from arrivy.google.cloud.bigquery.job import QueryPlanEntry
+        from arrivy.google.cloud.bigquery.job import QueryPlanEntryStep
 
         plan_entries = [
             {
@@ -642,7 +642,7 @@ class TestQueryJob(_Base):
         self.assertEqual(job.ddl_operation_performed, op)
 
     def test_ddl_target_routine(self):
-        from google.cloud.bigquery.routine import RoutineReference
+        from arrivy.google.cloud.bigquery.routine import RoutineReference
 
         ref_routine = {
             "projectId": self.PROJECT,
@@ -666,7 +666,7 @@ class TestQueryJob(_Base):
         self.assertEqual(job.ddl_target_routine.project, self.PROJECT)
 
     def test_ddl_target_table(self):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         ref_table = {
             "projectId": self.PROJECT,
@@ -735,7 +735,7 @@ class TestQueryJob(_Base):
         self.assertEqual(job.statement_type, statement_type)
 
     def test_referenced_tables(self):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         ref_tables_resource = [
             {"projectId": self.PROJECT, "datasetId": "dataset", "tableId": "local1"},
@@ -806,9 +806,9 @@ class TestQueryJob(_Base):
         self.assertEqual(job.timeline[0].slot_millis, 101)
 
     def test_undeclared_query_parameters(self):
-        from google.cloud.bigquery.query import ArrayQueryParameter
-        from google.cloud.bigquery.query import ScalarQueryParameter
-        from google.cloud.bigquery.query import StructQueryParameter
+        from arrivy.google.cloud.bigquery.query import ArrayQueryParameter
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.query import StructQueryParameter
 
         undeclared = [
             {
@@ -878,7 +878,7 @@ class TestQueryJob(_Base):
         self.assertEqual(job.estimated_bytes_processed, est_bytes)
 
     def test_bi_engine_stats(self):
-        from google.cloud.bigquery.job.query import BiEngineStats
+        from arrivy.google.cloud.bigquery.job.query import BiEngineStats
 
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, self.QUERY, client)
@@ -895,7 +895,7 @@ class TestQueryJob(_Base):
         assert job.bi_engine_stats.mode == "FULL"
 
     def test_dml_stats(self):
-        from google.cloud.bigquery.job.query import DmlStats
+        from arrivy.google.cloud.bigquery.job.query import DmlStats
 
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, self.QUERY, client)
@@ -912,7 +912,7 @@ class TestQueryJob(_Base):
         assert job.dml_stats.inserted_row_count == 35
 
     def test_search_stats(self):
-        from google.cloud.bigquery.job.query import SearchStats
+        from arrivy.google.cloud.bigquery.job.query import SearchStats
 
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, self.QUERY, client)
@@ -934,7 +934,7 @@ class TestQueryJob(_Base):
         assert job.search_stats.mode == "INDEX_USAGE_MODE_UNSPECIFIED"
 
     def test_result(self):
-        from google.cloud.bigquery.table import RowIterator
+        from arrivy.google.cloud.bigquery.table import RowIterator
 
         query_resource = {
             "jobComplete": False,
@@ -1101,7 +1101,7 @@ class TestQueryJob(_Base):
             "rows": [{"f": [{"v": "abc"}]}],
             "totalRows": "1",
         }
-        job = google.cloud.bigquery._job_helpers._to_query_job(
+        job = arrivy.google.cloud.bigquery._job_helpers._to_query_job(
             client,
             "SELECT 'abc' AS col1",
             request_config=None,
@@ -1150,7 +1150,7 @@ class TestQueryJob(_Base):
         query_page_resource_2 = {"totalRows": 4, "rows": [{"f": [{"v": "row4"}]}]}
         conn = make_connection(job_resource, query_page_resource, query_page_resource_2)
         client = _make_client(self.PROJECT, connection=conn)
-        job = google.cloud.bigquery._job_helpers._to_query_job(
+        job = arrivy.google.cloud.bigquery._job_helpers._to_query_job(
             client,
             "SELECT col1 FROM table",
             request_config=None,
@@ -1192,7 +1192,7 @@ class TestQueryJob(_Base):
         conn.api_request.assert_has_calls([query_page_1_call, query_page_2_call])
 
     def test_result_with_max_results(self):
-        from google.cloud.bigquery.table import RowIterator
+        from arrivy.google.cloud.bigquery.table import RowIterator
 
         query_resource = {
             "jobComplete": True,
@@ -1231,7 +1231,7 @@ class TestQueryJob(_Base):
         )
 
     def test_result_w_retry(self):
-        from google.cloud.bigquery.table import RowIterator
+        from arrivy.google.cloud.bigquery.table import RowIterator
 
         query_resource = {
             "jobComplete": False,
@@ -1293,7 +1293,7 @@ class TestQueryJob(_Base):
         )
 
     def test_result_w_empty_schema(self):
-        from google.cloud.bigquery.table import _EmptyRowIterator
+        from arrivy.google.cloud.bigquery.table import _EmptyRowIterator
 
         # Destination table may have no schema for some DDL and DML queries.
         query_resource = {
@@ -1348,7 +1348,7 @@ class TestQueryJob(_Base):
         self.assertEqual(reload_request[1]["method"], "GET")
 
     def test_result_w_timeout(self):
-        import google.cloud.bigquery.client
+        import arrivy.google.cloud.bigquery.client
 
         begun_resource = self._make_resource()
         query_resource = {
@@ -1378,7 +1378,7 @@ class TestQueryJob(_Base):
         self.assertEqual(query_request[1]["timeout"], 120)
         self.assertEqual(
             query_request[1]["timeout"],
-            google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
+            arrivy.google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
         )
         self.assertEqual(reload_request[1]["method"], "GET")
 
@@ -1447,7 +1447,7 @@ class TestQueryJob(_Base):
         conn.api_request.assert_has_calls([query_page_1_call, query_page_2_call])
 
     def test_result_with_start_index(self):
-        from google.cloud.bigquery.table import RowIterator
+        from arrivy.google.cloud.bigquery.table import RowIterator
 
         query_resource = {
             "jobComplete": True,
@@ -1509,7 +1509,7 @@ class TestQueryJob(_Base):
             "errors": [error_result],
             "state": "DONE",
         }
-        job._query_results = google.cloud.bigquery.query._QueryResults.from_api_repr(
+        job._query_results = arrivy.google.cloud.bigquery.query._QueryResults.from_api_repr(
             {"jobComplete": True, "jobReference": job._properties["jobReference"]}
         )
         job._set_future_result()
@@ -1548,7 +1548,7 @@ class TestQueryJob(_Base):
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, query, client)
         call_api_patch = mock.patch(
-            "google.cloud.bigquery.client.Client._call_api",
+            "arrivy.google.cloud.bigquery.client.Client._call_api",
             autospec=True,
             side_effect=requests.exceptions.Timeout("Server response took too long."),
         )
@@ -1607,7 +1607,7 @@ class TestQueryJob(_Base):
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, query, client)
         call_api_patch = mock.patch(
-            "google.cloud.bigquery.client.Client._call_api",
+            "arrivy.google.cloud.bigquery.client.Client._call_api",
             autospec=True,
             side_effect=exceptions.BadRequest("Syntax error in SQL query"),
         )
@@ -1643,7 +1643,7 @@ class TestQueryJob(_Base):
         client = _make_client(project=self.PROJECT, connection=conn)
         job = self._make_one(self.JOB_ID, self.QUERY, client)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin(timeout=7.5)
 
@@ -1662,8 +1662,8 @@ class TestQueryJob(_Base):
         )
 
     def test_begin_w_bound_client(self):
-        from google.cloud.bigquery.dataset import DatasetReference
-        from google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
 
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
         DS_ID = "DATASET"
@@ -1680,7 +1680,7 @@ class TestQueryJob(_Base):
         config.default_dataset = DatasetReference(self.PROJECT, DS_ID)
         job = self._make_one(self.JOB_ID, self.QUERY, client, job_config=config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -1709,12 +1709,12 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_alternate_client(self):
-        from google.cloud.bigquery.dataset import DatasetReference
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.job import QueryPriority
-        from google.cloud.bigquery.job import SchemaUpdateOption
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.job import QueryPriority
+        from arrivy.google.cloud.bigquery.job import SchemaUpdateOption
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
         TABLE = "TABLE"
@@ -1764,7 +1764,7 @@ class TestQueryJob(_Base):
         config.schema_update_options = [SchemaUpdateOption.ALLOW_FIELD_RELAXATION]
         job = self._make_one(self.JOB_ID, self.QUERY, client1, job_config=config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin(client=client2)
 
@@ -1783,8 +1783,8 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_udf(self):
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.query import UDFResource
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.query import UDFResource
 
         RESOURCE_URI = "gs://some-bucket/js/lib.js"
         INLINE_UDF_CODE = 'var someCode = "here";'
@@ -1810,7 +1810,7 @@ class TestQueryJob(_Base):
         config.use_legacy_sql = True
         job = self._make_one(self.JOB_ID, self.QUERY, client, job_config=config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -1838,8 +1838,8 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_named_query_parameter(self):
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         query_parameters = [ScalarQueryParameter("foo", "INT64", 123)]
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
@@ -1864,7 +1864,7 @@ class TestQueryJob(_Base):
         jconfig.query_parameters = query_parameters
         job = self._make_one(self.JOB_ID, self.QUERY, client, job_config=jconfig)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -1890,8 +1890,8 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_positional_query_parameter(self):
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         query_parameters = [ScalarQueryParameter.positional("INT64", 123)]
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
@@ -1912,7 +1912,7 @@ class TestQueryJob(_Base):
         jconfig.query_parameters = query_parameters
         job = self._make_one(self.JOB_ID, self.QUERY, client, job_config=jconfig)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -1938,10 +1938,10 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_table_defs(self):
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.external_config import ExternalConfig
-        from google.cloud.bigquery.external_config import BigtableColumn
-        from google.cloud.bigquery.external_config import BigtableColumnFamily
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.external_config import ExternalConfig
+        from arrivy.google.cloud.bigquery.external_config import BigtableColumn
+        from arrivy.google.cloud.bigquery.external_config import BigtableColumnFamily
 
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
         RESOURCE = self._make_resource()
@@ -1992,7 +1992,7 @@ class TestQueryJob(_Base):
         config.use_legacy_sql = True
         job = self._make_one(self.JOB_ID, self.QUERY, client, job_config=config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -2019,7 +2019,7 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, want_resource)
 
     def test_dry_run_query(self):
-        from google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
 
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
         RESOURCE = self._make_resource()
@@ -2035,7 +2035,7 @@ class TestQueryJob(_Base):
         config.dry_run = True
         job = self._make_one(self.JOB_ID, self.QUERY, client, job_config=config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -2061,7 +2061,7 @@ class TestQueryJob(_Base):
         client = _make_client(project=self.PROJECT, connection=conn)
         job = self._make_one(self.JOB_ID, self.QUERY, client)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertFalse(job.exists())
 
@@ -2079,7 +2079,7 @@ class TestQueryJob(_Base):
         client2 = _make_client(project=self.PROJECT, connection=conn2)
         job = self._make_one(self.JOB_ID, self.QUERY, client1)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertTrue(job.exists(client=client2))
 
@@ -2091,8 +2091,8 @@ class TestQueryJob(_Base):
         )
 
     def test_reload_w_bound_client(self):
-        from google.cloud.bigquery.dataset import DatasetReference
-        from google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
 
         PATH = "/projects/%s/jobs/%s" % (self.PROJECT, self.JOB_ID)
         DS_ID = "DATASET"
@@ -2106,7 +2106,7 @@ class TestQueryJob(_Base):
         config.destination = table_ref
         job = self._make_one(self.JOB_ID, None, client, job_config=config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job.reload()
 
@@ -2136,7 +2136,7 @@ class TestQueryJob(_Base):
         client2 = _make_client(project=self.PROJECT, connection=conn2)
         job = self._make_one(self.JOB_ID, self.QUERY, client1)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job.reload(client=client2)
 
@@ -2149,8 +2149,8 @@ class TestQueryJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_reload_w_timeout(self):
-        from google.cloud.bigquery.dataset import DatasetReference
-        from google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
 
         PATH = "/projects/%s/jobs/%s" % (self.PROJECT, self.JOB_ID)
         DS_ID = "DATASET"
@@ -2164,7 +2164,7 @@ class TestQueryJob(_Base):
         config.destination = table_ref
         job = self._make_one(self.JOB_ID, None, client, job_config=config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job.reload(timeout=4.2)
 

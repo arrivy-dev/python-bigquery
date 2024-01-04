@@ -14,7 +14,7 @@
 
 import pytest
 
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 from .helpers import make_connection, dataset_polymorphic
 
 
@@ -48,7 +48,7 @@ def test_list_models_defaults(
     extra,
     query,
 ):
-    from google.cloud.bigquery.model import Model
+    from arrivy.google.cloud.bigquery.model import Model
 
     MODEL_1 = "model_one"
     MODEL_2 = "model_two"

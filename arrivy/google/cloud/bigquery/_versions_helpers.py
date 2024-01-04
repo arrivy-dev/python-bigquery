@@ -18,7 +18,7 @@ from typing import Any
 
 import packaging.version
 
-from google.cloud.bigquery import exceptions
+from arrivy.google.cloud.bigquery import exceptions
 
 
 _MIN_PYARROW_VERSION = packaging.version.Version("3.0.0")

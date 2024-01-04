@@ -44,10 +44,10 @@ def create_span(name, attributes=None, client=None, job_ref=None):
             attributes (Optional[dict]):
                 Additional attributes that pertain to
                 the specific API call (i.e. not a default attribute)
-            client (Optional[google.cloud.bigquery.client.Client]):
+            client (Optional[arrivy.google.cloud.bigquery.client.Client]):
                 Pass in a Client object to extract any attributes that may be
                 relevant to it and add them to the created spans.
-            job_ref (Optional[google.cloud.bigquery.job._AsyncJob])
+            job_ref (Optional[arrivy.google.cloud.bigquery.job._AsyncJob])
                 Pass in a _AsyncJob object to extract any attributes that may be
                 relevant to it and add them to the created spans.
 
@@ -98,11 +98,11 @@ def _get_final_span_attributes(attributes=None, client=None, job_ref=None):
             Additional attributes that pertain to
             the specific API call (i.e. not a default attribute)
 
-        client (Optional[google.cloud.bigquery.client.Client]):
+        client (Optional[arrivy.google.cloud.bigquery.client.Client]):
             Pass in a Client object to extract any attributes that may be
             relevant to it and add them to the final_attributes
 
-        job_ref (Optional[google.cloud.bigquery.job._AsyncJob])
+        job_ref (Optional[arrivy.google.cloud.bigquery.job._AsyncJob])
             Pass in a _AsyncJob object to extract any attributes that may be
             relevant to it and add them to the final_attributes.
 

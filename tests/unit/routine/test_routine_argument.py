@@ -21,7 +21,7 @@ from google.cloud import bigquery
 
 @pytest.fixture
 def target_class():
-    from google.cloud.bigquery.routine import RoutineArgument
+    from arrivy.google.cloud.bigquery.routine import RoutineArgument
 
     return RoutineArgument
 

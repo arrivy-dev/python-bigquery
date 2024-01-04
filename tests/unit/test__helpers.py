@@ -23,7 +23,7 @@ import mock
 
 class Test_not_null(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _not_null
+        from arrivy.google.cloud.bigquery._helpers import _not_null
 
         return _not_null(value, field)
 
@@ -39,7 +39,7 @@ class Test_not_null(unittest.TestCase):
 
 class Test_int_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _int_from_json
+        from arrivy.google.cloud.bigquery._helpers import _int_from_json
 
         return _int_from_json(value, field)
 
@@ -61,7 +61,7 @@ class Test_int_from_json(unittest.TestCase):
 
 class Test_json_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _json_from_json
+        from arrivy.google.cloud.bigquery._helpers import _json_from_json
 
         return _json_from_json(value, field)
 
@@ -90,7 +90,7 @@ class Test_json_from_json(unittest.TestCase):
 
 class Test_float_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _float_from_json
+        from arrivy.google.cloud.bigquery._helpers import _float_from_json
 
         return _float_from_json(value, field)
 
@@ -112,7 +112,7 @@ class Test_float_from_json(unittest.TestCase):
 
 class Test_decimal_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _decimal_from_json
+        from arrivy.google.cloud.bigquery._helpers import _decimal_from_json
 
         return _decimal_from_json(value, field)
 
@@ -135,7 +135,7 @@ class Test_decimal_from_json(unittest.TestCase):
 
 class Test_bool_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _bool_from_json
+        from arrivy.google.cloud.bigquery._helpers import _bool_from_json
 
         return _bool_from_json(value, field)
 
@@ -165,7 +165,7 @@ class Test_bool_from_json(unittest.TestCase):
 
 class Test_string_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _string_from_json
+        from arrivy.google.cloud.bigquery._helpers import _string_from_json
 
         return _string_from_json(value, field)
 
@@ -182,7 +182,7 @@ class Test_string_from_json(unittest.TestCase):
 
 class Test_bytes_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _bytes_from_json
+        from arrivy.google.cloud.bigquery._helpers import _bytes_from_json
 
         return _bytes_from_json(value, field)
 
@@ -208,7 +208,7 @@ class Test_bytes_from_json(unittest.TestCase):
 
 class Test_timestamp_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _timestamp_from_json
+        from arrivy.google.cloud.bigquery._helpers import _timestamp_from_json
 
         return _timestamp_from_json(value, field)
 
@@ -238,7 +238,7 @@ class Test_timestamp_from_json(unittest.TestCase):
 
 class Test_timestamp_query_param_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery import _helpers
+        from arrivy.google.cloud.bigquery import _helpers
 
         return _helpers._timestamp_query_param_from_json(value, field)
 
@@ -294,7 +294,7 @@ class Test_timestamp_query_param_from_json(unittest.TestCase):
 
 class Test_datetime_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _datetime_from_json
+        from arrivy.google.cloud.bigquery._helpers import _datetime_from_json
 
         return _datetime_from_json(value, field)
 
@@ -316,7 +316,7 @@ class Test_datetime_from_json(unittest.TestCase):
 
 class Test_date_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _date_from_json
+        from arrivy.google.cloud.bigquery._helpers import _date_from_json
 
         return _date_from_json(value, field)
 
@@ -334,7 +334,7 @@ class Test_date_from_json(unittest.TestCase):
 
 class Test_time_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _time_from_json
+        from arrivy.google.cloud.bigquery._helpers import _time_from_json
 
         return _time_from_json(value, field)
 
@@ -360,7 +360,7 @@ class Test_time_from_json(unittest.TestCase):
 
 class Test_record_from_json(unittest.TestCase):
     def _call_fut(self, value, field):
-        from google.cloud.bigquery._helpers import _record_from_json
+        from arrivy.google.cloud.bigquery._helpers import _record_from_json
 
         return _record_from_json(value, field)
 
@@ -424,7 +424,7 @@ class Test_record_from_json(unittest.TestCase):
 
 class Test_field_to_index_mapping(unittest.TestCase):
     def _call_fut(self, schema):
-        from google.cloud.bigquery._helpers import _field_to_index_mapping
+        from arrivy.google.cloud.bigquery._helpers import _field_to_index_mapping
 
         return _field_to_index_mapping(schema)
 
@@ -442,7 +442,7 @@ class Test_field_to_index_mapping(unittest.TestCase):
 
 class Test_row_tuple_from_json(unittest.TestCase):
     def _call_fut(self, row, schema):
-        from google.cloud.bigquery._helpers import _row_tuple_from_json
+        from arrivy.google.cloud.bigquery._helpers import _row_tuple_from_json
 
         with _field_isinstance_patcher():
             return _row_tuple_from_json(row, schema)
@@ -553,13 +553,13 @@ class Test_row_tuple_from_json(unittest.TestCase):
 
 class Test_rows_from_json(unittest.TestCase):
     def _call_fut(self, rows, schema):
-        from google.cloud.bigquery._helpers import _rows_from_json
+        from arrivy.google.cloud.bigquery._helpers import _rows_from_json
 
         with _field_isinstance_patcher():
             return _rows_from_json(rows, schema)
 
     def test_w_record_subfield(self):
-        from google.cloud.bigquery.table import Row
+        from arrivy.google.cloud.bigquery.table import Row
 
         full_name = _Field("REQUIRED", "full_name", "STRING")
         area_code = _Field("REQUIRED", "area_code", "STRING")
@@ -599,7 +599,7 @@ class Test_rows_from_json(unittest.TestCase):
         self.assertEqual(coerced, expected)
 
     def test_w_int64_float64_bool(self):
-        from google.cloud.bigquery.table import Row
+        from arrivy.google.cloud.bigquery.table import Row
 
         # "Standard" SQL dialect uses 'INT64', 'FLOAT64', 'BOOL'.
         candidate = _Field("REQUIRED", "candidate", "STRING")
@@ -631,7 +631,7 @@ class Test_rows_from_json(unittest.TestCase):
 
 class Test_int_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _int_to_json
+        from arrivy.google.cloud.bigquery._helpers import _int_to_json
 
         return _int_to_json(value)
 
@@ -644,7 +644,7 @@ class Test_int_to_json(unittest.TestCase):
 
 class Test_float_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _float_to_json
+        from arrivy.google.cloud.bigquery._helpers import _float_to_json
 
         return _float_to_json(value)
 
@@ -693,7 +693,7 @@ class Test_float_to_json(unittest.TestCase):
 
 class Test_decimal_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _decimal_to_json
+        from arrivy.google.cloud.bigquery._helpers import _decimal_to_json
 
         return _decimal_to_json(value)
 
@@ -709,7 +709,7 @@ class Test_decimal_to_json(unittest.TestCase):
 
 class Test_bool_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _bool_to_json
+        from arrivy.google.cloud.bigquery._helpers import _bool_to_json
 
         return _bool_to_json(value)
 
@@ -725,7 +725,7 @@ class Test_bool_to_json(unittest.TestCase):
 
 class Test_bytes_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _bytes_to_json
+        from arrivy.google.cloud.bigquery._helpers import _bytes_to_json
 
         return _bytes_to_json(value)
 
@@ -742,7 +742,7 @@ class Test_bytes_to_json(unittest.TestCase):
 
 class Test_timestamp_to_json_parameter(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _timestamp_to_json_parameter
+        from arrivy.google.cloud.bigquery._helpers import _timestamp_to_json_parameter
 
         return _timestamp_to_json_parameter(value)
 
@@ -777,7 +777,7 @@ class Test_timestamp_to_json_parameter(unittest.TestCase):
 
 class Test_timestamp_to_json_row(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _timestamp_to_json_row
+        from arrivy.google.cloud.bigquery._helpers import _timestamp_to_json_row
 
         return _timestamp_to_json_row(value)
 
@@ -809,7 +809,7 @@ class Test_timestamp_to_json_row(unittest.TestCase):
 
 class Test_datetime_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _datetime_to_json
+        from arrivy.google.cloud.bigquery._helpers import _datetime_to_json
 
         return _datetime_to_json(value)
 
@@ -834,7 +834,7 @@ class Test_datetime_to_json(unittest.TestCase):
 
 class Test_date_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _date_to_json
+        from arrivy.google.cloud.bigquery._helpers import _date_to_json
 
         return _date_to_json(value)
 
@@ -849,7 +849,7 @@ class Test_date_to_json(unittest.TestCase):
 
 class Test_time_to_json(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _time_to_json
+        from arrivy.google.cloud.bigquery._helpers import _time_to_json
 
         return _time_to_json(value)
 
@@ -863,14 +863,14 @@ class Test_time_to_json(unittest.TestCase):
 
 
 def _make_field(field_type, mode="NULLABLE", name="testing", fields=()):
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     return SchemaField(name=name, field_type=field_type, mode=mode, fields=fields)
 
 
 class Test_scalar_field_to_json(unittest.TestCase):
     def _call_fut(self, field, value):
-        from google.cloud.bigquery._helpers import _scalar_field_to_json
+        from arrivy.google.cloud.bigquery._helpers import _scalar_field_to_json
 
         return _scalar_field_to_json(field, value)
 
@@ -887,7 +887,7 @@ class Test_scalar_field_to_json(unittest.TestCase):
         self.assertEqual(converted, str(original))
 
     def test_w_scalar_none(self):
-        import google.cloud.bigquery._helpers as module_under_test
+        import arrivy.google.cloud.bigquery._helpers as module_under_test
 
         scalar_types = module_under_test._SCALAR_VALUE_TO_JSON_ROW.keys()
         for type_ in scalar_types:
@@ -899,7 +899,7 @@ class Test_scalar_field_to_json(unittest.TestCase):
 
 class Test_single_field_to_json(unittest.TestCase):
     def _call_fut(self, field, value):
-        from google.cloud.bigquery._helpers import _single_field_to_json
+        from arrivy.google.cloud.bigquery._helpers import _single_field_to_json
 
         return _single_field_to_json(field, value)
 
@@ -940,7 +940,7 @@ class Test_single_field_to_json(unittest.TestCase):
 
 class Test_repeated_field_to_json(unittest.TestCase):
     def _call_fut(self, field, value):
-        from google.cloud.bigquery._helpers import _repeated_field_to_json
+        from arrivy.google.cloud.bigquery._helpers import _repeated_field_to_json
 
         return _repeated_field_to_json(field, value)
 
@@ -961,7 +961,7 @@ class Test_repeated_field_to_json(unittest.TestCase):
 
 class Test_record_field_to_json(unittest.TestCase):
     def _call_fut(self, field, value):
-        from google.cloud.bigquery._helpers import _record_field_to_json
+        from arrivy.google.cloud.bigquery._helpers import _record_field_to_json
 
         return _record_field_to_json(field, value)
 
@@ -1066,7 +1066,7 @@ class Test_record_field_to_json(unittest.TestCase):
 
 class Test_field_to_json(unittest.TestCase):
     def _call_fut(self, field, value):
-        from google.cloud.bigquery._helpers import _field_to_json
+        from arrivy.google.cloud.bigquery._helpers import _field_to_json
 
         return _field_to_json(field, value)
 
@@ -1101,7 +1101,7 @@ class Test_field_to_json(unittest.TestCase):
 
 class Test_snake_to_camel_case(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _snake_to_camel_case
+        from arrivy.google.cloud.bigquery._helpers import _snake_to_camel_case
 
         return _snake_to_camel_case(value)
 
@@ -1114,7 +1114,7 @@ class Test_snake_to_camel_case(unittest.TestCase):
 
 class Test__get_sub_prop(unittest.TestCase):
     def _call_fut(self, container, keys, **kw):
-        from google.cloud.bigquery._helpers import _get_sub_prop
+        from arrivy.google.cloud.bigquery._helpers import _get_sub_prop
 
         return _get_sub_prop(container, keys, **kw)
 
@@ -1140,7 +1140,7 @@ class Test__get_sub_prop(unittest.TestCase):
 
 class Test__set_sub_prop(unittest.TestCase):
     def _call_fut(self, container, keys, value):
-        from google.cloud.bigquery._helpers import _set_sub_prop
+        from arrivy.google.cloud.bigquery._helpers import _set_sub_prop
 
         return _set_sub_prop(container, keys, value)
 
@@ -1172,7 +1172,7 @@ class Test__set_sub_prop(unittest.TestCase):
 
 class Test__del_sub_prop(unittest.TestCase):
     def _call_fut(self, container, keys):
-        from google.cloud.bigquery._helpers import _del_sub_prop
+        from arrivy.google.cloud.bigquery._helpers import _del_sub_prop
 
         return _del_sub_prop(container, keys)
 
@@ -1194,7 +1194,7 @@ class Test__del_sub_prop(unittest.TestCase):
 
 class Test__int_or_none(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _int_or_none
+        from arrivy.google.cloud.bigquery._helpers import _int_or_none
 
         return _int_or_none(value)
 
@@ -1214,7 +1214,7 @@ class Test__int_or_none(unittest.TestCase):
 
 class Test__str_or_none(unittest.TestCase):
     def _call_fut(self, value):
-        from google.cloud.bigquery._helpers import _str_or_none
+        from arrivy.google.cloud.bigquery._helpers import _str_or_none
 
         return _str_or_none(value)
 
@@ -1238,7 +1238,7 @@ class _Field(object):
 
 def _field_isinstance_patcher():
     """A patcher thank makes _Field instances seem like SchemaField instances."""
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     def fake_isinstance(instance, target_class):
         if instance.__class__.__name__ != "_Field":
@@ -1250,17 +1250,17 @@ def _field_isinstance_patcher():
         )
 
     patcher = mock.patch(
-        "google.cloud.bigquery.schema.isinstance", side_effect=fake_isinstance
+        "arrivy.google.cloud.bigquery.schema.isinstance", side_effect=fake_isinstance
     )
     return patcher
 
 
 def test_decimal_as_float_api_repr():
     """Make sure decimals get converted to float."""
-    import google.cloud.bigquery.query
+    import arrivy.google.cloud.bigquery.query
     from decimal import Decimal
 
-    param = google.cloud.bigquery.query.ScalarQueryParameter(
+    param = arrivy.google.cloud.bigquery.query.ScalarQueryParameter(
         "x", "FLOAT64", Decimal(42)
     )
     assert param.to_api_repr() == {
@@ -1273,12 +1273,12 @@ def test_decimal_as_float_api_repr():
 class Test__get_bigquery_host(unittest.TestCase):
     @staticmethod
     def _call_fut():
-        from google.cloud.bigquery._helpers import _get_bigquery_host
+        from arrivy.google.cloud.bigquery._helpers import _get_bigquery_host
 
         return _get_bigquery_host()
 
     def test_wo_env_var(self):
-        from google.cloud.bigquery._helpers import _DEFAULT_HOST
+        from arrivy.google.cloud.bigquery._helpers import _DEFAULT_HOST
 
         with mock.patch("os.environ", {}):
             host = self._call_fut()
@@ -1286,7 +1286,7 @@ class Test__get_bigquery_host(unittest.TestCase):
         self.assertEqual(host, _DEFAULT_HOST)
 
     def test_w_env_var(self):
-        from google.cloud.bigquery._helpers import BIGQUERY_EMULATOR_HOST
+        from arrivy.google.cloud.bigquery._helpers import BIGQUERY_EMULATOR_HOST
 
         HOST = "https://api.example.com"
 

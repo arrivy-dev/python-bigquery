@@ -17,19 +17,19 @@
 import typing
 from typing import FrozenSet, List, Iterable, Optional
 
-from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
-from google.cloud.bigquery.external_config import HivePartitioningOptions
-from google.cloud.bigquery.format_options import ParquetOptions
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery.schema import SchemaField
-from google.cloud.bigquery.schema import _to_schema_fields
-from google.cloud.bigquery.table import RangePartitioning
-from google.cloud.bigquery.table import TableReference
-from google.cloud.bigquery.table import TimePartitioning
-from google.cloud.bigquery.job.base import _AsyncJob
-from google.cloud.bigquery.job.base import _JobConfig
-from google.cloud.bigquery.job.base import _JobReference
-from google.cloud.bigquery.query import ConnectionProperty
+from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+from arrivy.google.cloud.bigquery.external_config import HivePartitioningOptions
+from arrivy.google.cloud.bigquery.format_options import ParquetOptions
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery.schema import _to_schema_fields
+from arrivy.google.cloud.bigquery.table import RangePartitioning
+from arrivy.google.cloud.bigquery.table import TableReference
+from arrivy.google.cloud.bigquery.table import TimePartitioning
+from arrivy.google.cloud.bigquery.job.base import _AsyncJob
+from arrivy.google.cloud.bigquery.job.base import _JobConfig
+from arrivy.google.cloud.bigquery.job.base import _JobReference
+from arrivy.google.cloud.bigquery.query import ConnectionProperty
 
 
 class LoadJobConfig(_JobConfig):
@@ -43,12 +43,12 @@ class LoadJobConfig(_JobConfig):
     for a list of default values.
 
     Required options differ based on the
-    :attr:`~google.cloud.bigquery.job.LoadJobConfig.source_format` value.
+    :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.source_format` value.
     For example, the BigQuery API's default value for
-    :attr:`~google.cloud.bigquery.job.LoadJobConfig.source_format` is ``"CSV"``.
+    :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.source_format` is ``"CSV"``.
     When loading a CSV file, either
-    :attr:`~google.cloud.bigquery.job.LoadJobConfig.schema` must be set or
-    :attr:`~google.cloud.bigquery.job.LoadJobConfig.autodetect` must be set to
+    :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.schema` must be set or
+    :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.autodetect` must be set to
     :data:`True`.
     """
 
@@ -143,7 +143,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def create_disposition(self):
-        """Optional[google.cloud.bigquery.job.CreateDisposition]: Specifies behavior
+        """Optional[arrivy.google.cloud.bigquery.job.CreateDisposition]: Specifies behavior
         for creating tables.
 
         See:
@@ -158,11 +158,11 @@ class LoadJobConfig(_JobConfig):
     @property
     def create_session(self) -> Optional[bool]:
         """[Preview] If :data:`True`, creates a new session, where
-        :attr:`~google.cloud.bigquery.job.LoadJob.session_info` will contain a
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJob.session_info` will contain a
         random server generated session id.
 
         If :data:`False`, runs load job with an existing ``session_id`` passed in
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.connection_properties`,
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.connection_properties`,
         otherwise runs load job in non-session mode.
 
         See
@@ -199,7 +199,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def destination_encryption_configuration(self):
-        """Optional[google.cloud.bigquery.encryption_configuration.EncryptionConfiguration]: Custom
+        """Optional[arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration]: Custom
         encryption configuration for the destination table.
 
         Custom encryption configuration (e.g., Cloud KMS keys) or :data:`None`
@@ -262,7 +262,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def encoding(self):
-        """Optional[google.cloud.bigquery.job.Encoding]: The character encoding of the
+        """Optional[arrivy.google.cloud.bigquery.job.Encoding]: The character encoding of the
         data.
 
         See:
@@ -369,7 +369,7 @@ class LoadJobConfig(_JobConfig):
     @property
     def projection_fields(self) -> Optional[List[str]]:
         """Optional[List[str]]: If
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.source_format` is set to
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.source_format` is set to
         "DATASTORE_BACKUP", indicates which entity properties to load into
         BigQuery from a Cloud Datastore backup.
 
@@ -402,7 +402,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def range_partitioning(self):
-        """Optional[google.cloud.bigquery.table.RangePartitioning]:
+        """Optional[arrivy.google.cloud.bigquery.table.RangePartitioning]:
         Configures range-based partitioning for destination table.
 
         .. note::
@@ -410,13 +410,13 @@ class LoadJobConfig(_JobConfig):
             pre-release state and might change or have limited support.
 
         Only specify at most one of
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
 
         Raises:
             ValueError:
                 If the value is not
-                :class:`~google.cloud.bigquery.table.RangePartitioning` or
+                :class:`~arrivy.google.cloud.bigquery.table.RangePartitioning` or
                 :data:`None`.
         """
         resource = self._get_sub_prop("rangePartitioning")
@@ -451,7 +451,7 @@ class LoadJobConfig(_JobConfig):
     @property
     def schema(self):
         """Optional[Sequence[Union[ \
-            :class:`~google.cloud.bigquery.schema.SchemaField`, \
+            :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
             Mapping[str, Any] \
         ]]]: Schema of the destination table.
 
@@ -479,7 +479,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def schema_update_options(self):
-        """Optional[List[google.cloud.bigquery.job.SchemaUpdateOption]]: Specifies
+        """Optional[List[arrivy.google.cloud.bigquery.job.SchemaUpdateOption]]: Specifies
         updates to the destination table schema to allow as a side effect of
         the load job.
         """
@@ -504,7 +504,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def source_format(self):
-        """Optional[google.cloud.bigquery.job.SourceFormat]: File format of the data.
+        """Optional[arrivy.google.cloud.bigquery.job.SourceFormat]: File format of the data.
 
         See:
         https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad.FIELDS.source_format
@@ -517,12 +517,12 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def time_partitioning(self):
-        """Optional[google.cloud.bigquery.table.TimePartitioning]: Specifies time-based
+        """Optional[arrivy.google.cloud.bigquery.table.TimePartitioning]: Specifies time-based
         partitioning for the destination table.
 
         Only specify at most one of
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
         """
         prop = self._get_sub_prop("timePartitioning")
         if prop is not None:
@@ -552,7 +552,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def write_disposition(self):
-        """Optional[google.cloud.bigquery.job.WriteDisposition]: Action that occurs if
+        """Optional[arrivy.google.cloud.bigquery.job.WriteDisposition]: Action that occurs if
         the destination table already exists.
 
         See:
@@ -566,7 +566,7 @@ class LoadJobConfig(_JobConfig):
 
     @property
     def parquet_options(self):
-        """Optional[google.cloud.bigquery.format_options.ParquetOptions]: Additional
+        """Optional[arrivy.google.cloud.bigquery.format_options.ParquetOptions]: Additional
             properties to set if ``sourceFormat`` is set to PARQUET.
 
         See:
@@ -598,9 +598,9 @@ class LoadJob(_AsyncJob):
             https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad.FIELDS.source_uris
             for supported URI formats. Pass None for jobs that load from a file.
 
-        destination (google.cloud.bigquery.table.TableReference): reference to table into which data is to be loaded.
+        destination (arrivy.google.cloud.bigquery.table.TableReference): reference to table into which data is to be loaded.
 
-        client (google.cloud.bigquery.client.Client):
+        client (arrivy.google.cloud.bigquery.client.Client):
             A client which holds credentials and project configuration
             for the dataset (which requires a project).
     """
@@ -633,7 +633,7 @@ class LoadJob(_AsyncJob):
 
     @property
     def destination(self):
-        """google.cloud.bigquery.table.TableReference: table where loaded rows are written
+        """arrivy.google.cloud.bigquery.table.TableReference: table where loaded rows are written
 
         See:
         https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad.FIELDS.destination_table
@@ -656,28 +656,28 @@ class LoadJob(_AsyncJob):
     @property
     def allow_jagged_rows(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.allow_jagged_rows`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.allow_jagged_rows`.
         """
         return self.configuration.allow_jagged_rows
 
     @property
     def allow_quoted_newlines(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.allow_quoted_newlines`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.allow_quoted_newlines`.
         """
         return self.configuration.allow_quoted_newlines
 
     @property
     def autodetect(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.autodetect`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.autodetect`.
         """
         return self.configuration.autodetect
 
     @property
     def connection_properties(self) -> List[ConnectionProperty]:
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.connection_properties`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.connection_properties`.
 
         .. versionadded:: 3.7.0
         """
@@ -686,14 +686,14 @@ class LoadJob(_AsyncJob):
     @property
     def create_disposition(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.create_disposition`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.create_disposition`.
         """
         return self.configuration.create_disposition
 
     @property
     def create_session(self) -> Optional[bool]:
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.create_session`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.create_session`.
 
         .. versionadded:: 3.7.0
         """
@@ -702,90 +702,90 @@ class LoadJob(_AsyncJob):
     @property
     def encoding(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.encoding`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.encoding`.
         """
         return self.configuration.encoding
 
     @property
     def field_delimiter(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.field_delimiter`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.field_delimiter`.
         """
         return self.configuration.field_delimiter
 
     @property
     def ignore_unknown_values(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.ignore_unknown_values`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.ignore_unknown_values`.
         """
         return self.configuration.ignore_unknown_values
 
     @property
     def max_bad_records(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.max_bad_records`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.max_bad_records`.
         """
         return self.configuration.max_bad_records
 
     @property
     def null_marker(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.null_marker`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.null_marker`.
         """
         return self.configuration.null_marker
 
     @property
     def quote_character(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.quote_character`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.quote_character`.
         """
         return self.configuration.quote_character
 
     @property
     def reference_file_schema_uri(self):
         """See:
-        attr:`google.cloud.bigquery.job.LoadJobConfig.reference_file_schema_uri`.
+        attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.reference_file_schema_uri`.
         """
         return self.configuration.reference_file_schema_uri
 
     @property
     def skip_leading_rows(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.skip_leading_rows`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.skip_leading_rows`.
         """
         return self.configuration.skip_leading_rows
 
     @property
     def source_format(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.source_format`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.source_format`.
         """
         return self.configuration.source_format
 
     @property
     def write_disposition(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.write_disposition`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.write_disposition`.
         """
         return self.configuration.write_disposition
 
     @property
     def schema(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.schema`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.schema`.
         """
         return self.configuration.schema
 
     @property
     def destination_encryption_configuration(self):
-        """google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
+        """arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
         encryption configuration for the destination table.
 
         Custom encryption configuration (e.g., Cloud KMS keys)
         or :data:`None` if using default encryption.
 
         See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.destination_encryption_configuration`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.destination_encryption_configuration`.
         """
         return self.configuration.destination_encryption_configuration
 
@@ -810,35 +810,35 @@ class LoadJob(_AsyncJob):
     @property
     def range_partitioning(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
         """
         return self.configuration.range_partitioning
 
     @property
     def time_partitioning(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.time_partitioning`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.time_partitioning`.
         """
         return self.configuration.time_partitioning
 
     @property
     def use_avro_logical_types(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.use_avro_logical_types`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.use_avro_logical_types`.
         """
         return self.configuration.use_avro_logical_types
 
     @property
     def clustering_fields(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.clustering_fields`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.clustering_fields`.
         """
         return self.configuration.clustering_fields
 
     @property
     def schema_update_options(self):
         """See
-        :attr:`google.cloud.bigquery.job.LoadJobConfig.schema_update_options`.
+        :attr:`arrivy.google.cloud.bigquery.job.LoadJobConfig.schema_update_options`.
         """
         return self.configuration.schema_update_options
 
@@ -917,12 +917,12 @@ class LoadJob(_AsyncJob):
         Args:
             resource (Dict): dataset job representation returned from the API
 
-            client (google.cloud.bigquery.client.Client):
+            client (arrivy.google.cloud.bigquery.client.Client):
                 Client which holds credentials and project
                 configuration for the dataset.
 
         Returns:
-            google.cloud.bigquery.job.LoadJob: Job parsed from ``resource``.
+            arrivy.google.cloud.bigquery.job.LoadJob: Job parsed from ``resource``.
         """
         cls._check_resource_config(resource)
         job_ref = _JobReference._from_api_repr(resource["jobReference"])

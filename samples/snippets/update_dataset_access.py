@@ -27,7 +27,7 @@ def update_dataset_access(dataset_id: str, entity_id: str) -> None:
     # of the entity, such as a view's table reference.
     entity_id = "user-or-group-to-add@example.com"
 
-    from google.cloud.bigquery.enums import EntityTypes
+    from arrivy.google.cloud.bigquery.enums import EntityTypes
 
     # TODO(developer): Set entity_type to the type of entity you are granting access to.
     # Common types include:

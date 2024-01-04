@@ -94,7 +94,7 @@ def table_read_options_kwarg():
     ),
 )
 def test__contains_order_by(query, expected):
-    from google.cloud.bigquery import job as mut
+    from arrivy.google.cloud.bigquery import job as mut
 
     if expected:
         assert mut._contains_order_by(query)
@@ -118,7 +118,7 @@ def test__contains_order_by(query, expected):
     ),
 )
 def test_to_dataframe_bqstorage_preserve_order(query, table_read_options_kwarg):
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     job_resource = _make_job_resource(
         project_id="test-project", job_type="query", ended=True
@@ -197,7 +197,7 @@ def test_to_dataframe_bqstorage_preserve_order(query, table_read_options_kwarg):
 
 @pytest.mark.skipif(pyarrow is None, reason="Requires `pyarrow`")
 def test_to_arrow():
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     begun_resource = _make_job_resource(job_type="query")
     query_resource = {
@@ -284,9 +284,9 @@ def test_to_arrow():
 
 @pytest.mark.skipif(pyarrow is None, reason="Requires `pyarrow`")
 def test_to_arrow_max_results_no_progress_bar():
-    from google.cloud.bigquery import table
-    from google.cloud.bigquery.job import QueryJob as target_class
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     connection = make_connection({})
     client = _make_client(connection=connection)
@@ -306,7 +306,7 @@ def test_to_arrow_max_results_no_progress_bar():
     row_iterator = table.RowIterator(client, api_request, path, schema)
 
     result_patch = mock.patch(
-        "google.cloud.bigquery.job.QueryJob.result",
+        "arrivy.google.cloud.bigquery.job.QueryJob.result",
         return_value=row_iterator,
     )
     with result_patch as result_patch_tqdm:
@@ -320,12 +320,12 @@ def test_to_arrow_max_results_no_progress_bar():
 
 @pytest.mark.skipif(pyarrow is None, reason="Requires `pyarrow`")
 @pytest.mark.skipif(tqdm is None, reason="Requires `tqdm`")
-@mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm")
+@mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm")
 def test_to_arrow_w_tqdm_w_query_plan(tqdm_mock):
-    from google.cloud.bigquery import table
-    from google.cloud.bigquery.job import QueryJob as target_class
-    from google.cloud.bigquery.schema import SchemaField
-    from google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
+    from arrivy.google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
 
     begun_resource = _make_job_resource(job_type="query")
     rows = [
@@ -354,10 +354,10 @@ def test_to_arrow_w_tqdm_w_query_plan(tqdm_mock):
         },
     }
     reload_patch = mock.patch(
-        "google.cloud.bigquery.job._AsyncJob.reload", autospec=True
+        "arrivy.google.cloud.bigquery.job._AsyncJob.reload", autospec=True
     )
     result_patch = mock.patch(
-        "google.cloud.bigquery.job.QueryJob.result",
+        "arrivy.google.cloud.bigquery.job.QueryJob.result",
         side_effect=[
             concurrent.futures.TimeoutError,
             concurrent.futures.TimeoutError,
@@ -377,12 +377,12 @@ def test_to_arrow_w_tqdm_w_query_plan(tqdm_mock):
 
 @pytest.mark.skipif(pyarrow is None, reason="Requires `pyarrow`")
 @pytest.mark.skipif(tqdm is None, reason="Requires `tqdm`")
-@mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm")
+@mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm")
 def test_to_arrow_w_tqdm_w_pending_status(tqdm_mock):
-    from google.cloud.bigquery import table
-    from google.cloud.bigquery.job import QueryJob as target_class
-    from google.cloud.bigquery.schema import SchemaField
-    from google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
+    from arrivy.google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
 
     begun_resource = _make_job_resource(job_type="query")
     rows = [
@@ -411,10 +411,10 @@ def test_to_arrow_w_tqdm_w_pending_status(tqdm_mock):
         },
     }
     reload_patch = mock.patch(
-        "google.cloud.bigquery.job._AsyncJob.reload", autospec=True
+        "arrivy.google.cloud.bigquery.job._AsyncJob.reload", autospec=True
     )
     result_patch = mock.patch(
-        "google.cloud.bigquery.job.QueryJob.result",
+        "arrivy.google.cloud.bigquery.job.QueryJob.result",
         side_effect=[concurrent.futures.TimeoutError, row_iterator],
     )
     with result_patch as tqdm_mock, reload_patch:
@@ -430,11 +430,11 @@ def test_to_arrow_w_tqdm_w_pending_status(tqdm_mock):
 
 @pytest.mark.skipif(pyarrow is None, reason="Requires `pyarrow`")
 @pytest.mark.skipif(tqdm is None, reason="Requires `tqdm`")
-@mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm")
+@mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm")
 def test_to_arrow_w_tqdm_wo_query_plan(tqdm_mock):
-    from google.cloud.bigquery import table
-    from google.cloud.bigquery.job import QueryJob as target_class
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     begun_resource = _make_job_resource(job_type="query")
     rows = [
@@ -455,10 +455,10 @@ def test_to_arrow_w_tqdm_wo_query_plan(tqdm_mock):
     row_iterator = table.RowIterator(client, api_request, path, schema)
 
     reload_patch = mock.patch(
-        "google.cloud.bigquery.job._AsyncJob.reload", autospec=True
+        "arrivy.google.cloud.bigquery.job._AsyncJob.reload", autospec=True
     )
     result_patch = mock.patch(
-        "google.cloud.bigquery.job.QueryJob.result",
+        "arrivy.google.cloud.bigquery.job.QueryJob.result",
         side_effect=[concurrent.futures.TimeoutError, row_iterator],
     )
     with result_patch as tqdm_mock, reload_patch:
@@ -471,7 +471,7 @@ def test_to_arrow_w_tqdm_wo_query_plan(tqdm_mock):
 
 
 def _make_job(schema=(), rows=()):
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     begun_resource = _make_job_resource(job_type="query")
     query_resource = {
@@ -513,7 +513,7 @@ def test_to_dataframe():
 
 
 def test_to_dataframe_ddl_query():
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     # Destination table may have no schema for some DDL and DML queries.
     resource = _make_job_resource(job_type="query", ended=True)
@@ -535,7 +535,7 @@ def test_to_dataframe_ddl_query():
     bigquery_storage is None, reason="Requires `google-cloud-bigquery-storage`"
 )
 def test_to_dataframe_bqstorage(table_read_options_kwarg):
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     resource = _make_job_resource(job_type="query", ended=True)
     query_resource = {
@@ -614,7 +614,7 @@ def test_to_dataframe_bqstorage(table_read_options_kwarg):
     bigquery_storage is None, reason="Requires `google-cloud-bigquery-storage`"
 )
 def test_to_dataframe_bqstorage_no_pyarrow_compression():
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     resource = _make_job_resource(job_type="query", ended=True)
     query_resource = {
@@ -638,7 +638,7 @@ def test_to_dataframe_bqstorage_no_pyarrow_compression():
     bqstorage_client.create_read_session.return_value = session
 
     with mock.patch(
-        "google.cloud.bigquery._pandas_helpers._ARROW_COMPRESSION_SUPPORT", new=False
+        "arrivy.google.cloud.bigquery._pandas_helpers._ARROW_COMPRESSION_SUPPORT", new=False
     ):
         job.to_dataframe(bqstorage_client=bqstorage_client)
 
@@ -663,7 +663,7 @@ def test_to_dataframe_bqstorage_no_pyarrow_compression():
 @pytest.mark.skipif(PANDAS_INSTALLED_VERSION[0:2] not in ["0.", "1."], reason="")
 @pytest.mark.skipif(pyarrow is None, reason="Requires `pyarrow`")
 def test_to_dataframe_column_dtypes():
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     begun_resource = _make_job_resource(job_type="query")
     query_resource = {
@@ -722,7 +722,7 @@ def test_to_dataframe_column_dtypes():
 
 
 def test_to_dataframe_column_date_dtypes():
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     begun_resource = _make_job_resource(job_type="query")
     query_resource = {
@@ -753,9 +753,9 @@ def test_to_dataframe_column_date_dtypes():
 
 
 @pytest.mark.skipif(tqdm is None, reason="Requires `tqdm`")
-@mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm")
+@mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm")
 def test_to_dataframe_with_progress_bar(tqdm_mock):
-    from google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
 
     begun_resource = _make_job_resource(job_type="query")
     query_resource = {
@@ -784,12 +784,12 @@ def test_to_dataframe_with_progress_bar(tqdm_mock):
 
 
 @pytest.mark.skipif(tqdm is None, reason="Requires `tqdm`")
-@mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm")
+@mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm")
 def test_to_dataframe_w_tqdm_pending(tqdm_mock):
-    from google.cloud.bigquery import table
-    from google.cloud.bigquery.job import QueryJob as target_class
-    from google.cloud.bigquery.schema import SchemaField
-    from google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
+    from arrivy.google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
 
     begun_resource = _make_job_resource(job_type="query")
     schema = [
@@ -820,10 +820,10 @@ def test_to_dataframe_w_tqdm_pending(tqdm_mock):
         },
     }
     reload_patch = mock.patch(
-        "google.cloud.bigquery.job._AsyncJob.reload", autospec=True
+        "arrivy.google.cloud.bigquery.job._AsyncJob.reload", autospec=True
     )
     result_patch = mock.patch(
-        "google.cloud.bigquery.job.QueryJob.result",
+        "arrivy.google.cloud.bigquery.job.QueryJob.result",
         side_effect=[concurrent.futures.TimeoutError, row_iterator],
     )
     with result_patch as tqdm_mock, reload_patch:
@@ -839,12 +839,12 @@ def test_to_dataframe_w_tqdm_pending(tqdm_mock):
 
 
 @pytest.mark.skipif(tqdm is None, reason="Requires `tqdm`")
-@mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm")
+@mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm")
 def test_to_dataframe_w_tqdm(tqdm_mock):
-    from google.cloud.bigquery import table
-    from google.cloud.bigquery.job import QueryJob as target_class
-    from google.cloud.bigquery.schema import SchemaField
-    from google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
+    from arrivy.google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
 
     begun_resource = _make_job_resource(job_type="query")
     schema = [
@@ -875,10 +875,10 @@ def test_to_dataframe_w_tqdm(tqdm_mock):
         },
     }
     reload_patch = mock.patch(
-        "google.cloud.bigquery.job._AsyncJob.reload", autospec=True
+        "arrivy.google.cloud.bigquery.job._AsyncJob.reload", autospec=True
     )
     result_patch = mock.patch(
-        "google.cloud.bigquery.job.QueryJob.result",
+        "arrivy.google.cloud.bigquery.job.QueryJob.result",
         side_effect=[
             concurrent.futures.TimeoutError,
             concurrent.futures.TimeoutError,
@@ -899,12 +899,12 @@ def test_to_dataframe_w_tqdm(tqdm_mock):
 
 
 @pytest.mark.skipif(tqdm is None, reason="Requires `tqdm`")
-@mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm")
+@mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm")
 def test_to_dataframe_w_tqdm_max_results(tqdm_mock):
-    from google.cloud.bigquery import table
-    from google.cloud.bigquery.job import QueryJob as target_class
-    from google.cloud.bigquery.schema import SchemaField
-    from google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
+    from arrivy.google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery.job import QueryJob as target_class
+    from arrivy.google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery._tqdm_helpers import _PROGRESS_BAR_UPDATE_INTERVAL
 
     begun_resource = _make_job_resource(job_type="query")
     schema = [
@@ -930,10 +930,10 @@ def test_to_dataframe_w_tqdm_max_results(tqdm_mock):
         },
     }
     reload_patch = mock.patch(
-        "google.cloud.bigquery.job._AsyncJob.reload", autospec=True
+        "arrivy.google.cloud.bigquery.job._AsyncJob.reload", autospec=True
     )
     result_patch = mock.patch(
-        "google.cloud.bigquery.job.QueryJob.result",
+        "arrivy.google.cloud.bigquery.job.QueryJob.result",
         side_effect=[concurrent.futures.TimeoutError, row_iterator],
     )
     with result_patch as tqdm_mock, reload_patch:
@@ -992,7 +992,7 @@ def test_to_geodataframe():
 
 
 @pytest.mark.skipif(geopandas is None, reason="Requires `geopandas`")
-@mock.patch("google.cloud.bigquery.job.query.wait_for_query")
+@mock.patch("arrivy.google.cloud.bigquery.job.query.wait_for_query")
 def test_query_job_to_geodataframe_delegation(wait_for_query):
     """
     QueryJob.to_geodataframe just delegates to RowIterator.to_geodataframe.

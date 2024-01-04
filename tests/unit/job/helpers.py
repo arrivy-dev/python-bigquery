@@ -84,8 +84,8 @@ def _make_job_resource(
 
 
 class _Base(unittest.TestCase):
-    from google.cloud.bigquery.dataset import DatasetReference
-    from google.cloud.bigquery.table import TableReference
+    from arrivy.google.cloud.bigquery.dataset import DatasetReference
+    from arrivy.google.cloud.bigquery.table import TableReference
 
     ENDPOINT = "https://bigquery.googleapis.com"
     PROJECT = "project"
@@ -115,7 +115,7 @@ class _Base(unittest.TestCase):
         self.USER_EMAIL = "phred@example.com"
 
     def _table_ref(self, table_id):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         return TableReference(self.DS_REF, table_id)
 

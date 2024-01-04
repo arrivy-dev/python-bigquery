@@ -16,100 +16,100 @@
 
 The main concepts with this API are:
 
-- :class:`~google.cloud.bigquery.client.Client` manages connections to the
+- :class:`~arrivy.google.cloud.bigquery.client.Client` manages connections to the
   BigQuery API. Use the client methods to run jobs (such as a
-  :class:`~google.cloud.bigquery.job.QueryJob` via
-  :meth:`~google.cloud.bigquery.client.Client.query`) and manage resources.
+  :class:`~arrivy.google.cloud.bigquery.job.QueryJob` via
+  :meth:`~arrivy.google.cloud.bigquery.client.Client.query`) and manage resources.
 
-- :class:`~google.cloud.bigquery.dataset.Dataset` represents a
+- :class:`~arrivy.google.cloud.bigquery.dataset.Dataset` represents a
   collection of tables.
 
-- :class:`~google.cloud.bigquery.table.Table` represents a single "relation".
+- :class:`~arrivy.google.cloud.bigquery.table.Table` represents a single "relation".
 """
 
 
-from google.cloud.bigquery import version as bigquery_version
+from arrivy.google.cloud.bigquery import version as bigquery_version
 
 __version__ = bigquery_version.__version__
 
-from google.cloud.bigquery.client import Client
-from google.cloud.bigquery.dataset import AccessEntry
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.dataset import DatasetReference
-from google.cloud.bigquery import enums
-from google.cloud.bigquery.enums import AutoRowIDs
-from google.cloud.bigquery.enums import DecimalTargetType
-from google.cloud.bigquery.enums import KeyResultStatementKind
-from google.cloud.bigquery.enums import SqlTypeNames
-from google.cloud.bigquery.enums import StandardSqlTypeNames
-from google.cloud.bigquery.exceptions import LegacyBigQueryStorageError
-from google.cloud.bigquery.exceptions import LegacyPyarrowError
-from google.cloud.bigquery.external_config import ExternalConfig
-from google.cloud.bigquery.external_config import BigtableOptions
-from google.cloud.bigquery.external_config import BigtableColumnFamily
-from google.cloud.bigquery.external_config import BigtableColumn
-from google.cloud.bigquery.external_config import CSVOptions
-from google.cloud.bigquery.external_config import GoogleSheetsOptions
-from google.cloud.bigquery.external_config import ExternalSourceFormat
-from google.cloud.bigquery.external_config import HivePartitioningOptions
-from google.cloud.bigquery.format_options import AvroOptions
-from google.cloud.bigquery.format_options import ParquetOptions
-from google.cloud.bigquery.job.base import SessionInfo
-from google.cloud.bigquery.job import Compression
-from google.cloud.bigquery.job import CopyJob
-from google.cloud.bigquery.job import CopyJobConfig
-from google.cloud.bigquery.job import CreateDisposition
-from google.cloud.bigquery.job import DestinationFormat
-from google.cloud.bigquery.job import DmlStats
-from google.cloud.bigquery.job import Encoding
-from google.cloud.bigquery.job import ExtractJob
-from google.cloud.bigquery.job import ExtractJobConfig
-from google.cloud.bigquery.job import LoadJob
-from google.cloud.bigquery.job import LoadJobConfig
-from google.cloud.bigquery.job import OperationType
-from google.cloud.bigquery.job import QueryJob
-from google.cloud.bigquery.job import QueryJobConfig
-from google.cloud.bigquery.job import QueryPriority
-from google.cloud.bigquery.job import SchemaUpdateOption
-from google.cloud.bigquery.job import ScriptOptions
-from google.cloud.bigquery.job import SourceFormat
-from google.cloud.bigquery.job import UnknownJob
-from google.cloud.bigquery.job import TransactionInfo
-from google.cloud.bigquery.job import WriteDisposition
-from google.cloud.bigquery.model import Model
-from google.cloud.bigquery.model import ModelReference
-from google.cloud.bigquery.query import ArrayQueryParameter
-from google.cloud.bigquery.query import ArrayQueryParameterType
-from google.cloud.bigquery.query import ConnectionProperty
-from google.cloud.bigquery.query import ScalarQueryParameter
-from google.cloud.bigquery.query import ScalarQueryParameterType
-from google.cloud.bigquery.query import SqlParameterScalarTypes
-from google.cloud.bigquery.query import StructQueryParameter
-from google.cloud.bigquery.query import StructQueryParameterType
-from google.cloud.bigquery.query import UDFResource
-from google.cloud.bigquery.retry import DEFAULT_RETRY
-from google.cloud.bigquery.routine import DeterminismLevel
-from google.cloud.bigquery.routine import Routine
-from google.cloud.bigquery.routine import RoutineArgument
-from google.cloud.bigquery.routine import RoutineReference
-from google.cloud.bigquery.routine import RoutineType
-from google.cloud.bigquery.routine import RemoteFunctionOptions
-from google.cloud.bigquery.schema import PolicyTagList
-from google.cloud.bigquery.schema import SchemaField
-from google.cloud.bigquery.standard_sql import StandardSqlDataType
-from google.cloud.bigquery.standard_sql import StandardSqlField
-from google.cloud.bigquery.standard_sql import StandardSqlStructType
-from google.cloud.bigquery.standard_sql import StandardSqlTableType
-from google.cloud.bigquery.table import PartitionRange
-from google.cloud.bigquery.table import RangePartitioning
-from google.cloud.bigquery.table import Row
-from google.cloud.bigquery.table import SnapshotDefinition
-from google.cloud.bigquery.table import CloneDefinition
-from google.cloud.bigquery.table import Table
-from google.cloud.bigquery.table import TableReference
-from google.cloud.bigquery.table import TimePartitioningType
-from google.cloud.bigquery.table import TimePartitioning
-from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+from arrivy.google.cloud.bigquery.client import Client
+from arrivy.google.cloud.bigquery.dataset import AccessEntry
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.dataset import DatasetReference
+from arrivy.google.cloud.bigquery import enums
+from arrivy.google.cloud.bigquery.enums import AutoRowIDs
+from arrivy.google.cloud.bigquery.enums import DecimalTargetType
+from arrivy.google.cloud.bigquery.enums import KeyResultStatementKind
+from arrivy.google.cloud.bigquery.enums import SqlTypeNames
+from arrivy.google.cloud.bigquery.enums import StandardSqlTypeNames
+from arrivy.google.cloud.bigquery.exceptions import LegacyBigQueryStorageError
+from arrivy.google.cloud.bigquery.exceptions import LegacyPyarrowError
+from arrivy.google.cloud.bigquery.external_config import ExternalConfig
+from arrivy.google.cloud.bigquery.external_config import BigtableOptions
+from arrivy.google.cloud.bigquery.external_config import BigtableColumnFamily
+from arrivy.google.cloud.bigquery.external_config import BigtableColumn
+from arrivy.google.cloud.bigquery.external_config import CSVOptions
+from arrivy.google.cloud.bigquery.external_config import GoogleSheetsOptions
+from arrivy.google.cloud.bigquery.external_config import ExternalSourceFormat
+from arrivy.google.cloud.bigquery.external_config import HivePartitioningOptions
+from arrivy.google.cloud.bigquery.format_options import AvroOptions
+from arrivy.google.cloud.bigquery.format_options import ParquetOptions
+from arrivy.google.cloud.bigquery.job.base import SessionInfo
+from arrivy.google.cloud.bigquery.job import Compression
+from arrivy.google.cloud.bigquery.job import CopyJob
+from arrivy.google.cloud.bigquery.job import CopyJobConfig
+from arrivy.google.cloud.bigquery.job import CreateDisposition
+from arrivy.google.cloud.bigquery.job import DestinationFormat
+from arrivy.google.cloud.bigquery.job import DmlStats
+from arrivy.google.cloud.bigquery.job import Encoding
+from arrivy.google.cloud.bigquery.job import ExtractJob
+from arrivy.google.cloud.bigquery.job import ExtractJobConfig
+from arrivy.google.cloud.bigquery.job import LoadJob
+from arrivy.google.cloud.bigquery.job import LoadJobConfig
+from arrivy.google.cloud.bigquery.job import OperationType
+from arrivy.google.cloud.bigquery.job import QueryJob
+from arrivy.google.cloud.bigquery.job import QueryJobConfig
+from arrivy.google.cloud.bigquery.job import QueryPriority
+from arrivy.google.cloud.bigquery.job import SchemaUpdateOption
+from arrivy.google.cloud.bigquery.job import ScriptOptions
+from arrivy.google.cloud.bigquery.job import SourceFormat
+from arrivy.google.cloud.bigquery.job import UnknownJob
+from arrivy.google.cloud.bigquery.job import TransactionInfo
+from arrivy.google.cloud.bigquery.job import WriteDisposition
+from arrivy.google.cloud.bigquery.model import Model
+from arrivy.google.cloud.bigquery.model import ModelReference
+from arrivy.google.cloud.bigquery.query import ArrayQueryParameter
+from arrivy.google.cloud.bigquery.query import ArrayQueryParameterType
+from arrivy.google.cloud.bigquery.query import ConnectionProperty
+from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
+from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
+from arrivy.google.cloud.bigquery.query import SqlParameterScalarTypes
+from arrivy.google.cloud.bigquery.query import StructQueryParameter
+from arrivy.google.cloud.bigquery.query import StructQueryParameterType
+from arrivy.google.cloud.bigquery.query import UDFResource
+from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
+from arrivy.google.cloud.bigquery.routine import DeterminismLevel
+from arrivy.google.cloud.bigquery.routine import Routine
+from arrivy.google.cloud.bigquery.routine import RoutineArgument
+from arrivy.google.cloud.bigquery.routine import RoutineReference
+from arrivy.google.cloud.bigquery.routine import RoutineType
+from arrivy.google.cloud.bigquery.routine import RemoteFunctionOptions
+from arrivy.google.cloud.bigquery.schema import PolicyTagList
+from arrivy.google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlDataType
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlStructType
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlTableType
+from arrivy.google.cloud.bigquery.table import PartitionRange
+from arrivy.google.cloud.bigquery.table import RangePartitioning
+from arrivy.google.cloud.bigquery.table import Row
+from arrivy.google.cloud.bigquery.table import SnapshotDefinition
+from arrivy.google.cloud.bigquery.table import CloneDefinition
+from arrivy.google.cloud.bigquery.table import Table
+from arrivy.google.cloud.bigquery.table import TableReference
+from arrivy.google.cloud.bigquery.table import TimePartitioningType
+from arrivy.google.cloud.bigquery.table import TimePartitioning
+from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
 
 __all__ = [
     "__version__",
@@ -208,7 +208,7 @@ __all__ = [
 
 def load_ipython_extension(ipython):
     """Called by IPython when this module is loaded as an IPython extension."""
-    from google.cloud.bigquery.magics.magics import _cell_magic
+    from arrivy.google.cloud.bigquery.magics.magics import _cell_magic
 
     ipython.register_magic_function(
         _cell_magic, magic_kind="cell", magic_name="bigquery"

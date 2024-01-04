@@ -32,7 +32,7 @@ except ImportError:
 
 from google.cloud import bigquery
 
-from google.cloud.bigquery import enums
+from arrivy.google.cloud.bigquery import enums
 
 from . import helpers
 
@@ -638,7 +638,7 @@ def test_load_table_from_dataframe_w_struct_datatype(bigquery_client, dataset_id
 def test_load_table_from_dataframe_w_explicit_schema_source_format_csv(
     bigquery_client, dataset_id
 ):
-    from google.cloud.bigquery.job import SourceFormat
+    from arrivy.google.cloud.bigquery.job import SourceFormat
 
     table_schema = (
         bigquery.SchemaField("bool_col", "BOOLEAN"),
@@ -735,7 +735,7 @@ def test_load_table_from_dataframe_w_explicit_schema_source_format_csv(
 def test_load_table_from_dataframe_w_explicit_schema_source_format_csv_floats(
     bigquery_client, dataset_id, table_id
 ):
-    from google.cloud.bigquery.job import SourceFormat
+    from arrivy.google.cloud.bigquery.job import SourceFormat
 
     table_schema = (bigquery.SchemaField("float_col", "FLOAT"),)
     df_data = collections.OrderedDict(
@@ -946,8 +946,8 @@ def test_insert_rows_from_dataframe(bigquery_client, dataset_id):
 
 
 def test_nested_table_to_dataframe(bigquery_client, dataset_id):
-    from google.cloud.bigquery.job import SourceFormat
-    from google.cloud.bigquery.job import WriteDisposition
+    from arrivy.google.cloud.bigquery.job import SourceFormat
+    from arrivy.google.cloud.bigquery.job import WriteDisposition
 
     SF = bigquery.SchemaField
     schema = [
@@ -1273,7 +1273,7 @@ def test_upload_time_and_datetime_56(bigquery_client, dataset_id):
         [datetime.datetime(2020, 1, 8, 15, 0, tzinfo=datetime.timezone.utc), None],
     ]
 
-    from google.cloud.bigquery import job, schema
+    from arrivy.google.cloud.bigquery import job, schema
 
     table = f"{dataset_id}.test_upload_time_and_datetime_dt"
     config = job.LoadJobConfig(
@@ -1354,7 +1354,7 @@ def test_load_geodataframe(bigquery_client, dataset_id):
     geopandas = pytest.importorskip("geopandas")
     import pandas
     from shapely import wkt
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     df = geopandas.GeoDataFrame(
         pandas.DataFrame(
@@ -1384,7 +1384,7 @@ def test_load_geodataframe(bigquery_client, dataset_id):
 
 def test_load_dataframe_w_shapely(bigquery_client, dataset_id):
     wkt = pytest.importorskip("shapely.wkt")
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     df = pandas.DataFrame(
         dict(name=["foo", "bar"], geo=[None, wkt.loads("Point(1 1)")])
@@ -1415,7 +1415,7 @@ def test_load_dataframe_w_shapely(bigquery_client, dataset_id):
 def test_load_dataframe_w_wkb(bigquery_client, dataset_id):
     wkt = pytest.importorskip("shapely.wkt")
     from shapely import wkb
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     df = pandas.DataFrame(
         dict(name=["foo", "bar"], geo=[None, wkb.dumps(wkt.loads("Point(1 1)"))])

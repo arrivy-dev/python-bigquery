@@ -15,14 +15,14 @@
 """Create / interact with Google BigQuery connections."""
 
 from google.cloud import _http  # type: ignore  # pytype: disable=import-error
-from google.cloud.bigquery import __version__
+from arrivy.google.cloud.bigquery import __version__
 
 
 class Connection(_http.JSONConnection):
     """A connection to Google BigQuery via the JSON REST API.
 
     Args:
-        client (google.cloud.bigquery.client.Client): The client that owns the current connection.
+        client (arrivy.google.cloud.bigquery.client.Client): The client that owns the current connection.
 
         client_info (Optional[google.api_core.client_info.ClientInfo]): Instance used to generate user agent.
 

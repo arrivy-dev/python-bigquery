@@ -85,9 +85,9 @@ from google.cloud.bigquery_v2.types.standard_sql import StandardSqlStructType
 
 **After:**
 ```py
-from google.cloud.bigquery import StandardSqlDataType
-from google.cloud.bigquery.standard_sql import StandardSqlField
-from google.cloud.bigquery.standard_sql import StandardSqlStructType
+from arrivy.google.cloud.bigquery import StandardSqlDataType
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlStructType
 ```
 
 The `TypeKind` enum defining all possible SQL types for schema fields has been renamed
@@ -105,7 +105,7 @@ if field_type == StandardSqlDataType.TypeKind.STRING:
 **After:**
 ```py
 
-from google.cloud.bigquery import StandardSqlTypeNames
+from arrivy.google.cloud.bigquery import StandardSqlTypeNames
 
 if field_type == StandardSqlTypeNames.STRING:
     ...
@@ -158,8 +158,8 @@ to be used.
 
 The types of several `Model` properties have been changed.
 
-- `Model.feature_columns` now returns a sequence of `google.cloud.bigquery.standard_sql.StandardSqlField`.
-- `Model.label_columns` now returns a sequence of `google.cloud.bigquery.standard_sql.StandardSqlField`.
+- `Model.feature_columns` now returns a sequence of `arrivy.google.cloud.bigquery.standard_sql.StandardSqlField`.
+- `Model.label_columns` now returns a sequence of `arrivy.google.cloud.bigquery.standard_sql.StandardSqlField`.
 - `Model.model_type` now returns a string.
 - `Model.training_runs` now returns a sequence of dictionaries, as recieved from the [BigQuery REST API](https://cloud.google.com/bigquery/docs/reference/rest/v2/models#Model.FIELDS.training_runs).
 
@@ -175,7 +175,7 @@ from google.cloud.bigquery_v2 import Model  # a sublcass of proto.Message
 
 Mind, however, that importing them will issue a warning, because aside from
 being importable, these types **are not maintained anymore**. They may differ
-both from the types in `google.cloud.bigquery`, and from the types supported on
+both from the types in `arrivy.google.cloud.bigquery`, and from the types supported on
 the backend.
 
 ### Maintaining compatibility with `google-cloud-bigquery` version 2.0

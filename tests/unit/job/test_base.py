@@ -31,7 +31,7 @@ from .helpers import _make_job_resource
 
 class Test__error_result_to_exception(unittest.TestCase):
     def _call_fut(self, *args, **kwargs):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         return job._error_result_to_exception(*args, **kwargs)
 
@@ -55,7 +55,7 @@ class Test_JobReference(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         return job._JobReference
 
@@ -102,7 +102,7 @@ class Test_AsyncJob(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         return job._AsyncJob
 
@@ -120,7 +120,7 @@ class Test_AsyncJob(unittest.TestCase):
 
     @staticmethod
     def _job_reference(job_id, project, location):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         return job._JobReference(job_id, project, location)
 
@@ -239,7 +239,7 @@ class Test_AsyncJob(unittest.TestCase):
         self.assertEqual(job.session_info.session_id, "abcdefg")
 
     def test_transaction_info(self):
-        from google.cloud.bigquery.job.base import TransactionInfo
+        from arrivy.google.cloud.bigquery.job.base import TransactionInfo
 
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, client)
@@ -351,7 +351,7 @@ class Test_AsyncJob(unittest.TestCase):
         self.assertEqual(job.reservation_usage, [])
 
     def test_reservation_usage_stats_exist(self):
-        from google.cloud.bigquery.job import ReservationUsage
+        from arrivy.google.cloud.bigquery.job import ReservationUsage
 
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, client)
@@ -545,7 +545,7 @@ class Test_AsyncJob(unittest.TestCase):
             job._begin()
 
     def test__begin_defaults(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         resource = {
             "jobReference": {
@@ -578,7 +578,7 @@ class Test_AsyncJob(unittest.TestCase):
         self.assertEqual(job._properties, expected)
 
     def test__begin_explicit(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         other_project = "other-project-234"
         resource = {
@@ -615,7 +615,7 @@ class Test_AsyncJob(unittest.TestCase):
 
     def test_exists_defaults_miss(self):
         from google.cloud.exceptions import NotFound
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         job = self._set_properties_job()
         job._properties["jobReference"]["location"] = self.LOCATION
@@ -637,7 +637,7 @@ class Test_AsyncJob(unittest.TestCase):
         )
 
     def test_exists_explicit_hit(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         other_project = "other-project-234"
         resource = {
@@ -669,7 +669,7 @@ class Test_AsyncJob(unittest.TestCase):
         )
 
     def test_exists_w_timeout(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         PATH = "/projects/{}/jobs/{}".format(self.PROJECT, self.JOB_ID)
         job = self._set_properties_job()
@@ -688,7 +688,7 @@ class Test_AsyncJob(unittest.TestCase):
         )
 
     def test_reload_defaults(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         resource = {
             "jobReference": {
@@ -721,7 +721,7 @@ class Test_AsyncJob(unittest.TestCase):
         self.assertEqual(job._properties, expected)
 
     def test_reload_explicit(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         other_project = "other-project-234"
         resource = {
@@ -771,7 +771,7 @@ class Test_AsyncJob(unittest.TestCase):
         job._properties["jobReference"]["location"] = self.LOCATION
         connection = job._client._connection = make_connection(response)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertTrue(job.cancel())
 
@@ -802,7 +802,7 @@ class Test_AsyncJob(unittest.TestCase):
         client = _make_client(project=other_project)
         connection = client._connection = make_connection(response)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertTrue(job.cancel(client=client, timeout=7.5))
 
@@ -821,7 +821,7 @@ class Test_AsyncJob(unittest.TestCase):
         self.assertEqual(job._properties, expected)
 
     def test_cancel_w_custom_retry(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         api_path = "/projects/{}/jobs/{}/cancel".format(self.PROJECT, self.JOB_ID)
         resource = {
@@ -846,7 +846,7 @@ class Test_AsyncJob(unittest.TestCase):
 
         with api_request_patcher as fake_api_request:
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 result = job.cancel(retry=retry, timeout=7.5)
 
@@ -923,7 +923,7 @@ class Test_AsyncJob(unittest.TestCase):
         set_result.assert_called_once_with(job)
 
     def test_done_defaults_wo_state(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, client)
@@ -934,7 +934,7 @@ class Test_AsyncJob(unittest.TestCase):
         reload_.assert_called_once_with(retry=DEFAULT_RETRY, timeout=None)
 
     def test_done_explicit_wo_state(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         client = _make_client(project=self.PROJECT)
         job = self._make_one(self.JOB_ID, client)
@@ -1087,7 +1087,7 @@ class Test_JobConfig(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         return job._JobConfig
 
@@ -1106,7 +1106,7 @@ class Test_JobConfig(unittest.TestCase):
             config.wrong_name = None
 
     def test_fill_query_job_config_from_default(self):
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         job_config = QueryJobConfig()
         job_config.dry_run = True
@@ -1122,7 +1122,7 @@ class Test_JobConfig(unittest.TestCase):
         self.assertEqual(final_job_config.maximum_bytes_billed, 1000)
 
     def test_fill_load_job_from_default(self):
-        from google.cloud.bigquery import LoadJobConfig
+        from arrivy.google.cloud.bigquery import LoadJobConfig
 
         job_config = LoadJobConfig()
         job_config.create_session = True
@@ -1138,7 +1138,7 @@ class Test_JobConfig(unittest.TestCase):
         self.assertEqual(final_job_config.encoding, "UTF-8")
 
     def test_fill_from_default_conflict(self):
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         basic_job_config = QueryJobConfig()
         conflicting_job_config = self._make_one("conflicting_job_type")
@@ -1150,7 +1150,7 @@ class Test_JobConfig(unittest.TestCase):
             basic_job_config._fill_from_default(conflicting_job_config)
 
     def test_fill_from_empty_default_conflict(self):
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         job_config = QueryJobConfig()
         job_config.dry_run = True
@@ -1160,7 +1160,7 @@ class Test_JobConfig(unittest.TestCase):
         self.assertTrue(final_job_config.dry_run)
         self.assertEqual(final_job_config.maximum_bytes_billed, 1000)
 
-    @mock.patch("google.cloud.bigquery._helpers._get_sub_prop")
+    @mock.patch("arrivy.google.cloud.bigquery._helpers._get_sub_prop")
     def test__get_sub_prop_wo_default(self, _get_sub_prop):
         job_config = self._make_one()
         key = "key"
@@ -1169,7 +1169,7 @@ class Test_JobConfig(unittest.TestCase):
             job_config._properties, [self.JOB_TYPE, key], default=None
         )
 
-    @mock.patch("google.cloud.bigquery._helpers._get_sub_prop")
+    @mock.patch("arrivy.google.cloud.bigquery._helpers._get_sub_prop")
     def test__get_sub_prop_w_default(self, _get_sub_prop):
         job_config = self._make_one()
         key = "key"
@@ -1181,7 +1181,7 @@ class Test_JobConfig(unittest.TestCase):
             job_config._properties, [self.JOB_TYPE, key], default=default
         )
 
-    @mock.patch("google.cloud.bigquery._helpers._set_sub_prop")
+    @mock.patch("arrivy.google.cloud.bigquery._helpers._set_sub_prop")
     def test__set_sub_prop(self, _set_sub_prop):
         job_config = self._make_one()
         key = "key"

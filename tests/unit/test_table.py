@@ -32,10 +32,10 @@ except ImportError:
 import google.api_core.exceptions
 from test_utils.imports import maybe_fail_import
 
-from google.cloud.bigquery import _versions_helpers
-from google.cloud.bigquery import exceptions
-from google.cloud.bigquery.table import TableReference
-from google.cloud.bigquery.dataset import DatasetReference
+from arrivy.google.cloud.bigquery import _versions_helpers
+from arrivy.google.cloud.bigquery import exceptions
+from arrivy.google.cloud.bigquery.table import TableReference
+from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
 try:
     from google.cloud import bigquery_storage
@@ -81,7 +81,7 @@ else:
 
 
 def _mock_client():
-    from google.cloud.bigquery import client
+    from arrivy.google.cloud.bigquery import client
 
     mock_client = mock.create_autospec(client.Client)
     mock_client.project = "my-project"
@@ -107,7 +107,7 @@ class TestEncryptionConfiguration(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.table import EncryptionConfiguration
+        from arrivy.google.cloud.bigquery.table import EncryptionConfiguration
 
         return EncryptionConfiguration
 
@@ -126,7 +126,7 @@ class TestEncryptionConfiguration(unittest.TestCase):
 class TestTableBase:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.table import _TableBase
+        from arrivy.google.cloud.bigquery.table import _TableBase
 
         return _TableBase
 
@@ -309,7 +309,7 @@ class TestTableBase:
 class TestTableReference(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         return TableReference
 
@@ -335,7 +335,7 @@ class TestTableReference(unittest.TestCase):
         )
 
     def test_from_api_repr(self):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         dataset_ref = DatasetReference("project_1", "dataset_1")
         expected = self._make_one(dataset_ref, "table_1")
@@ -422,7 +422,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         return Table
 
@@ -605,7 +605,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         self.assertIsNone(table.clustering_fields)
 
     def test_ctor_w_schema(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -622,7 +622,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         self.assertEqual(table.table_id, "some_tbl")
 
     def test_ctor_tablelistitem(self):
-        from google.cloud.bigquery.table import Table, TableListItem
+        from arrivy.google.cloud.bigquery.table import Table, TableListItem
 
         import datetime
         from google.cloud._helpers import _millis, UTC
@@ -737,7 +737,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
             table.schema = object()
 
     def test_schema_setter_invalid_field(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -747,7 +747,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
             table.schema = [full_name, object()]
 
     def test_schema_setter_valid_fields(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -767,7 +767,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
             table.schema = [full_name, invalid_field]
 
     def test_schema_setter_valid_mapping_representation(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -842,7 +842,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
 
     def test_snapshot_definition_set(self):
         from google.cloud._helpers import UTC
-        from google.cloud.bigquery.table import SnapshotDefinition
+        from arrivy.google.cloud.bigquery.table import SnapshotDefinition
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -876,7 +876,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
 
     def test_clone_definition_set(self):
         from google.cloud._helpers import UTC
-        from google.cloud.bigquery.table import CloneDefinition
+        from arrivy.google.cloud.bigquery.table import CloneDefinition
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -991,7 +991,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         self.assertEqual(table.view_query, "select * from foo")
 
     def test_external_data_configuration_setter(self):
-        from google.cloud.bigquery.external_config import ExternalConfig
+        from arrivy.google.cloud.bigquery.external_config import ExternalConfig
 
         external_config = ExternalConfig("CSV")
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
@@ -1193,7 +1193,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         self.assertEqual(resource, exp_resource)
 
     def test_to_api_repr_w_unsetting_expiration(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1229,8 +1229,8 @@ class TestTable(unittest.TestCase, _SchemaBase):
             table._build_resource(["bad"])
 
     def test_range_partitioning(self):
-        from google.cloud.bigquery.table import RangePartitioning
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import RangePartitioning
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         table = self._make_one("proj.dset.tbl")
         assert table.range_partitioning is None
@@ -1263,8 +1263,8 @@ class TestTable(unittest.TestCase, _SchemaBase):
         assert table.require_partition_filter is None
 
     def test_time_partitioning_getter(self):
-        from google.cloud.bigquery.table import TimePartitioning
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1299,7 +1299,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         self.assertIsNone(table.time_partitioning)
 
     def test_time_partitioning_getter_w_empty(self):
-        from google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1321,8 +1321,8 @@ class TestTable(unittest.TestCase, _SchemaBase):
             self.assertIs(warning.category, PendingDeprecationWarning)
 
     def test_time_partitioning_setter(self):
-        from google.cloud.bigquery.table import TimePartitioning
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1362,7 +1362,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         self.assertIsNone(table.time_partitioning)
 
     def test_partitioning_type_setter(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1380,7 +1380,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
             self.assertIs(warning.category, PendingDeprecationWarning)
 
     def test_partitioning_type_setter_w_time_partitioning_set(self):
-        from google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1397,7 +1397,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
             self.assertIs(warning.category, PendingDeprecationWarning)
 
     def test_partitioning_expiration_setter_w_time_partitioning_set(self):
-        from google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1466,7 +1466,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         # encryption_configuration module. It was moved to support models encryption.
         # This test import from the table module to ensure that the previous location
         # continues to function as an alias.
-        from google.cloud.bigquery.table import EncryptionConfiguration
+        from arrivy.google.cloud.bigquery.table import EncryptionConfiguration
 
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
         table_ref = dataset.table(self.TABLE_NAME)
@@ -1480,7 +1480,7 @@ class TestTable(unittest.TestCase, _SchemaBase):
         self.assertIsNone(table.encryption_configuration)
 
     def test___repr__(self):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         dataset = DatasetReference("project1", "dataset1")
         table1 = self._make_one(TableReference(dataset, "table1"))
@@ -1503,12 +1503,12 @@ class Test_row_from_mapping(unittest.TestCase, _SchemaBase):
     TABLE_NAME = "table-name"
 
     def _call_fut(self, mapping, schema):
-        from google.cloud.bigquery.table import _row_from_mapping
+        from arrivy.google.cloud.bigquery.table import _row_from_mapping
 
         return _row_from_mapping(mapping, schema)
 
     def test__row_from_mapping_wo_schema(self):
-        from google.cloud.bigquery.table import Table, _TABLE_HAS_NO_SCHEMA
+        from arrivy.google.cloud.bigquery.table import Table, _TABLE_HAS_NO_SCHEMA
 
         MAPPING = {"full_name": "Phred Phlyntstone", "age": 32}
         dataset = DatasetReference(self.PROJECT, self.DS_ID)
@@ -1521,8 +1521,8 @@ class Test_row_from_mapping(unittest.TestCase, _SchemaBase):
         self.assertEqual(exc.exception.args, (_TABLE_HAS_NO_SCHEMA,))
 
     def test__row_from_mapping_w_invalid_schema(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         MAPPING = {
             "full_name": "Phred Phlyntstone",
@@ -1544,8 +1544,8 @@ class Test_row_from_mapping(unittest.TestCase, _SchemaBase):
         self.assertIn("Unknown field mode: BOGUS", str(exc.exception))
 
     def test__row_from_mapping_w_schema(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         MAPPING = {
             "full_name": "Phred Phlyntstone",
@@ -1570,7 +1570,7 @@ class Test_row_from_mapping(unittest.TestCase, _SchemaBase):
 class TestTableListItem(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.table import TableListItem
+        from arrivy.google.cloud.bigquery.table import TableListItem
 
         return TableListItem
 
@@ -1769,19 +1769,19 @@ class TestTableListItem(unittest.TestCase):
 class TestTableClassesInterchangeability:
     @staticmethod
     def _make_table(*args, **kwargs):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         return Table(*args, **kwargs)
 
     @staticmethod
     def _make_table_ref(*args, **kwargs):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         return TableReference(*args, **kwargs)
 
     @staticmethod
     def _make_table_list_item(*args, **kwargs):
-        from google.cloud.bigquery.table import TableListItem
+        from arrivy.google.cloud.bigquery.table import TableListItem
 
         return TableListItem(*args, **kwargs)
 
@@ -1828,7 +1828,7 @@ class TestTableClassesInterchangeability:
 class TestSnapshotDefinition:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.table import SnapshotDefinition
+        from arrivy.google.cloud.bigquery.table import SnapshotDefinition
 
         return SnapshotDefinition
 
@@ -1844,7 +1844,7 @@ class TestSnapshotDefinition:
 
     def test_ctor_full_resource(self):
         from google.cloud._helpers import UTC
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         resource = {
             "baseTableReference": {
@@ -1868,7 +1868,7 @@ class TestSnapshotDefinition:
 class TestCloneDefinition:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.table import CloneDefinition
+        from arrivy.google.cloud.bigquery.table import CloneDefinition
 
         return CloneDefinition
 
@@ -1884,7 +1884,7 @@ class TestCloneDefinition:
 
     def test_ctor_full_resource(self):
         from google.cloud._helpers import UTC
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         resource = {
             "baseTableReference": {
@@ -1907,7 +1907,7 @@ class TestCloneDefinition:
 
 class TestRow(unittest.TestCase):
     def test_row(self):
-        from google.cloud.bigquery.table import Row
+        from arrivy.google.cloud.bigquery.table import Row
 
         VALUES = (1, 2, 3)
         row = Row(VALUES, {"a": 0, "b": 1, "c": 2})
@@ -1933,7 +1933,7 @@ class TestRow(unittest.TestCase):
 
 class Test_EmptyRowIterator(unittest.TestCase):
     def _make_one(self):
-        from google.cloud.bigquery.table import _EmptyRowIterator
+        from arrivy.google.cloud.bigquery.table import _EmptyRowIterator
 
         return _EmptyRowIterator()
 
@@ -1941,7 +1941,7 @@ class Test_EmptyRowIterator(unittest.TestCase):
         row_iterator = self._make_one()
         self.assertEqual(row_iterator.total_rows, 0)
 
-    @mock.patch("google.cloud.bigquery.table.pyarrow", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery.table.pyarrow", new=None)
     def test_to_arrow_error_if_pyarrow_is_none(self):
         row_iterator = self._make_one()
         with self.assertRaises(ValueError):
@@ -1967,7 +1967,7 @@ class Test_EmptyRowIterator(unittest.TestCase):
         self.assertEqual(record_batch.num_rows, 0)
         self.assertEqual(record_batch.num_columns, 0)
 
-    @mock.patch("google.cloud.bigquery._pandas_helpers.pandas", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery._pandas_helpers.pandas", new=None)
     def test_to_dataframe_error_if_pandas_is_none(self):
         row_iterator = self._make_one()
         with self.assertRaises(ValueError):
@@ -1980,7 +1980,7 @@ class Test_EmptyRowIterator(unittest.TestCase):
         self.assertIsInstance(df, pandas.DataFrame)
         self.assertEqual(len(df), 0)  # verify the number of rows
 
-    @mock.patch("google.cloud.bigquery._pandas_helpers.pandas", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery._pandas_helpers.pandas", new=None)
     def test_to_dataframe_iterable_error_if_pandas_is_none(self):
         row_iterator = self._make_one()
         with self.assertRaises(ValueError):
@@ -1999,7 +1999,7 @@ class Test_EmptyRowIterator(unittest.TestCase):
         self.assertEqual(len(df), 0)  # Verify the number of rows.
         self.assertEqual(len(df.columns), 0)
 
-    @mock.patch("google.cloud.bigquery.table.geopandas", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery.table.geopandas", new=None)
     def test_to_geodataframe_if_geopandas_is_none(self):
         row_iterator = self._make_one()
         with self.assertRaisesRegex(
@@ -2025,7 +2025,7 @@ class Test_EmptyRowIterator(unittest.TestCase):
 
 class TestRowIterator(unittest.TestCase):
     def _class_under_test(self):
-        from google.cloud.bigquery.table import RowIterator
+        from arrivy.google.cloud.bigquery.table import RowIterator
 
         return RowIterator
 
@@ -2038,7 +2038,7 @@ class TestRowIterator(unittest.TestCase):
         table=None,
         **kwargs
     ):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         if client is None:
             client = _mock_client()
@@ -2060,7 +2060,7 @@ class TestRowIterator(unittest.TestCase):
         )
 
     def _make_one_from_data(self, schema=(), rows=()):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [SchemaField(*a) for a in schema]
         rows = [{"f": [{"v": v} for v in row]} for row in rows]
@@ -2070,8 +2070,8 @@ class TestRowIterator(unittest.TestCase):
         return self._make_one(_mock_client(), api_request, path, schema)
 
     def test_constructor(self):
-        from google.cloud.bigquery.table import _item_to_row
-        from google.cloud.bigquery.table import _rows_page_start
+        from arrivy.google.cloud.bigquery.table import _item_to_row
+        from arrivy.google.cloud.bigquery.table import _rows_page_start
 
         client = _mock_client()
         path = "/some/path"
@@ -2094,7 +2094,7 @@ class TestRowIterator(unittest.TestCase):
         self.assertEqual(iterator.num_results, 0)
 
     def test_constructor_with_table(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         table = Table("proj.dset.tbl")
         iterator = self._make_one(table=table, total_rows=100)
@@ -2102,7 +2102,7 @@ class TestRowIterator(unittest.TestCase):
         self.assertEqual(iterator.total_rows, 100)
 
     def test_constructor_with_dict_schema(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             {"name": "full_name", "type": "STRING", "mode": "REQUIRED"},
@@ -2158,7 +2158,7 @@ class TestRowIterator(unittest.TestCase):
         self.assertEqual(rows.query_id, "xyz-987")
 
     def test_iterate(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2189,7 +2189,7 @@ class TestRowIterator(unittest.TestCase):
         api_request.assert_called_once_with(method="GET", path=path, query_params={})
 
     def test_iterate_with_cached_first_page(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         first_page = {
             "rows": [
@@ -2232,7 +2232,7 @@ class TestRowIterator(unittest.TestCase):
         )
 
     def test_iterate_with_cached_first_page_max_results(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         first_page = {
             "rows": [
@@ -2265,7 +2265,7 @@ class TestRowIterator(unittest.TestCase):
         api_request.assert_not_called()
 
     def test_page_size(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2404,7 +2404,7 @@ class TestRowIterator(unittest.TestCase):
         iterator = self._make_one(first_page_response=None)  # not cached
 
         patcher = mock.patch(
-            "google.cloud.bigquery.table._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
+            "arrivy.google.cloud.bigquery.table._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
             side_effect=exceptions.LegacyBigQueryStorageError("BQ Storage too old"),
         )
         with patcher, warnings.catch_warnings(record=True) as warned:
@@ -2421,7 +2421,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_arrow_iterable(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2525,8 +2525,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_arrow_iterable_w_bqstorage(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
@@ -2601,7 +2601,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_arrow(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2683,7 +2683,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_arrow_w_nulls(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [SchemaField("name", "STRING"), SchemaField("age", "INTEGER")]
         rows = [
@@ -2716,7 +2716,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_arrow_w_unknown_type(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2759,7 +2759,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_arrow_w_empty_table(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2801,7 +2801,7 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_arrow_max_results_w_explicit_bqstorage_client_warning(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2845,7 +2845,7 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_arrow_max_results_w_create_bqstorage_client_no_warning(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -2885,8 +2885,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_arrow_w_bqstorage(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
@@ -2966,8 +2966,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_arrow_w_bqstorage_creates_client(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         mock_client = _mock_client()
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
@@ -2994,7 +2994,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_arrow_ensure_bqstorage_client_wo_bqstorage(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3014,7 +3014,7 @@ class TestRowIterator(unittest.TestCase):
             raise exceptions.LegacyBigQueryStorageError("no bqstorage")
 
         with mock.patch(
-            "google.cloud.bigquery._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
+            "arrivy.google.cloud.bigquery._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
             mock_verify_version,
         ):
             tbl = row_iterator.to_arrow(create_bqstorage_client=True)
@@ -3028,8 +3028,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_arrow_w_bqstorage_no_streams(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
         session = bigquery_storage.types.ReadSession()
@@ -3069,7 +3069,7 @@ class TestRowIterator(unittest.TestCase):
     @mock.patch("tqdm.notebook.tqdm")
     @mock.patch("tqdm.tqdm")
     def test_to_arrow_progress_bar(self, tqdm_mock, tqdm_notebook_mock, tqdm_gui_mock):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3102,7 +3102,7 @@ class TestRowIterator(unittest.TestCase):
             progress_bar_mock().close.assert_called_once()
             self.assertEqual(tbl.num_rows, 4)
 
-    @mock.patch("google.cloud.bigquery.table.pyarrow", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery.table.pyarrow", new=None)
     def test_to_arrow_w_pyarrow_none(self):
         schema = []
         rows = []
@@ -3115,7 +3115,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_iterable(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3157,7 +3157,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_iterable_with_dtypes(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3203,8 +3203,8 @@ class TestRowIterator(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_iterable_w_bqstorage(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         arrow_fields = [
@@ -3271,8 +3271,8 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_iterable_w_bqstorage_max_results_warning(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
 
@@ -3320,9 +3320,9 @@ class TestRowIterator(unittest.TestCase):
         assert isinstance(dataframes[0], pandas.DataFrame)
         assert isinstance(dataframes[1], pandas.DataFrame)
 
-    @mock.patch("google.cloud.bigquery._pandas_helpers.pandas", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery._pandas_helpers.pandas", new=None)
     def test_to_dataframe_iterable_error_if_pandas_is_none(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3341,7 +3341,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3368,7 +3368,7 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_timestamp_out_of_pyarrow_bounds(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [SchemaField("some_timestamp", "TIMESTAMP")]
         rows = [
@@ -3396,7 +3396,7 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_datetime_out_of_pyarrow_bounds(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [SchemaField("some_datetime", "DATETIME")]
         rows = [
@@ -3425,7 +3425,7 @@ class TestRowIterator(unittest.TestCase):
     def test_to_dataframe_progress_bar(
         self, tqdm_mock, tqdm_notebook_mock, tqdm_gui_mock
     ):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3459,9 +3459,9 @@ class TestRowIterator(unittest.TestCase):
             self.assertEqual(len(df), 4)
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
-    @mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm", new=None)
     def test_to_dataframe_no_tqdm_no_progress_bar(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3487,9 +3487,9 @@ class TestRowIterator(unittest.TestCase):
         self.assertEqual(len(df), 4)
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
-    @mock.patch("google.cloud.bigquery._tqdm_helpers.tqdm", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery._tqdm_helpers.tqdm", new=None)
     def test_to_dataframe_no_tqdm(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3526,7 +3526,7 @@ class TestRowIterator(unittest.TestCase):
     @mock.patch("tqdm.notebook.tqdm", new=None)  # will raise TypeError on call
     @mock.patch("tqdm.tqdm", new=None)  # will raise TypeError on call
     def test_to_dataframe_tqdm_error(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3562,7 +3562,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_w_empty_results(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -3580,7 +3580,7 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_w_various_types_nullable(self):
         import datetime
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("start_timestamp", "TIMESTAMP"),
@@ -3620,7 +3620,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_w_dtypes_mapper(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING"),
@@ -3816,7 +3816,7 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @pytest.mark.skipif(PANDAS_INSTALLED_VERSION[0:2] not in ["0.", "1."], reason="")
     def test_to_dataframe_w_none_dtypes_mapper(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING"),
@@ -3872,7 +3872,7 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_w_unsupported_dtypes_mapper(self):
         import numpy
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING"),
@@ -3929,7 +3929,7 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @pytest.mark.skipif(PANDAS_INSTALLED_VERSION[0:2] not in ["0.", "1."], reason="")
     def test_to_dataframe_column_dtypes(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("start_timestamp", "TIMESTAMP"),
@@ -3983,7 +3983,7 @@ class TestRowIterator(unittest.TestCase):
         # the error when converting to Pandas, we use object type if
         # necessary.
 
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("ts", "TIMESTAMP"),
@@ -4006,9 +4006,9 @@ class TestRowIterator(unittest.TestCase):
         self.assertEqual(df["ts"][0].date(), datetime.date(1336, 3, 23))
         self.assertEqual(df["date"][0], datetime.date(1111, 1, 1))
 
-    @mock.patch("google.cloud.bigquery._pandas_helpers.pandas", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery._pandas_helpers.pandas", new=None)
     def test_to_dataframe_error_if_pandas_is_none(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -4026,7 +4026,7 @@ class TestRowIterator(unittest.TestCase):
             row_iterator.to_dataframe()
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
-    @mock.patch("google.cloud.bigquery.table.shapely", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery.table.shapely", new=None)
     def test_to_dataframe_error_if_shapely_is_none(self):
         with self.assertRaisesRegex(
             ValueError,
@@ -4039,7 +4039,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_max_results_w_bqstorage_warning(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -4075,7 +4075,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_max_results_w_explicit_bqstorage_client_warning(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -4116,7 +4116,7 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_max_results_w_create_bqstorage_client_no_warning(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("name", "STRING", mode="REQUIRED"),
@@ -4156,8 +4156,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_dataframe_w_bqstorage_creates_client(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         mock_client = _mock_client()
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
@@ -4187,8 +4187,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_dataframe_w_bqstorage_no_streams(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
         session = bigquery_storage.types.ReadSession()
@@ -4217,7 +4217,7 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_w_bqstorage_logs_session(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
         session = bigquery_storage.types.ReadSession()
@@ -4228,7 +4228,7 @@ class TestRowIterator(unittest.TestCase):
             _mock_client(), table=Table("debug-proj.debug_dset.debug_tbl")
         )
 
-        with mock.patch("google.cloud.bigquery._pandas_helpers._LOGGER", mock_logger):
+        with mock.patch("arrivy.google.cloud.bigquery._pandas_helpers._LOGGER", mock_logger):
             row_iterator.to_dataframe(bqstorage_client=bqstorage_client)
 
         mock_logger.debug.assert_any_call(
@@ -4242,8 +4242,8 @@ class TestRowIterator(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_w_bqstorage_empty_streams(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         arrow_fields = [
@@ -4297,8 +4297,8 @@ class TestRowIterator(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_w_bqstorage_nonempty(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         arrow_fields = [
@@ -4377,8 +4377,8 @@ class TestRowIterator(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_w_bqstorage_multiple_streams_return_unique_index(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         arrow_fields = [pyarrow.field("colA", pyarrow.int64())]
@@ -4433,8 +4433,8 @@ class TestRowIterator(unittest.TestCase):
     @unittest.skipIf(tqdm is None, "Requires `tqdm`")
     @mock.patch("tqdm.tqdm")
     def test_to_dataframe_w_bqstorage_updates_progress_bar(self, tqdm_mock):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         # Speed up testing.
@@ -4510,8 +4510,8 @@ class TestRowIterator(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_w_bqstorage_exits_on_keyboardinterrupt(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         # Speed up testing.
@@ -4594,8 +4594,8 @@ class TestRowIterator(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_to_dataframe_tabledata_list_w_multiple_pages_return_unique_index(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         iterator_schema = [schema.SchemaField("name", "STRING", mode="REQUIRED")]
         path = "/foo"
@@ -4629,7 +4629,7 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_dataframe_w_bqstorage_raises_auth_error(self):
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import table as mut
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
         bqstorage_client.create_read_session.side_effect = (
@@ -4650,8 +4650,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_dataframe_w_bqstorage_partition(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
 
@@ -4670,8 +4670,8 @@ class TestRowIterator(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_to_dataframe_w_bqstorage_snapshot(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
 
         bqstorage_client = mock.create_autospec(bigquery_storage.BigQueryReadClient)
 
@@ -4692,8 +4692,8 @@ class TestRowIterator(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_to_dataframe_concat_categorical_dtype_w_pyarrow(self):
-        from google.cloud.bigquery import schema
-        from google.cloud.bigquery import table as mut
+        from arrivy.google.cloud.bigquery import schema
+        from arrivy.google.cloud.bigquery import table as mut
         from google.cloud.bigquery_storage_v1 import reader
 
         arrow_fields = [
@@ -4823,7 +4823,7 @@ class TestRowIterator(unittest.TestCase):
             [v.__class__.__name__ for v in df.geog], ["Point", "float", "Polygon"]
         )
 
-    @mock.patch("google.cloud.bigquery.table.geopandas", new=None)
+    @mock.patch("arrivy.google.cloud.bigquery.table.geopandas", new=None)
     def test_to_geodataframe_error_if_geopandas_is_none(self):
         with self.assertRaisesRegex(
             ValueError,
@@ -4956,7 +4956,7 @@ class TestRowIterator(unittest.TestCase):
             )
 
     @unittest.skipIf(geopandas is None, "Requires `geopandas`")
-    @mock.patch("google.cloud.bigquery.table.RowIterator.to_dataframe")
+    @mock.patch("arrivy.google.cloud.bigquery.table.RowIterator.to_dataframe")
     def test_rowiterator_to_geodataframe_delegation(self, to_dataframe):
         """
         RowIterator.to_geodataframe just delegates to RowIterator.to_dataframe.
@@ -5018,7 +5018,7 @@ class TestRowIterator(unittest.TestCase):
 
 class TestPartitionRange(unittest.TestCase):
     def _get_target_class(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         return PartitionRange
 
@@ -5083,7 +5083,7 @@ class TestPartitionRange(unittest.TestCase):
 
 class TestRangePartitioning(unittest.TestCase):
     def _get_target_class(self):
-        from google.cloud.bigquery.table import RangePartitioning
+        from arrivy.google.cloud.bigquery.table import RangePartitioning
 
         return RangePartitioning
 
@@ -5098,7 +5098,7 @@ class TestRangePartitioning(unittest.TestCase):
         assert object_under_test.range_.interval is None
 
     def test_constructor_w_properties(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         object_under_test = self._make_one(
             range_=PartitionRange(start=1, end=10, interval=2), field="integer_col"
@@ -5126,7 +5126,7 @@ class TestRangePartitioning(unittest.TestCase):
             object_under_test.range_ = object()
 
     def test___eq___field_mismatch(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         object_under_test = self._make_one(
             range_=PartitionRange(start=1, end=10, interval=2), field="integer_col"
@@ -5137,7 +5137,7 @@ class TestRangePartitioning(unittest.TestCase):
         self.assertNotEqual(object_under_test, other)
 
     def test___eq___range__mismatch(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         object_under_test = self._make_one(
             range_=PartitionRange(start=1, end=10, interval=2), field="integer_col"
@@ -5148,7 +5148,7 @@ class TestRangePartitioning(unittest.TestCase):
         self.assertNotEqual(object_under_test, other)
 
     def test___eq___hit(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         object_under_test = self._make_one(
             range_=PartitionRange(start=1, end=10, interval=2), field="integer_col"
@@ -5159,7 +5159,7 @@ class TestRangePartitioning(unittest.TestCase):
         self.assertEqual(object_under_test, other)
 
     def test__eq___type_mismatch(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         object_under_test = self._make_one(
             range_=PartitionRange(start=1, end=10, interval=2), field="integer_col"
@@ -5168,7 +5168,7 @@ class TestRangePartitioning(unittest.TestCase):
         self.assertEqual(object_under_test, mock.ANY)
 
     def test_unhashable_object(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         object_under_test1 = self._make_one(
             range_=PartitionRange(start=1, end=10, interval=2), field="integer_col"
@@ -5177,7 +5177,7 @@ class TestRangePartitioning(unittest.TestCase):
             hash(object_under_test1)
 
     def test_repr(self):
-        from google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import PartitionRange
 
         object_under_test = self._make_one(
             range_=PartitionRange(start=1, end=10, interval=2), field="integer_col"
@@ -5190,7 +5190,7 @@ class TestRangePartitioning(unittest.TestCase):
 
 class TestTimePartitioning(unittest.TestCase):
     def _get_target_class(self):
-        from google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
 
         return TimePartitioning
 
@@ -5204,7 +5204,7 @@ class TestTimePartitioning(unittest.TestCase):
         self.assertIsNone(time_partitioning.expiration_ms)
 
     def test_constructor_explicit(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         time_partitioning = self._make_one(
             type_=TimePartitioningType.DAY, field="name", expiration_ms=10000
@@ -5240,7 +5240,7 @@ class TestTimePartitioning(unittest.TestCase):
         self.assertIsNone(time_partitioning.expiration_ms)
 
     def test_from_api_repr_minimal(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         klass = self._get_target_class()
         api_repr = {"type": "DAY"}
@@ -5257,7 +5257,7 @@ class TestTimePartitioning(unittest.TestCase):
         self.assertEqual(time_partitioning.type_, "HOUR")
 
     def test_from_api_repr_explicit(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         klass = self._get_target_class()
         api_repr = {
@@ -5283,7 +5283,7 @@ class TestTimePartitioning(unittest.TestCase):
         self.assertEqual(time_partitioning.to_api_repr(), expected)
 
     def test_to_api_repr_explicit(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         time_partitioning = self._make_one(
             type_=TimePartitioningType.DAY, field="name", expiration_ms=10000
@@ -5379,7 +5379,7 @@ class TestTimePartitioning(unittest.TestCase):
         self.assertEqual(repr(time_partitioning), expected)
 
     def test___repr___explicit(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         time_partitioning = self._make_one(
             type_=TimePartitioningType.DAY, field="name", expiration_ms=10000
@@ -5406,7 +5406,7 @@ class TestTimePartitioning(unittest.TestCase):
     ),
 )
 def test_table_reference_to_bqstorage_v1_stable(table_path):
-    from google.cloud.bigquery import table as mut
+    from arrivy.google.cloud.bigquery import table as mut
 
     expected = "projects/my-project/datasets/my_dataset/tables/my_table"
 

@@ -16,14 +16,14 @@
 
 import typing
 
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery.model import ModelReference
-from google.cloud.bigquery.table import Table
-from google.cloud.bigquery.table import TableListItem
-from google.cloud.bigquery.table import TableReference
-from google.cloud.bigquery.job.base import _AsyncJob
-from google.cloud.bigquery.job.base import _JobConfig
-from google.cloud.bigquery.job.base import _JobReference
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery.model import ModelReference
+from arrivy.google.cloud.bigquery.table import Table
+from arrivy.google.cloud.bigquery.table import TableListItem
+from arrivy.google.cloud.bigquery.table import TableReference
+from arrivy.google.cloud.bigquery.job.base import _AsyncJob
+from arrivy.google.cloud.bigquery.job.base import _JobConfig
+from arrivy.google.cloud.bigquery.job.base import _JobReference
 
 
 class ExtractJobConfig(_JobConfig):
@@ -39,7 +39,7 @@ class ExtractJobConfig(_JobConfig):
 
     @property
     def compression(self):
-        """google.cloud.bigquery.job.Compression: Compression type to use for
+        """arrivy.google.cloud.bigquery.job.Compression: Compression type to use for
         exported files.
 
         See
@@ -53,7 +53,7 @@ class ExtractJobConfig(_JobConfig):
 
     @property
     def destination_format(self):
-        """google.cloud.bigquery.job.DestinationFormat: Exported file format.
+        """arrivy.google.cloud.bigquery.job.DestinationFormat: Exported file format.
 
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationExtract.FIELDS.destination_format
@@ -110,8 +110,8 @@ class ExtractJob(_AsyncJob):
         job_id (str): the job's ID.
 
         source (Union[ \
-            google.cloud.bigquery.table.TableReference, \
-            google.cloud.bigquery.model.ModelReference \
+            arrivy.google.cloud.bigquery.table.TableReference, \
+            arrivy.google.cloud.bigquery.model.ModelReference \
         ]):
             Table or Model from which data is to be loaded or extracted.
 
@@ -119,10 +119,10 @@ class ExtractJob(_AsyncJob):
             URIs describing where the extracted data will be written in Cloud
             Storage, using the format ``gs://<bucket_name>/<object_name_or_glob>``.
 
-        client (google.cloud.bigquery.client.Client):
+        client (arrivy.google.cloud.bigquery.client.Client):
             A client which holds credentials and project configuration.
 
-        job_config (Optional[google.cloud.bigquery.job.ExtractJobConfig]):
+        job_config (Optional[arrivy.google.cloud.bigquery.job.ExtractJobConfig]):
             Extra configuration options for the extract job.
     """
 
@@ -164,8 +164,8 @@ class ExtractJob(_AsyncJob):
     @property
     def source(self):
         """Union[ \
-            google.cloud.bigquery.table.TableReference, \
-            google.cloud.bigquery.model.ModelReference \
+            arrivy.google.cloud.bigquery.table.TableReference, \
+            arrivy.google.cloud.bigquery.model.ModelReference \
         ]: Table or Model from which data is to be loaded or extracted.
         """
         source_config = _helpers._get_sub_prop(
@@ -192,28 +192,28 @@ class ExtractJob(_AsyncJob):
     @property
     def compression(self):
         """See
-        :attr:`google.cloud.bigquery.job.ExtractJobConfig.compression`.
+        :attr:`arrivy.google.cloud.bigquery.job.ExtractJobConfig.compression`.
         """
         return self.configuration.compression
 
     @property
     def destination_format(self):
         """See
-        :attr:`google.cloud.bigquery.job.ExtractJobConfig.destination_format`.
+        :attr:`arrivy.google.cloud.bigquery.job.ExtractJobConfig.destination_format`.
         """
         return self.configuration.destination_format
 
     @property
     def field_delimiter(self):
         """See
-        :attr:`google.cloud.bigquery.job.ExtractJobConfig.field_delimiter`.
+        :attr:`arrivy.google.cloud.bigquery.job.ExtractJobConfig.field_delimiter`.
         """
         return self.configuration.field_delimiter
 
     @property
     def print_header(self):
         """See
-        :attr:`google.cloud.bigquery.job.ExtractJobConfig.print_header`.
+        :attr:`arrivy.google.cloud.bigquery.job.ExtractJobConfig.print_header`.
         """
         return self.configuration.print_header
 
@@ -257,12 +257,12 @@ class ExtractJob(_AsyncJob):
         Args:
             resource (Dict): dataset job representation returned from the API
 
-            client (google.cloud.bigquery.client.Client):
+            client (arrivy.google.cloud.bigquery.client.Client):
                 Client which holds credentials and project
                 configuration for the dataset.
 
         Returns:
-            google.cloud.bigquery.job.ExtractJob: Job parsed from ``resource``.
+            arrivy.google.cloud.bigquery.job.ExtractJob: Job parsed from ``resource``.
         """
         cls._check_resource_config(resource)
         job_ref = _JobReference._from_api_repr(resource["jobReference"])

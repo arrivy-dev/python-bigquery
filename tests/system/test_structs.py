@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from google.cloud.bigquery.dbapi import connect
+from arrivy.google.cloud.bigquery.dbapi import connect
 
 person_type = "struct<name string," " children array<struct<name string, bdate date>>>"
 person_type_sized = (

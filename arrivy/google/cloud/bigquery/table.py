@@ -58,17 +58,17 @@ import google.api_core.exceptions
 from google.api_core.page_iterator import HTTPIterator
 
 import google.cloud._helpers  # type: ignore
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery import _pandas_helpers
-from google.cloud.bigquery import _versions_helpers
-from google.cloud.bigquery import exceptions as bq_exceptions
-from google.cloud.bigquery._tqdm_helpers import get_progress_bar
-from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
-from google.cloud.bigquery.enums import DefaultPandasDTypes
-from google.cloud.bigquery.external_config import ExternalConfig
-from google.cloud.bigquery.schema import _build_schema_resource
-from google.cloud.bigquery.schema import _parse_schema_resource
-from google.cloud.bigquery.schema import _to_schema_fields
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery import _pandas_helpers
+from arrivy.google.cloud.bigquery import _versions_helpers
+from arrivy.google.cloud.bigquery import exceptions as bq_exceptions
+from arrivy.google.cloud.bigquery._tqdm_helpers import get_progress_bar
+from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+from arrivy.google.cloud.bigquery.enums import DefaultPandasDTypes
+from arrivy.google.cloud.bigquery.external_config import ExternalConfig
+from arrivy.google.cloud.bigquery.schema import _build_schema_resource
+from arrivy.google.cloud.bigquery.schema import _parse_schema_resource
+from arrivy.google.cloud.bigquery.schema import _to_schema_fields
 
 if typing.TYPE_CHECKING:  # pragma: NO COVER
     # Unconditionally import optional dependencies again to tell pytype that
@@ -77,7 +77,7 @@ if typing.TYPE_CHECKING:  # pragma: NO COVER
     import pyarrow
     import geopandas  # type: ignore
     from google.cloud import bigquery_storage  # type: ignore
-    from google.cloud.bigquery.dataset import DatasetReference
+    from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
 
 _NO_GEOPANDAS_ERROR = (
@@ -106,13 +106,13 @@ ALMOST_COMPLETELY_CACHED_RATIO = 0.333
 
 
 def _reference_getter(table):
-    """A :class:`~google.cloud.bigquery.table.TableReference` pointing to
+    """A :class:`~arrivy.google.cloud.bigquery.table.TableReference` pointing to
     this table.
 
     Returns:
-        google.cloud.bigquery.table.TableReference: pointer to this table.
+        arrivy.google.cloud.bigquery.table.TableReference: pointer to this table.
     """
-    from google.cloud.bigquery import dataset
+    from arrivy.google.cloud.bigquery import dataset
 
     dataset_ref = dataset.DatasetReference(table.project, table.dataset_id)
     return TableReference(dataset_ref, table.table_id)
@@ -258,7 +258,7 @@ class TableReference(_TableBase):
                 If ``table_id`` is not a fully-qualified table ID in
                 standard SQL format.
         """
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         (
             output_project_id,
@@ -281,10 +281,10 @@ class TableReference(_TableBase):
                 Table reference representation returned from the API
 
         Returns:
-            google.cloud.bigquery.table.TableReference:
+            arrivy.google.cloud.bigquery.table.TableReference:
                 Table reference parsed from ``resource``.
         """
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         project = resource["projectId"]
         dataset_id = resource["datasetId"]
@@ -330,7 +330,7 @@ class TableReference(_TableBase):
         return f"{self.project}.{self.dataset_id}.{self.table_id}"
 
     def __repr__(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         dataset_ref = DatasetReference(self.project, self.dataset_id)
         return f"TableReference({dataset_ref!r}, '{self.table_id}')"
@@ -343,17 +343,17 @@ class Table(_TableBase):
     https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#resource-table
 
     Args:
-        table_ref (Union[google.cloud.bigquery.table.TableReference, str]):
+        table_ref (Union[arrivy.google.cloud.bigquery.table.TableReference, str]):
             A pointer to a table. If ``table_ref`` is a string, it must
             included a project ID, dataset ID, and table ID, each separated
             by ``.``.
         schema (Optional[Sequence[Union[ \
-                :class:`~google.cloud.bigquery.schema.SchemaField`, \
+                :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
                 Mapping[str, Any] \
         ]]]):
             The table's schema. If any item is a mapping, its content must be
             compatible with
-            :meth:`~google.cloud.bigquery.schema.SchemaField.from_api_repr`.
+            :meth:`~arrivy.google.cloud.bigquery.schema.SchemaField.from_api_repr`.
     """
 
     _PROPERTY_TO_API_FIELD = {
@@ -420,7 +420,7 @@ class Table(_TableBase):
     @property
     def schema(self):
         """Sequence[Union[ \
-                :class:`~google.cloud.bigquery.schema.SchemaField`, \
+                :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
                 Mapping[str, Any] \
         ]]:
             Table's schema.
@@ -428,7 +428,7 @@ class Table(_TableBase):
         Raises:
             Exception:
                 If ``schema`` is not a sequence, or if any item in the sequence
-                is not a :class:`~google.cloud.bigquery.schema.SchemaField`
+                is not a :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`
                 instance or a compatible mapping representation of the field.
         """
         prop = self._properties.get(self._PROPERTY_TO_API_FIELD["schema"])
@@ -468,7 +468,7 @@ class Table(_TableBase):
 
     @property
     def encryption_configuration(self):
-        """google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
+        """arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
         encryption configuration for the table.
 
         Custom encryption configuration (e.g., Cloud KMS keys) or :data:`None`
@@ -571,7 +571,7 @@ class Table(_TableBase):
 
     @property
     def range_partitioning(self):
-        """Optional[google.cloud.bigquery.table.RangePartitioning]:
+        """Optional[arrivy.google.cloud.bigquery.table.RangePartitioning]:
         Configures range-based partitioning for a table.
 
         .. note::
@@ -579,13 +579,13 @@ class Table(_TableBase):
             pre-release state and might change or have limited support.
 
         Only specify at most one of
-        :attr:`~google.cloud.bigquery.table.Table.time_partitioning` or
-        :attr:`~google.cloud.bigquery.table.Table.range_partitioning`.
+        :attr:`~arrivy.google.cloud.bigquery.table.Table.time_partitioning` or
+        :attr:`~arrivy.google.cloud.bigquery.table.Table.range_partitioning`.
 
         Raises:
             ValueError:
                 If the value is not
-                :class:`~google.cloud.bigquery.table.RangePartitioning` or
+                :class:`~arrivy.google.cloud.bigquery.table.RangePartitioning` or
                 :data:`None`.
         """
         resource = self._properties.get(
@@ -607,17 +607,17 @@ class Table(_TableBase):
 
     @property
     def time_partitioning(self):
-        """Optional[google.cloud.bigquery.table.TimePartitioning]: Configures time-based
+        """Optional[arrivy.google.cloud.bigquery.table.TimePartitioning]: Configures time-based
         partitioning for a table.
 
         Only specify at most one of
-        :attr:`~google.cloud.bigquery.table.Table.time_partitioning` or
-        :attr:`~google.cloud.bigquery.table.Table.range_partitioning`.
+        :attr:`~arrivy.google.cloud.bigquery.table.Table.time_partitioning` or
+        :attr:`~arrivy.google.cloud.bigquery.table.Table.range_partitioning`.
 
         Raises:
             ValueError:
                 If the value is not
-                :class:`~google.cloud.bigquery.table.TimePartitioning` or
+                :class:`~arrivy.google.cloud.bigquery.table.TimePartitioning` or
                 :data:`None`.
         """
         prop = self._properties.get(self._PROPERTY_TO_API_FIELD["time_partitioning"])
@@ -631,7 +631,7 @@ class Table(_TableBase):
             api_repr = value.to_api_repr()
         elif value is not None:
             raise ValueError(
-                "value must be google.cloud.bigquery.table.TimePartitioning " "or None"
+                "value must be arrivy.google.cloud.bigquery.table.TimePartitioning " "or None"
             )
         self._properties[self._PROPERTY_TO_API_FIELD["time_partitioning"]] = api_repr
 
@@ -669,7 +669,7 @@ class Table(_TableBase):
 
         If :attr:`partition_expiration` is set and :attr:`type_` is
         not set, :attr:`type_` will default to
-        :attr:`~google.cloud.bigquery.table.TimePartitioningType.DAY`.
+        :attr:`~arrivy.google.cloud.bigquery.table.TimePartitioningType.DAY`.
         """
         warnings.warn(
             "This method will be deprecated in future versions. Please use "
@@ -914,7 +914,7 @@ class Table(_TableBase):
 
     @property
     def streaming_buffer(self):
-        """google.cloud.bigquery.StreamingBuffer: Information about a table's
+        """arrivy.google.cloud.bigquery.StreamingBuffer: Information about a table's
         streaming buffer.
         """
         sb = self._properties.get(self._PROPERTY_TO_API_FIELD["streaming_buffer"])
@@ -923,7 +923,7 @@ class Table(_TableBase):
 
     @property
     def external_data_configuration(self):
-        """Union[google.cloud.bigquery.ExternalConfig, None]: Configuration for
+        """Union[arrivy.google.cloud.bigquery.ExternalConfig, None]: Configuration for
         an external data source (defaults to :data:`None`).
 
         Raises:
@@ -1006,7 +1006,7 @@ class Table(_TableBase):
                 Table resource representation from the API
 
         Returns:
-            google.cloud.bigquery.table.Table: Table parsed from ``resource``.
+            arrivy.google.cloud.bigquery.table.Table: Table parsed from ``resource``.
 
         Raises:
             KeyError:
@@ -1014,7 +1014,7 @@ class Table(_TableBase):
                 the ``dict`` stored within the key ``'tableReference'`` lacks
                 the keys ``'tableId'``, ``'projectId'``, or ``'datasetId'``.
         """
-        from google.cloud.bigquery import dataset
+        from arrivy.google.cloud.bigquery import dataset
 
         if (
             "tableReference" not in resource
@@ -1072,8 +1072,8 @@ class TableListItem(_TableBase):
 
     For performance reasons, the BigQuery API only includes some of the table
     properties when listing tables. Notably,
-    :attr:`~google.cloud.bigquery.table.Table.schema` and
-    :attr:`~google.cloud.bigquery.table.Table.num_rows` are missing.
+    :attr:`~arrivy.google.cloud.bigquery.table.Table.schema` and
+    :attr:`~arrivy.google.cloud.bigquery.table.Table.num_rows` are missing.
 
     For a full list of the properties that the BigQuery API returns, see the
     `REST documentation for tables.list
@@ -1163,7 +1163,7 @@ class TableListItem(_TableBase):
 
     @property
     def time_partitioning(self):
-        """google.cloud.bigquery.table.TimePartitioning: Configures time-based
+        """arrivy.google.cloud.bigquery.table.TimePartitioning: Configures time-based
         partitioning for a table.
         """
         prop = self._properties.get("timePartitioning")
@@ -1275,7 +1275,7 @@ def _row_from_mapping(mapping, schema):
             Mapping of row data: must contain keys for all required fields in
             the schema. Keys which do not correspond to a field in the schema
             are ignored.
-        schema (List[google.cloud.bigquery.schema.SchemaField]):
+        schema (List[arrivy.google.cloud.bigquery.schema.SchemaField]):
             The schema of the table destination for the rows
 
     Returns:
@@ -1512,19 +1512,19 @@ class RowIterator(HTTPIterator):
     """A class for iterating through HTTP/JSON API row list responses.
 
     Args:
-        client (Optional[google.cloud.bigquery.Client]):
+        client (Optional[arrivy.google.cloud.bigquery.Client]):
             The API client instance. This should always be non-`None`, except for
             subclasses that do not use it, namely the ``_EmptyRowIterator``.
         api_request (Callable[google.cloud._http.JSONConnection.api_request]):
             The function to use to make API requests.
         path (str): The method path to query for the list of items.
         schema (Sequence[Union[ \
-                :class:`~google.cloud.bigquery.schema.SchemaField`, \
+                :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
                 Mapping[str, Any] \
         ]]):
             The table's schema. If any item is a mapping, its content must be
             compatible with
-            :meth:`~google.cloud.bigquery.schema.SchemaField.from_api_repr`.
+            :meth:`~arrivy.google.cloud.bigquery.schema.SchemaField.from_api_repr`.
         page_token (str): A token identifying a page in a result set to start
             fetching results from.
         max_results (Optional[int]): The maximum number of results to fetch.
@@ -1534,12 +1534,12 @@ class RowIterator(HTTPIterator):
         extra_params (Optional[Dict[str, object]]):
             Extra query string parameters for the API call.
         table (Optional[Union[ \
-            google.cloud.bigquery.table.Table, \
-            google.cloud.bigquery.table.TableReference, \
+            arrivy.google.cloud.bigquery.table.Table, \
+            arrivy.google.cloud.bigquery.table.TableReference, \
         ]]):
             The table which these rows belong to, or a reference to it. Used to
             call the BigQuery Storage API to fetch rows.
-        selected_fields (Optional[Sequence[google.cloud.bigquery.schema.SchemaField]]):
+        selected_fields (Optional[Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]]):
             A subset of columns to select from this table.
         total_rows (Optional[int]):
             Total number of rows in the table.
@@ -1736,7 +1736,7 @@ class RowIterator(HTTPIterator):
 
     @property
     def schema(self):
-        """List[google.cloud.bigquery.schema.SchemaField]: The subset of
+        """List[arrivy.google.cloud.bigquery.schema.SchemaField]: The subset of
         columns to be read from the table."""
         return list(self._schema)
 
@@ -2607,15 +2607,15 @@ class PartitionRange(object):
     Args:
         start (Optional[int]):
             Sets the
-            :attr:`~google.cloud.bigquery.table.PartitionRange.start`
+            :attr:`~arrivy.google.cloud.bigquery.table.PartitionRange.start`
             property.
         end (Optional[int]):
             Sets the
-            :attr:`~google.cloud.bigquery.table.PartitionRange.end`
+            :attr:`~arrivy.google.cloud.bigquery.table.PartitionRange.end`
             property.
         interval (Optional[int]):
             Sets the
-            :attr:`~google.cloud.bigquery.table.PartitionRange.interval`
+            :attr:`~arrivy.google.cloud.bigquery.table.PartitionRange.interval`
             property.
         _properties (Optional[dict]):
             Private. Used to construct object from API resource.
@@ -2684,13 +2684,13 @@ class RangePartitioning(object):
         state and might change or have limited support.
 
     Args:
-        range_ (Optional[google.cloud.bigquery.table.PartitionRange]):
+        range_ (Optional[arrivy.google.cloud.bigquery.table.PartitionRange]):
             Sets the
-            :attr:`google.cloud.bigquery.table.RangePartitioning.range_`
+            :attr:`arrivy.google.cloud.bigquery.table.RangePartitioning.range_`
             property.
         field (Optional[str]):
             Sets the
-            :attr:`google.cloud.bigquery.table.RangePartitioning.field`
+            :attr:`arrivy.google.cloud.bigquery.table.RangePartitioning.field`
             property.
         _properties (Optional[dict]):
             Private. Used to construct object from API resource.
@@ -2709,7 +2709,7 @@ class RangePartitioning(object):
     # Trailing underscore to prevent conflict with built-in range() function.
     @property
     def range_(self):
-        """google.cloud.bigquery.table.PartitionRange: Defines the
+        """arrivy.google.cloud.bigquery.table.PartitionRange: Defines the
         ranges for range partitioning.
 
         Raises:
@@ -2774,16 +2774,16 @@ class TimePartitioning(object):
     """Configures time-based partitioning for a table.
 
     Args:
-        type_ (Optional[google.cloud.bigquery.table.TimePartitioningType]):
+        type_ (Optional[arrivy.google.cloud.bigquery.table.TimePartitioningType]):
             Specifies the type of time partitioning to perform. Defaults to
-            :attr:`~google.cloud.bigquery.table.TimePartitioningType.DAY`.
+            :attr:`~arrivy.google.cloud.bigquery.table.TimePartitioningType.DAY`.
 
             Supported values are:
 
-            * :attr:`~google.cloud.bigquery.table.TimePartitioningType.HOUR`
-            * :attr:`~google.cloud.bigquery.table.TimePartitioningType.DAY`
-            * :attr:`~google.cloud.bigquery.table.TimePartitioningType.MONTH`
-            * :attr:`~google.cloud.bigquery.table.TimePartitioningType.YEAR`
+            * :attr:`~arrivy.google.cloud.bigquery.table.TimePartitioningType.HOUR`
+            * :attr:`~arrivy.google.cloud.bigquery.table.TimePartitioningType.DAY`
+            * :attr:`~arrivy.google.cloud.bigquery.table.TimePartitioningType.MONTH`
+            * :attr:`~arrivy.google.cloud.bigquery.table.TimePartitioningType.YEAR`
 
         field (Optional[str]):
             If set, the table is partitioned by this field. If not set, the
@@ -2799,7 +2799,7 @@ class TimePartitioning(object):
             partition.
         require_partition_filter (Optional[bool]):
             DEPRECATED: Use
-            :attr:`~google.cloud.bigquery.table.Table.require_partition_filter`,
+            :attr:`~arrivy.google.cloud.bigquery.table.Table.require_partition_filter`,
             instead.
     """
 
@@ -2820,7 +2820,7 @@ class TimePartitioning(object):
 
     @property
     def type_(self):
-        """google.cloud.bigquery.table.TimePartitioningType: The type of time
+        """arrivy.google.cloud.bigquery.table.TimePartitioningType: The type of time
         partitioning to use.
         """
         return self._properties.get("type")
@@ -2855,7 +2855,7 @@ class TimePartitioning(object):
         """bool: Specifies whether partition filters are required for queries
 
         DEPRECATED: Use
-        :attr:`~google.cloud.bigquery.table.Table.require_partition_filter`,
+        :attr:`~arrivy.google.cloud.bigquery.table.Table.require_partition_filter`,
         instead.
         """
         warnings.warn(
@@ -2904,7 +2904,7 @@ class TimePartitioning(object):
                 what is output by :meth:`to_api_repr`.
 
         Returns:
-            google.cloud.bigquery.table.TimePartitioning:
+            arrivy.google.cloud.bigquery.table.TimePartitioning:
                 The ``TimePartitioning`` object.
         """
         instance = cls()
@@ -2972,7 +2972,7 @@ def _item_to_row(iterator, resource):
         resource (Dict): An item to be converted to a row.
 
     Returns:
-        google.cloud.bigquery.table.Row: The next row in the page.
+        arrivy.google.cloud.bigquery.table.Row: The next row in the page.
     """
     return Row(
         _helpers._row_tuple_from_json(resource, iterator.schema),

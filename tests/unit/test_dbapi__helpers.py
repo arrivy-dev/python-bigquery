@@ -27,9 +27,9 @@ except ImportError:  # pragma: NO COVER
     pyarrow = None
 
 import google.cloud._helpers
-from google.cloud.bigquery import query, table
-from google.cloud.bigquery.dbapi import _helpers
-from google.cloud.bigquery.dbapi import exceptions
+from arrivy.google.cloud.bigquery import query, table
+from arrivy.google.cloud.bigquery.dbapi import _helpers
+from arrivy.google.cloud.bigquery.dbapi import exceptions
 from tests.unit.helpers import _to_pyarrow
 
 
@@ -363,7 +363,7 @@ def test_scalar_to_query_parameter_honors_given_type(alias, type_):
 
 def test_scalar_to_query_parameter_honors_given_type_errors_on_invalid():
     with pytest.raises(
-        google.cloud.bigquery.dbapi.exceptions.ProgrammingError,
+        arrivy.google.cloud.bigquery.dbapi.exceptions.ProgrammingError,
         match="The given parameter type, INT, for foo is not a valid BigQuery scalar type.",
     ):
         _helpers.scalar_to_query_parameter(None, "foo", "INT")
@@ -383,7 +383,7 @@ def test_array_to_query_parameter_honors_given_type(alias, type_):
 
 def test_array_to_query_parameter_honors_given_type_errors_on_invalid():
     with pytest.raises(
-        google.cloud.bigquery.dbapi.exceptions.ProgrammingError,
+        arrivy.google.cloud.bigquery.dbapi.exceptions.ProgrammingError,
         match="The given parameter type, INT, for foo is not a valid BigQuery scalar type.",
     ):
         _helpers.array_to_query_parameter((), "foo", "INT")
@@ -555,7 +555,7 @@ def test_to_query_parameters_list_w_types():
     ],
 )
 def test_complex_query_parameter_type(type_, value, expect):
-    from google.cloud.bigquery.dbapi._helpers import complex_query_parameter
+    from arrivy.google.cloud.bigquery.dbapi._helpers import complex_query_parameter
 
     param = complex_query_parameter("test", value, type_).to_api_repr()
     assert param.pop("name") == "test"
@@ -598,8 +598,8 @@ def _expected_error_match(expect):
     ],
 )
 def test_complex_query_parameter_type_errors(type_, value, expect):
-    from google.cloud.bigquery.dbapi._helpers import complex_query_parameter
-    from google.cloud.bigquery.dbapi import exceptions
+    from arrivy.google.cloud.bigquery.dbapi._helpers import complex_query_parameter
+    from arrivy.google.cloud.bigquery.dbapi import exceptions
 
     with pytest.raises(
         exceptions.ProgrammingError,
@@ -666,14 +666,14 @@ def test_complex_query_parameter_type_errors(type_, value, expect):
     ],
 )
 def test_to_query_parameters_complex_types(parameters, parameter_types, expect):
-    from google.cloud.bigquery.dbapi._helpers import to_query_parameters
+    from arrivy.google.cloud.bigquery.dbapi._helpers import to_query_parameters
 
     result = [p.to_api_repr() for p in to_query_parameters(parameters, parameter_types)]
     assert result == expect
 
 
 def test_to_query_parameters_struct_error():
-    from google.cloud.bigquery.dbapi._helpers import to_query_parameters
+    from arrivy.google.cloud.bigquery.dbapi._helpers import to_query_parameters
 
     with pytest.raises(
         NotImplementedError,

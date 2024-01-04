@@ -20,7 +20,7 @@ from .helpers import _Base
 class TestQueryJobConfig(_Base):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
 
         return QueryJobConfig
 
@@ -45,7 +45,7 @@ class TestQueryJobConfig(_Base):
         self.assertTrue(config.use_legacy_sql)
 
     def test_ctor_w_string_default_dataset(self):
-        from google.cloud.bigquery import dataset
+        from arrivy.google.cloud.bigquery import dataset
 
         default_dataset = "default-proj.default_dset"
         config = self._get_target_class()(default_dataset=default_dataset)
@@ -53,7 +53,7 @@ class TestQueryJobConfig(_Base):
         self.assertEqual(config.default_dataset, expected)
 
     def test_ctor_w_string_destinaton(self):
-        from google.cloud.bigquery import table
+        from arrivy.google.cloud.bigquery import table
 
         destination = "dest-proj.dest_dset.dest_tbl"
         config = self._get_target_class()(destination=destination)
@@ -61,7 +61,7 @@ class TestQueryJobConfig(_Base):
         self.assertEqual(config.destination, expected)
 
     def test_default_dataset_w_string(self):
-        from google.cloud.bigquery import dataset
+        from arrivy.google.cloud.bigquery import dataset
 
         default_dataset = "default-proj.default_dset"
         config = self._make_one()
@@ -70,7 +70,7 @@ class TestQueryJobConfig(_Base):
         self.assertEqual(config.default_dataset, expected)
 
     def test_default_dataset_w_dataset(self):
-        from google.cloud.bigquery import dataset
+        from arrivy.google.cloud.bigquery import dataset
 
         default_dataset = "default-proj.default_dset"
         expected = dataset.DatasetReference.from_string(default_dataset)
@@ -79,7 +79,7 @@ class TestQueryJobConfig(_Base):
         self.assertEqual(config.default_dataset, expected)
 
     def test_destinaton_w_string(self):
-        from google.cloud.bigquery import table
+        from arrivy.google.cloud.bigquery import table
 
         destination = "dest-proj.dest_dset.dest_tbl"
         config = self._make_one()
@@ -103,8 +103,8 @@ class TestQueryJobConfig(_Base):
         object_under_test.range_partitioning.range_.interval == 10
 
     def test_range_partitioning_setter(self):
-        from google.cloud.bigquery.table import PartitionRange
-        from google.cloud.bigquery.table import RangePartitioning
+        from arrivy.google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import RangePartitioning
 
         object_under_test = self._get_target_class()()
         object_under_test.range_partitioning = RangePartitioning(
@@ -126,7 +126,7 @@ class TestQueryJobConfig(_Base):
             object_under_test.range_partitioning = object()
 
     def test_time_partitioning(self):
-        from google.cloud.bigquery import table
+        from arrivy.google.cloud.bigquery import table
 
         time_partitioning = table.TimePartitioning(
             type_=table.TimePartitioningType.DAY, field="name"
@@ -153,7 +153,7 @@ class TestQueryJobConfig(_Base):
         self.assertIsNone(config.clustering_fields)
 
     def test_connection_properties(self):
-        from google.cloud.bigquery.job.query import ConnectionProperty
+        from arrivy.google.cloud.bigquery.job.query import ConnectionProperty
 
         config = self._get_target_class()()
         self.assertEqual(len(config.connection_properties), 0)
@@ -183,7 +183,7 @@ class TestQueryJobConfig(_Base):
         self.assertIsNone(config.destination_encryption_configuration)
 
     def test_from_api_repr_normal(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         resource = {
             "query": {
@@ -213,7 +213,7 @@ class TestQueryJobConfig(_Base):
         )
 
     def test_to_api_repr_normal(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         config = self._make_one()
         config.use_legacy_sql = True
@@ -235,7 +235,7 @@ class TestQueryJobConfig(_Base):
         self.assertEqual(resource["someNewProperty"], "Woohoo, alpha stuff.")
 
     def test_to_api_repr_with_encryption(self):
-        from google.cloud.bigquery.encryption_configuration import (
+        from arrivy.google.cloud.bigquery.encryption_configuration import (
             EncryptionConfiguration,
         )
 
@@ -285,8 +285,8 @@ class TestQueryJobConfig(_Base):
         self.assertIsNone(config.script_options)
 
     def test_to_api_repr_with_script_options(self):
-        from google.cloud.bigquery import KeyResultStatementKind
-        from google.cloud.bigquery import ScriptOptions
+        from arrivy.google.cloud.bigquery import KeyResultStatementKind
+        from arrivy.google.cloud.bigquery import ScriptOptions
 
         config = self._make_one()
         config.script_options = ScriptOptions(
@@ -307,8 +307,8 @@ class TestQueryJobConfig(_Base):
         )
 
     def test_from_api_repr_with_script_options(self):
-        from google.cloud.bigquery import KeyResultStatementKind
-        from google.cloud.bigquery import ScriptOptions
+        from arrivy.google.cloud.bigquery import KeyResultStatementKind
+        from arrivy.google.cloud.bigquery import ScriptOptions
 
         resource = {
             "query": {

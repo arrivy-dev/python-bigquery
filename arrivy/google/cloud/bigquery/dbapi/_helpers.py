@@ -22,8 +22,8 @@ import re
 import typing
 
 from google.cloud import bigquery
-from google.cloud.bigquery import table, query
-from google.cloud.bigquery.dbapi import exceptions
+from arrivy.google.cloud.bigquery import table, query
+from arrivy.google.cloud.bigquery.dbapi import exceptions
 
 
 _NUMERIC_SERVER_MIN = decimal.Decimal("-9.9999999999999999999999999999999999999E+28")
@@ -77,12 +77,12 @@ def scalar_to_query_parameter(value, name=None, query_parameter_type=None):
         query_parameter_type (Optional[str]): Given type for the parameter.
 
     Returns:
-        google.cloud.bigquery.ScalarQueryParameter:
+        arrivy.google.cloud.bigquery.ScalarQueryParameter:
             A query parameter corresponding with the type and value of the plain
             Python object.
 
     Raises:
-        google.cloud.bigquery.dbapi.exceptions.ProgrammingError:
+        arrivy.google.cloud.bigquery.dbapi.exceptions.ProgrammingError:
             if the type cannot be determined.
     """
     return bigquery.ScalarQueryParameter(
@@ -104,7 +104,7 @@ def array_to_query_parameter(value, name=None, query_parameter_type=None):
         Python object.
 
     Raises:
-        google.cloud.bigquery.dbapi.exceptions.ProgrammingError:
+        arrivy.google.cloud.bigquery.dbapi.exceptions.ProgrammingError:
             if the type of array elements cannot be determined.
     """
     if not array_like(value):
@@ -336,7 +336,7 @@ def to_query_parameters_list(parameters, parameter_types):
             Unknown types are provided as None.
 
     Returns:
-        List[google.cloud.bigquery.query._AbstractQueryParameter]:
+        List[arrivy.google.cloud.bigquery.query._AbstractQueryParameter]:
             A list of query parameters.
     """
     return [
@@ -355,7 +355,7 @@ def to_query_parameters_dict(parameters, query_parameter_types):
             parameter.
 
     Returns:
-        List[google.cloud.bigquery.query._AbstractQueryParameter]:
+        List[arrivy.google.cloud.bigquery.query._AbstractQueryParameter]:
             A list of named query parameters.
     """
     return [
@@ -382,7 +382,7 @@ def to_query_parameters(parameters, parameter_types):
             are provided as None.
 
     Returns:
-        List[google.cloud.bigquery.query._AbstractQueryParameter]:
+        List[arrivy.google.cloud.bigquery.query._AbstractQueryParameter]:
             A list of query parameters.
     """
     if parameters is None:
@@ -467,7 +467,7 @@ def to_bq_table_rows(rows_iterable):
             An iterable of row data items to convert to ``Row`` instances.
 
     Returns:
-        Iterable[google.cloud.bigquery.table.Row]
+        Iterable[arrivy.google.cloud.bigquery.table.Row]
     """
 
     def to_table_row(row):

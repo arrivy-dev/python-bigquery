@@ -15,9 +15,9 @@
 import unittest
 
 import mock
-from google.cloud.bigquery.routine.routine import Routine, RoutineReference
+from arrivy.google.cloud.bigquery.routine.routine import Routine, RoutineReference
 import pytest
-from google.cloud.bigquery.dataset import (
+from arrivy.google.cloud.bigquery.dataset import (
     AccessEntry,
     Dataset,
     DatasetReference,
@@ -496,7 +496,7 @@ class TestAccessEntry(unittest.TestCase):
 class TestDatasetReference(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         return DatasetReference
 
@@ -644,7 +644,7 @@ class TestDatasetReference(unittest.TestCase):
 
 
 class TestDataset(unittest.TestCase):
-    from google.cloud.bigquery.dataset import DatasetReference
+    from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
     PROJECT = "project"
     DS_ID = "dataset-id"
@@ -653,7 +653,7 @@ class TestDataset(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.dataset import Dataset
+        from arrivy.google.cloud.bigquery.dataset import Dataset
 
         return Dataset
 
@@ -797,7 +797,7 @@ class TestDataset(unittest.TestCase):
             self._make_one("some_dset")
 
     def test_ctor_explicit(self):
-        from google.cloud.bigquery.dataset import DatasetReference, AccessEntry
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference, AccessEntry
 
         phred = AccessEntry("OWNER", "userByEmail", "phred@example.com")
         bharney = AccessEntry("OWNER", "userByEmail", "bharney@example.com")
@@ -830,7 +830,7 @@ class TestDataset(unittest.TestCase):
             dataset.access_entries = object()
 
     def test_access_entries_setter_invalid_field(self):
-        from google.cloud.bigquery.dataset import AccessEntry
+        from arrivy.google.cloud.bigquery.dataset import AccessEntry
 
         dataset = self._make_one(self.DS_REF)
         phred = AccessEntry("OWNER", "userByEmail", "phred@example.com")
@@ -838,7 +838,7 @@ class TestDataset(unittest.TestCase):
             dataset.access_entries = [phred, object()]
 
     def test_access_entries_setter(self):
-        from google.cloud.bigquery.dataset import AccessEntry
+        from arrivy.google.cloud.bigquery.dataset import AccessEntry
 
         dataset = self._make_one(self.DS_REF)
         phred = AccessEntry("OWNER", "userByEmail", "phred@example.com")
@@ -971,7 +971,7 @@ class TestDataset(unittest.TestCase):
         self.assertEqual(resource, exp_resource)
 
     def test_default_encryption_configuration_setter(self):
-        from google.cloud.bigquery.encryption_configuration import (
+        from arrivy.google.cloud.bigquery.encryption_configuration import (
             EncryptionConfiguration,
         )
 
@@ -1029,7 +1029,7 @@ class TestDataset(unittest.TestCase):
             dataset._build_resource(["bad"])
 
     def test_table(self):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         dataset = self._make_one(self.DS_REF)
         table = dataset.table("table_id")
@@ -1039,7 +1039,7 @@ class TestDataset(unittest.TestCase):
         self.assertEqual(table.project, self.PROJECT)
 
     def test___repr__(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         dataset = self._make_one(DatasetReference("project1", "dataset1"))
         expected = "Dataset(DatasetReference('project1', 'dataset1'))"
@@ -1049,7 +1049,7 @@ class TestDataset(unittest.TestCase):
 class TestDatasetListItem(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.dataset import DatasetListItem
+        from arrivy.google.cloud.bigquery.dataset import DatasetListItem
 
         return DatasetListItem
 
@@ -1111,7 +1111,7 @@ class TestDatasetListItem(unittest.TestCase):
         self.assertEqual(dataset.labels, {"foo": "bar"})
 
     def test_table(self):
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         project = "test-project"
         dataset_id = "test_dataset"

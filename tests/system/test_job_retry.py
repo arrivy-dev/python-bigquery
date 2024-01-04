@@ -17,7 +17,7 @@ import threading
 import time
 
 import google.api_core.exceptions
-import google.cloud.bigquery
+import arrivy.google.cloud.bigquery
 import pytest
 
 
@@ -57,7 +57,7 @@ def test_query_retry_539(bigquery_client, dataset_id, job_retry_on_query):
     @thread
     def create_table():
         time.sleep(1)  # Give the first retry attempt time to fail.
-        with contextlib.closing(google.cloud.bigquery.Client()) as client:
+        with contextlib.closing(arrivy.google.cloud.bigquery.Client()) as client:
             client.query(f"create table {table_name} (id int64)").result()
 
     job_retry = {} if job_retry_on_query else dict(job_retry=retry_notfound)

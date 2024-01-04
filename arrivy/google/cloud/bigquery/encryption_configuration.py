@@ -52,7 +52,7 @@ class EncryptionConfiguration(object):
                 the API.
 
         Returns:
-            google.cloud.bigquery.table.EncryptionConfiguration:
+            arrivy.google.cloud.bigquery.table.EncryptionConfiguration:
                 An encryption configuration parsed from ``resource``.
         """
         config = cls()

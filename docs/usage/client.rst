@@ -8,7 +8,7 @@ attempts to infer a project using the environment (including explicit
 environment variables, GAE, and GCE).
 
 To override the project inferred from the environment, pass an explicit
-``project`` to the :class:`~google.cloud.bigquery.client.Client` constructor,
+``project`` to the :class:`~arrivy.google.cloud.bigquery.client.Client` constructor,
 or to either of the alternative ``classmethod`` factories:
 
 .. code-block:: python

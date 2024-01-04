@@ -16,7 +16,7 @@ import typing
 from typing import Union
 
 if typing.TYPE_CHECKING:
-    from google.cloud.bigquery import LoadJob, CopyJob, ExtractJob, QueryJob
+    from arrivy.google.cloud.bigquery import LoadJob, CopyJob, ExtractJob, QueryJob
 
 
 def create_job() -> "Union[LoadJob, CopyJob, ExtractJob, QueryJob]":
@@ -32,7 +32,7 @@ def create_job() -> "Union[LoadJob, CopyJob, ExtractJob, QueryJob]":
         # The job instance can be a LoadJob, CopyJob, ExtractJob, QueryJob
         # Here, we demonstrate a "query" job.
         # References:
-        #     https://googleapis.dev/python/bigquery/latest/generated/google.cloud.bigquery.client.Client.html#google.cloud.bigquery.client.Client.create_job
+        #     https://googleapis.dev/python/bigquery/latest/generated/arrivy.google.cloud.bigquery.client.Client.html#arrivy.google.cloud.bigquery.client.Client.create_job
         #     https://cloud.google.com/bigquery/docs/reference/rest/v2/Job
         #
         # Example use cases for .create_job() include:

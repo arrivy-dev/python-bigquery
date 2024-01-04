@@ -19,7 +19,7 @@ import unittest
 
 import pytest
 
-import google.cloud.bigquery.table as bq_table
+import arrivy.google.cloud.bigquery.table as bq_table
 
 try:
     import pyarrow
@@ -39,7 +39,7 @@ from tests.unit.helpers import _to_pyarrow
 class TestCursor(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.dbapi import Cursor
+        from arrivy.google.cloud.bigquery.dbapi import Cursor
 
         return Cursor
 
@@ -56,7 +56,7 @@ class TestCursor(unittest.TestCase):
         total_rows=None,
         destination_table="test-project.test_dataset.test_table",
     ):
-        from google.cloud.bigquery import client
+        from arrivy.google.cloud.bigquery import client
 
         if total_rows is None:
             total_rows = 0
@@ -125,7 +125,7 @@ class TestCursor(unittest.TestCase):
         total_bytes_processed=0,
         rows=None,
     ):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         mock_job = mock.create_autospec(job.QueryJob)
         mock_job.error_result = None
@@ -179,7 +179,7 @@ class TestCursor(unittest.TestCase):
         return mock_rows
 
     def _mock_results(self, total_rows=0, schema=None, num_dml_affected_rows=None):
-        from google.cloud.bigquery import query
+        from arrivy.google.cloud.bigquery import query
 
         mock_results = mock.create_autospec(query._QueryResults)
         mock_results.schema = schema
@@ -188,8 +188,8 @@ class TestCursor(unittest.TestCase):
         return mock_results
 
     def test_ctor(self):
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery.dbapi import Cursor
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import Cursor
 
         connection = connect(self._mock_client())
         cursor = self._make_one(connection)
@@ -197,7 +197,7 @@ class TestCursor(unittest.TestCase):
         self.assertIs(cursor.connection, connection)
 
     def test_close(self):
-        from google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import connect
 
         connection = connect(self._mock_client())
         cursor = connection.cursor()
@@ -205,8 +205,8 @@ class TestCursor(unittest.TestCase):
         cursor.close()
 
     def test_raises_error_if_closed(self):
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery.dbapi.exceptions import ProgrammingError
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi.exceptions import ProgrammingError
 
         connection = connect(self._mock_client())
         cursor = connection.cursor()
@@ -231,14 +231,14 @@ class TestCursor(unittest.TestCase):
                 getattr(cursor, method)()
 
     def test_fetchone_wo_execute_raises_error(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client())
         cursor = connection.cursor()
         self.assertRaises(dbapi.Error, cursor.fetchone)
 
     def test_fetchone_w_row(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client(rows=[(1,)]))
         cursor = connection.cursor()
@@ -248,14 +248,14 @@ class TestCursor(unittest.TestCase):
         self.assertIsNone(cursor.fetchone())
 
     def test_fetchmany_wo_execute_raises_error(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client())
         cursor = connection.cursor()
         self.assertRaises(dbapi.Error, cursor.fetchmany)
 
     def test_fetchmany_w_row(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client(rows=[(1,)]))
         cursor = connection.cursor()
@@ -265,7 +265,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(rows[0], (1,))
 
     def test_fetchmany_w_size(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(
             self._mock_client(rows=[(1, 2, 3), (4, 5, 6), (7, 8, 9)])
@@ -283,7 +283,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(third_page, [])
 
     def test_fetchmany_w_arraysize(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(
             self._mock_client(rows=[(1, 2, 3), (4, 5, 6), (7, 8, 9)])
@@ -302,14 +302,14 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(third_page, [])
 
     def test_fetchall_wo_execute_raises_error(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client())
         cursor = connection.cursor()
         self.assertRaises(dbapi.Error, cursor.fetchall)
 
     def test_fetchall_w_row(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client(rows=[(1,)]))
         cursor = connection.cursor()
@@ -325,7 +325,7 @@ class TestCursor(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_fetchall_w_bqstorage_client_fetch_success(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         # use unordered data to also test any non-determenistic key order in dicts
         row_data = [
@@ -384,7 +384,7 @@ class TestCursor(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_fetchall_w_bqstorage_client_fetch_no_rows(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         mock_client = self._mock_client(
             rows=[],
@@ -414,7 +414,7 @@ class TestCursor(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_fetchall_w_bqstorage_client_fetch_error_no_fallback(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         row_data = [bq_table.Row([1.1, 1.2], {"foo": 0, "bar": 1})]
 
@@ -453,7 +453,7 @@ class TestCursor(unittest.TestCase):
     )
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_fetchall_w_bqstorage_client_no_arrow_compression(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         # Use unordered data to also test any non-determenistic key order in dicts.
         row_data = [bq_table.Row([1.2, 1.1], {"bar": 1, "foo": 0})]
@@ -483,7 +483,7 @@ class TestCursor(unittest.TestCase):
         cursor.execute("SELECT foo, bar FROM some_table")
 
         with mock.patch(
-            "google.cloud.bigquery.dbapi.cursor._ARROW_COMPRESSION_SUPPORT", new=False
+            "arrivy.google.cloud.bigquery.dbapi.cursor._ARROW_COMPRESSION_SUPPORT", new=False
         ):
             rows = cursor.fetchall()
 
@@ -506,7 +506,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(sorted_row_data, expected_row_data)
 
     def test_execute_custom_job_id(self):
-        from google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import connect
 
         client = self._mock_client(rows=[], num_dml_affected_rows=0)
         connection = connect(client)
@@ -517,7 +517,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(kwargs["job_id"], "foo")
 
     def test_execute_w_default_config(self):
-        from google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import connect
 
         client = self._mock_client(rows=[], num_dml_affected_rows=0)
         connection = connect(client)
@@ -530,8 +530,8 @@ class TestCursor(unittest.TestCase):
         self.assertIsNone(used_config)
 
     def test_execute_custom_job_config_wo_default_config(self):
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery import job
 
         config = job.QueryJobConfig(use_legacy_sql=True)
         client = self._mock_client(rows=[], num_dml_affected_rows=0)
@@ -544,8 +544,8 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(kwargs["job_config"], config)
 
     def test_execute_custom_job_config_w_default_config(self):
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery import job
 
         client = self._mock_client(rows=[], num_dml_affected_rows=0)
         connection = connect(client)
@@ -563,7 +563,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(used_config._properties, expected_config._properties)
 
     def test_execute_w_dml(self):
-        from google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import connect
 
         connection = connect(self._mock_client(rows=[], num_dml_affected_rows=12))
         cursor = connection.cursor()
@@ -574,8 +574,8 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(rows, [])
 
     def test_execute_w_query(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(
             self._mock_client(
@@ -618,9 +618,9 @@ class TestCursor(unittest.TestCase):
         self.assertIsNone(row)
 
     def test_execute_w_query_dry_run(self):
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(
             self._mock_client(
@@ -649,9 +649,9 @@ class TestCursor(unittest.TestCase):
     def test_execute_raises_if_result_raises(self):
         import google.cloud.exceptions
 
-        from google.cloud.bigquery import client
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery.dbapi import exceptions
+        from arrivy.google.cloud.bigquery import client
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import exceptions
 
         client = mock.create_autospec(client.Client)
         client.query_and_wait.side_effect = google.cloud.exceptions.GoogleCloudError("")
@@ -662,7 +662,7 @@ class TestCursor(unittest.TestCase):
             cursor.execute("SELECT 1")
 
     def test_executemany_w_dml(self):
-        from google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import connect
 
         connection = connect(self._mock_client(rows=[], num_dml_affected_rows=12))
         cursor = connection.cursor()
@@ -674,7 +674,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(cursor.rowcount, 24)  # 24 because 2 * 12 because cumulatve.
 
     def test_executemany_empty(self):
-        from google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import connect
 
         connection = connect(self._mock_client(rows=[], num_dml_affected_rows=12))
         cursor = connection.cursor()
@@ -683,7 +683,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(cursor.rowcount, -1)
 
     def test_is_iterable(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(
             self._mock_client(rows=[("hello", "there", 7), ("good", "bye", -3)])
@@ -706,14 +706,14 @@ class TestCursor(unittest.TestCase):
         )
 
     def test_query_job_wo_execute(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client())
         cursor = connection.cursor()
         self.assertIsNone(cursor.query_job)
 
     def test_query_job_w_execute(self):
-        from google.cloud.bigquery import dbapi, QueryJob
+        from arrivy.google.cloud.bigquery import dbapi, QueryJob
 
         connection = dbapi.connect(self._mock_client())
         cursor = connection.cursor()
@@ -721,7 +721,7 @@ class TestCursor(unittest.TestCase):
         self.assertIsInstance(cursor.query_job, QueryJob)
 
     def test_query_job_w_execute_no_job(self):
-        from google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery import dbapi
 
         connection = dbapi.connect(self._mock_client())
         cursor = connection.cursor()
@@ -733,7 +733,7 @@ class TestCursor(unittest.TestCase):
         self.assertIsNone(cursor.query_job)
 
     def test_query_job_w_executemany(self):
-        from google.cloud.bigquery import dbapi, QueryJob
+        from arrivy.google.cloud.bigquery import dbapi, QueryJob
 
         connection = dbapi.connect(self._mock_client())
         cursor = connection.cursor()
@@ -741,7 +741,7 @@ class TestCursor(unittest.TestCase):
         self.assertIsInstance(cursor.query_job, QueryJob)
 
     def test__format_operation_w_dict(self):
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         parameter_types = {}
         formatted_operation, parameter_types = cursor._format_operation(
@@ -754,8 +754,8 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(parameter_types, {"a `weird` one": "STRING"})
 
     def test__format_operation_w_wrong_dict(self):
-        from google.cloud.bigquery import dbapi
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         self.assertRaises(
             dbapi.ProgrammingError,
@@ -765,7 +765,7 @@ class TestCursor(unittest.TestCase):
         )
 
     def test__format_operation_w_redundant_dict_key(self):
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         formatted_operation, _ = cursor._format_operation(
             "SELECT %(somevalue)s;", {"somevalue": "foo", "value-not-used": "bar"}
@@ -773,7 +773,7 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(formatted_operation, "SELECT @`somevalue`;")
 
     def test__format_operation_w_sequence(self):
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         formatted_operation, _ = cursor._format_operation(
             "SELECT %s, %s;", ("hello", "world")
@@ -781,8 +781,8 @@ class TestCursor(unittest.TestCase):
         self.assertEqual(formatted_operation, "SELECT ?, ?;")
 
     def test__format_operation_w_too_short_sequence(self):
-        from google.cloud.bigquery import dbapi
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         self.assertRaises(
             dbapi.ProgrammingError,
@@ -792,8 +792,8 @@ class TestCursor(unittest.TestCase):
         )
 
     def test__format_operation_w_too_long_sequence(self):
-        from google.cloud.bigquery import dbapi
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         self.assertRaises(
             dbapi.ProgrammingError,
@@ -803,26 +803,26 @@ class TestCursor(unittest.TestCase):
         )
 
     def test__format_operation_w_empty_dict(self):
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         formatted_operation, _ = cursor._format_operation("SELECT '%f'", {})
         self.assertEqual(formatted_operation, "SELECT '%f'")
 
     def test__format_operation_wo_params_single_percent(self):
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         formatted_operation, _ = cursor._format_operation("SELECT '%'", {})
         self.assertEqual(formatted_operation, "SELECT '%'")
 
     def test__format_operation_wo_params_double_percents(self):
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         formatted_operation, _ = cursor._format_operation("SELECT '%%'", {})
         self.assertEqual(formatted_operation, "SELECT '%'")
 
     def test__format_operation_unescaped_percent_w_dict_param(self):
-        from google.cloud.bigquery import dbapi
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         self.assertRaises(
             dbapi.ProgrammingError,
@@ -832,8 +832,8 @@ class TestCursor(unittest.TestCase):
         )
 
     def test__format_operation_unescaped_percent_w_list_param(self):
-        from google.cloud.bigquery import dbapi
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         self.assertRaises(
             dbapi.ProgrammingError,
@@ -843,8 +843,8 @@ class TestCursor(unittest.TestCase):
         )
 
     def test__format_operation_no_placeholders(self):
-        from google.cloud.bigquery import dbapi
-        from google.cloud.bigquery.dbapi import cursor
+        from arrivy.google.cloud.bigquery import dbapi
+        from arrivy.google.cloud.bigquery.dbapi import cursor
 
         self.assertRaises(
             dbapi.ProgrammingError,
@@ -926,7 +926,7 @@ class TestCursor(unittest.TestCase):
     ],
 )
 def test__extract_types(inp, expect):
-    from google.cloud.bigquery.dbapi.cursor import _extract_types as et
+    from arrivy.google.cloud.bigquery.dbapi.cursor import _extract_types as et
 
     assert et(inp) == expect
 
@@ -943,8 +943,8 @@ def test__extract_types(inp, expect):
     ],
 )
 def test__extract_types_fail(match, inp):
-    from google.cloud.bigquery.dbapi.cursor import _extract_types as et
-    from google.cloud.bigquery.dbapi import exceptions
+    from arrivy.google.cloud.bigquery.dbapi.cursor import _extract_types as et
+    from arrivy.google.cloud.bigquery.dbapi import exceptions
 
     with pytest.raises(exceptions.ProgrammingError, match=match):
         et(inp)

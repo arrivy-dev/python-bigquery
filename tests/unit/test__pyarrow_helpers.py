@@ -20,7 +20,7 @@ pyarrow = pytest.importorskip("pyarrow", minversion="3.0.0")
 
 @pytest.fixture
 def module_under_test():
-    from google.cloud.bigquery import _pyarrow_helpers
+    from arrivy.google.cloud.bigquery import _pyarrow_helpers
 
     return _pyarrow_helpers
 

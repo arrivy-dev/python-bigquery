@@ -21,31 +21,31 @@ for Google BigQuery.
    https://www.python.org/dev/peps/pep-0249/
 """
 
-from google.cloud.bigquery.dbapi.connection import connect
-from google.cloud.bigquery.dbapi.connection import Connection
-from google.cloud.bigquery.dbapi.cursor import Cursor
-from google.cloud.bigquery.dbapi.exceptions import Warning
-from google.cloud.bigquery.dbapi.exceptions import Error
-from google.cloud.bigquery.dbapi.exceptions import InterfaceError
-from google.cloud.bigquery.dbapi.exceptions import DatabaseError
-from google.cloud.bigquery.dbapi.exceptions import DataError
-from google.cloud.bigquery.dbapi.exceptions import OperationalError
-from google.cloud.bigquery.dbapi.exceptions import IntegrityError
-from google.cloud.bigquery.dbapi.exceptions import InternalError
-from google.cloud.bigquery.dbapi.exceptions import ProgrammingError
-from google.cloud.bigquery.dbapi.exceptions import NotSupportedError
-from google.cloud.bigquery.dbapi.types import Binary
-from google.cloud.bigquery.dbapi.types import Date
-from google.cloud.bigquery.dbapi.types import DateFromTicks
-from google.cloud.bigquery.dbapi.types import Time
-from google.cloud.bigquery.dbapi.types import TimeFromTicks
-from google.cloud.bigquery.dbapi.types import Timestamp
-from google.cloud.bigquery.dbapi.types import TimestampFromTicks
-from google.cloud.bigquery.dbapi.types import BINARY
-from google.cloud.bigquery.dbapi.types import DATETIME
-from google.cloud.bigquery.dbapi.types import NUMBER
-from google.cloud.bigquery.dbapi.types import ROWID
-from google.cloud.bigquery.dbapi.types import STRING
+from arrivy.google.cloud.bigquery.dbapi.connection import connect
+from arrivy.google.cloud.bigquery.dbapi.connection import Connection
+from arrivy.google.cloud.bigquery.dbapi.cursor import Cursor
+from arrivy.google.cloud.bigquery.dbapi.exceptions import Warning
+from arrivy.google.cloud.bigquery.dbapi.exceptions import Error
+from arrivy.google.cloud.bigquery.dbapi.exceptions import InterfaceError
+from arrivy.google.cloud.bigquery.dbapi.exceptions import DatabaseError
+from arrivy.google.cloud.bigquery.dbapi.exceptions import DataError
+from arrivy.google.cloud.bigquery.dbapi.exceptions import OperationalError
+from arrivy.google.cloud.bigquery.dbapi.exceptions import IntegrityError
+from arrivy.google.cloud.bigquery.dbapi.exceptions import InternalError
+from arrivy.google.cloud.bigquery.dbapi.exceptions import ProgrammingError
+from arrivy.google.cloud.bigquery.dbapi.exceptions import NotSupportedError
+from arrivy.google.cloud.bigquery.dbapi.types import Binary
+from arrivy.google.cloud.bigquery.dbapi.types import Date
+from arrivy.google.cloud.bigquery.dbapi.types import DateFromTicks
+from arrivy.google.cloud.bigquery.dbapi.types import Time
+from arrivy.google.cloud.bigquery.dbapi.types import TimeFromTicks
+from arrivy.google.cloud.bigquery.dbapi.types import Timestamp
+from arrivy.google.cloud.bigquery.dbapi.types import TimestampFromTicks
+from arrivy.google.cloud.bigquery.dbapi.types import BINARY
+from arrivy.google.cloud.bigquery.dbapi.types import DATETIME
+from arrivy.google.cloud.bigquery.dbapi.types import NUMBER
+from arrivy.google.cloud.bigquery.dbapi.types import ROWID
+from arrivy.google.cloud.bigquery.dbapi.types import STRING
 
 
 apilevel = "2.0"

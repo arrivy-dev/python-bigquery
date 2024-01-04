@@ -15,7 +15,7 @@
 from dateutil.relativedelta import relativedelta
 import pytest
 
-from google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery.schema import SchemaField
 
 
 def create_field(mode="NULLABLE", type_="IGNORED"):
@@ -24,7 +24,7 @@ def create_field(mode="NULLABLE", type_="IGNORED"):
 
 @pytest.fixture
 def mut():
-    from google.cloud.bigquery import _helpers
+    from arrivy.google.cloud.bigquery import _helpers
 
     return _helpers
 

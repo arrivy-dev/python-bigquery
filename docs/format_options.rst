@@ -1,6 +1,6 @@
 BigQuery Format Options
 =======================
 
-.. automodule:: google.cloud.bigquery.format_options
+.. automodule:: arrivy.google.cloud.bigquery.format_options
     :members:
     :undoc-members:

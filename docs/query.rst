@@ -1,5 +1,5 @@
 Query Resource Classes
 ======================
 
-.. automodule:: google.cloud.bigquery.query
+.. automodule:: arrivy.google.cloud.bigquery.query
     :members:

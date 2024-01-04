@@ -43,11 +43,11 @@ import pytest
 
 from google import api_core
 
-from google.cloud.bigquery import exceptions
-from google.cloud.bigquery import _pyarrow_helpers
-from google.cloud.bigquery import _versions_helpers
-from google.cloud.bigquery import schema
-from google.cloud.bigquery._pandas_helpers import _BIGNUMERIC_SUPPORT
+from arrivy.google.cloud.bigquery import exceptions
+from arrivy.google.cloud.bigquery import _pyarrow_helpers
+from arrivy.google.cloud.bigquery import _versions_helpers
+from arrivy.google.cloud.bigquery import schema
+from arrivy.google.cloud.bigquery._pandas_helpers import _BIGNUMERIC_SUPPORT
 
 pyarrow = _versions_helpers.PYARROW_VERSIONS.try_import()
 
@@ -75,7 +75,7 @@ skip_if_no_bignumeric = pytest.mark.skipif(
 
 @pytest.fixture
 def module_under_test():
-    from google.cloud.bigquery import _pandas_helpers
+    from arrivy.google.cloud.bigquery import _pandas_helpers
 
     return _pandas_helpers
 
@@ -1696,8 +1696,8 @@ def test__download_table_bqstorage(
     expected_call_count,
     expected_maxsize,
 ):
-    from google.cloud.bigquery import dataset
-    from google.cloud.bigquery import table
+    from arrivy.google.cloud.bigquery import dataset
+    from arrivy.google.cloud.bigquery import table
 
     queue_used = None  # A reference to the queue used by code under test.
 

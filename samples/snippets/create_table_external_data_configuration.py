@@ -36,7 +36,7 @@ def create_table_external_data_configuration(
 
     # TODO(developer): Set the external source format of your table.
     # Note that the set of allowed values for external data sources is
-    # different than the set used for loading data (see :class:`~google.cloud.bigquery.job.SourceFormat`).
+    # different than the set used for loading data (see :class:`~arrivy.google.cloud.bigquery.job.SourceFormat`).
     external_source_format = "AVRO"
 
     # TODO(developer): Set the source_uris to point to your data in Google Cloud

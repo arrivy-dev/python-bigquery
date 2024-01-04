@@ -16,7 +16,7 @@ import copy
 import typing
 from typing import Any, Dict, Iterable, List, Optional
 
-from google.cloud.bigquery.enums import StandardSqlTypeNames
+from arrivy.google.cloud.bigquery.enums import StandardSqlTypeNames
 
 
 class StandardSqlDataType:

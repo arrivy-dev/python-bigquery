@@ -27,12 +27,12 @@ class TestCopyJobConfig(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import CopyJobConfig
+        from arrivy.google.cloud.bigquery.job import CopyJobConfig
 
         return CopyJobConfig
 
     def test_ctor_defaults(self):
-        from google.cloud.bigquery.job import OperationType
+        from arrivy.google.cloud.bigquery.job import OperationType
 
         config = self._make_one()
 
@@ -43,9 +43,9 @@ class TestCopyJobConfig(_Base):
         assert config.operation_type == OperationType.OPERATION_TYPE_UNSPECIFIED
 
     def test_ctor_w_properties(self):
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import OperationType
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import OperationType
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         create_disposition = CreateDisposition.CREATE_NEVER
         write_disposition = WriteDisposition.WRITE_TRUNCATE
@@ -69,7 +69,7 @@ class TestCopyJobConfig(_Base):
         )
 
     def test_to_api_repr_with_encryption(self):
-        from google.cloud.bigquery.encryption_configuration import (
+        from arrivy.google.cloud.bigquery.encryption_configuration import (
             EncryptionConfiguration,
         )
 
@@ -98,7 +98,7 @@ class TestCopyJobConfig(_Base):
         )
 
     def test_operation_type_setting_none(self):
-        from google.cloud.bigquery.job import OperationType
+        from arrivy.google.cloud.bigquery.job import OperationType
 
         config = self._make_one(operation_type=OperationType.SNAPSHOT)
 
@@ -107,7 +107,7 @@ class TestCopyJobConfig(_Base):
         assert config.operation_type == OperationType.OPERATION_TYPE_UNSPECIFIED
 
     def test_operation_type_setting_non_none(self):
-        from google.cloud.bigquery.job import OperationType
+        from arrivy.google.cloud.bigquery.job import OperationType
 
         config = self._make_one(operation_type=None)
         config.operation_type = OperationType.RESTORE
@@ -121,7 +121,7 @@ class TestCopyJob(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import CopyJob
+        from arrivy.google.cloud.bigquery.job import CopyJob
 
         return CopyJob
 
@@ -325,7 +325,7 @@ class TestCopyJob(_Base):
             _ = job.sources
 
     def test_from_api_repr_w_properties(self):
-        from google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
 
         client = _make_client(project=self.PROJECT)
         RESOURCE = self._make_resource()
@@ -350,7 +350,7 @@ class TestCopyJob(_Base):
         destination = self._table_ref(self.DESTINATION_TABLE)
         job = self._make_one(self.JOB_ID, [source], destination, client)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -383,10 +383,10 @@ class TestCopyJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_alternate_client(self):
-        from google.cloud.bigquery.job import CopyJobConfig
+        from arrivy.google.cloud.bigquery.job import CopyJobConfig
 
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
         RESOURCE = self._make_resource(ended=True)
@@ -418,7 +418,7 @@ class TestCopyJob(_Base):
         config.write_disposition = WriteDisposition.WRITE_TRUNCATE
         job = self._make_one(self.JOB_ID, [source], destination, client1, config)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin(client=client2)
 
@@ -445,7 +445,7 @@ class TestCopyJob(_Base):
         destination = self._table_ref(self.DESTINATION_TABLE)
         job = self._make_one(self.JOB_ID, [source], destination, client)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertFalse(job.exists())
 
@@ -465,7 +465,7 @@ class TestCopyJob(_Base):
         destination = self._table_ref(self.DESTINATION_TABLE)
         job = self._make_one(self.JOB_ID, [source], destination, client1)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertTrue(job.exists(client=client2))
 
@@ -485,7 +485,7 @@ class TestCopyJob(_Base):
         destination = self._table_ref(self.DESTINATION_TABLE)
         job = self._make_one(self.JOB_ID, [source], destination, client)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job.reload()
 
@@ -507,7 +507,7 @@ class TestCopyJob(_Base):
         destination = self._table_ref(self.DESTINATION_TABLE)
         job = self._make_one(self.JOB_ID, [source], destination, client1)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job.reload(client=client2)
 

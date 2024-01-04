@@ -14,7 +14,7 @@
 
 import pytest
 
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 from .helpers import make_connection, dataset_polymorphic
 
 
@@ -43,7 +43,7 @@ def test_list_routines_empty_w_timeout(client):
 def test_list_routines_defaults(
     make_dataset, get_reference, client, PROJECT, extra, query
 ):
-    from google.cloud.bigquery.routine import Routine
+    from arrivy.google.cloud.bigquery.routine import Routine
 
     project_id = PROJECT
     dataset_id = "test_routines"

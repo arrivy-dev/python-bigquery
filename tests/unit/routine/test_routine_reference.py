@@ -19,7 +19,7 @@ import pytest
 
 @pytest.fixture
 def target_class():
-    from google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
 
     return RoutineReference
 

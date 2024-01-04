@@ -19,7 +19,7 @@ import pytest
 
 @pytest.fixture
 def target_class():
-    from google.cloud.bigquery import ModelReference
+    from arrivy.google.cloud.bigquery import ModelReference
 
     return ModelReference
 

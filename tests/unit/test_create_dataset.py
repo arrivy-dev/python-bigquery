@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from google.cloud.bigquery.dataset import Dataset, DatasetReference
+from arrivy.google.cloud.bigquery.dataset import Dataset, DatasetReference
 from .helpers import make_connection, dataset_polymorphic, make_client
-import google.cloud.bigquery.dataset
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+import arrivy.google.cloud.bigquery.dataset
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 import mock
 import pytest
 
@@ -50,7 +50,7 @@ def test_create_dataset_minimal(make_dataset, get_reference, client, PROJECT, DS
 
 
 def test_create_dataset_w_attrs(client, PROJECT, DS_ID):
-    from google.cloud.bigquery.dataset import AccessEntry
+    from arrivy.google.cloud.bigquery.dataset import AccessEntry
 
     PATH = "projects/%s/datasets" % PROJECT
     DESCRIPTION = "DESC"
@@ -294,7 +294,7 @@ def test_create_dataset_w_string(PROJECT, DS_ID, LOCATION):
     client = make_client(location=LOCATION)
     conn = client._connection = make_connection(resource)
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         dataset = client.create_dataset(DS_ID)
 
@@ -342,7 +342,7 @@ def test_create_dataset_alreadyexists_w_exists_ok_true(PROJECT, DS_ID, LOCATION)
         google.api_core.exceptions.AlreadyExists("dataset already exists"), resource
     )
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         dataset = client.create_dataset(DS_ID, exists_ok=True)
 

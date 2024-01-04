@@ -14,7 +14,7 @@
 
 from .helpers import make_connection, make_client, dataset_polymorphic
 import google.api_core.exceptions
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 import pytest
 
 

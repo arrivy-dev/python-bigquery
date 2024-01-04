@@ -22,11 +22,11 @@ import typing
 
 import google.cloud._helpers  # type: ignore
 
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery.model import ModelReference
-from google.cloud.bigquery.routine import Routine, RoutineReference
-from google.cloud.bigquery.table import Table, TableReference
-from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery.model import ModelReference
+from arrivy.google.cloud.bigquery.routine import Routine, RoutineReference
+from arrivy.google.cloud.bigquery.table import Table, TableReference
+from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
 
 from typing import Optional, List, Dict, Any, Union
 
@@ -38,7 +38,7 @@ def _get_table_reference(self, table_id: str) -> TableReference:
         table_id (str): The ID of the table.
 
     Returns:
-        google.cloud.bigquery.table.TableReference:
+        arrivy.google.cloud.bigquery.table.TableReference:
             A table reference for a table in this dataset.
     """
     return TableReference(self, table_id)
@@ -51,7 +51,7 @@ def _get_model_reference(self, model_id):
         model_id (str): the ID of the model.
 
     Returns:
-        google.cloud.bigquery.model.ModelReference:
+        arrivy.google.cloud.bigquery.model.ModelReference:
             A ModelReference for a model in this dataset.
     """
     return ModelReference.from_api_repr(
@@ -66,7 +66,7 @@ def _get_routine_reference(self, routine_id):
         routine_id (str): the ID of the routine.
 
     Returns:
-        google.cloud.bigquery.routine.RoutineReference:
+        arrivy.google.cloud.bigquery.routine.RoutineReference:
             A RoutineReference for a routine in this dataset.
     """
     return RoutineReference.from_api_repr(
@@ -130,7 +130,7 @@ class DatasetReference(object):
                 Dataset reference resource representation returned from the API
 
         Returns:
-            google.cloud.bigquery.dataset.DatasetReference:
+            arrivy.google.cloud.bigquery.dataset.DatasetReference:
                 Dataset reference parsed from ``resource``.
         """
         project = resource["projectId"]
@@ -226,7 +226,7 @@ class AccessEntry(object):
     """Represents grant of an access role to an entity.
 
     An entry must have exactly one of the allowed
-    :class:`google.cloud.bigquery.enums.EntityTypes`. If anything but ``view``, ``routine``,
+    :class:`arrivy.google.cloud.bigquery.enums.EntityTypes`. If anything but ``view``, ``routine``,
     or ``dataset`` are set, a ``role`` is also required. ``role`` is omitted for ``view``,
     ``routine``, ``dataset``, because they are always read-only.
 
@@ -240,7 +240,7 @@ class AccessEntry(object):
 
         entity_type:
             Type of entity being granted the role. See
-            :class:`google.cloud.bigquery.enums.EntityTypes` for supported types.
+            :class:`arrivy.google.cloud.bigquery.enums.EntityTypes` for supported types.
 
         entity_id:
             If the ``entity_type`` is not 'view', 'routine', or 'dataset', the
@@ -460,7 +460,7 @@ class AccessEntry(object):
         """A tuple key that uniquely describes this field.
         Used to compute this instance's hashcode and evaluate equality.
         Returns:
-            Tuple: The contents of this :class:`~google.cloud.bigquery.dataset.AccessEntry`.
+            Tuple: The contents of this :class:`~arrivy.google.cloud.bigquery.dataset.AccessEntry`.
         """
         properties = self._properties.copy()
         prop_tup = tuple(sorted(properties.items()))
@@ -487,7 +487,7 @@ class AccessEntry(object):
                 Access entry resource representation returned from the API
 
         Returns:
-            google.cloud.bigquery.dataset.AccessEntry:
+            arrivy.google.cloud.bigquery.dataset.AccessEntry:
                 Access entry parsed from ``resource``.
 
         Raises:
@@ -511,7 +511,7 @@ class Dataset(object):
     https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets#resource-dataset
 
     Args:
-        dataset_ref (Union[google.cloud.bigquery.dataset.DatasetReference, str]):
+        dataset_ref (Union[arrivy.google.cloud.bigquery.dataset.DatasetReference, str]):
             A pointer to a dataset. If ``dataset_ref`` is a string, it must
             include both the project ID and the dataset ID, separated by
             ``.``.
@@ -606,7 +606,7 @@ class Dataset(object):
 
     @property
     def access_entries(self):
-        """List[google.cloud.bigquery.dataset.AccessEntry]: Dataset's access
+        """List[arrivy.google.cloud.bigquery.dataset.AccessEntry]: Dataset's access
         entries.
 
         ``role`` augments the entity type and must be present **unless** the
@@ -616,7 +616,7 @@ class Dataset(object):
             TypeError: If 'value' is not a sequence
             ValueError:
                 If any item in the sequence is not an
-                :class:`~google.cloud.bigquery.dataset.AccessEntry`.
+                :class:`~arrivy.google.cloud.bigquery.dataset.AccessEntry`.
         """
         entries = self._properties.get("access", [])
         return [AccessEntry.from_api_repr(entry) for entry in entries]
@@ -656,7 +656,7 @@ class Dataset(object):
 
     @property
     def reference(self):
-        """google.cloud.bigquery.dataset.DatasetReference: A reference to this
+        """arrivy.google.cloud.bigquery.dataset.DatasetReference: A reference to this
         dataset.
         """
         return DatasetReference(self.project, self.dataset_id)
@@ -785,7 +785,7 @@ class Dataset(object):
 
         This method always returns a dict. To change a dataset's labels,
         modify the dict, then call
-        :meth:`google.cloud.bigquery.client.Client.update_dataset`. To delete
+        :meth:`arrivy.google.cloud.bigquery.client.Client.update_dataset`. To delete
         a label, set its value to :data:`None` before updating.
 
         Raises:
@@ -801,7 +801,7 @@ class Dataset(object):
 
     @property
     def default_encryption_configuration(self):
-        """google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
+        """arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
         encryption configuration for all tables in the dataset.
 
         Custom encryption configuration (e.g., Cloud KMS keys) or :data:`None`
@@ -906,7 +906,7 @@ class Dataset(object):
                 Dataset resource representation returned from the API
 
         Returns:
-            google.cloud.bigquery.dataset.Dataset:
+            arrivy.google.cloud.bigquery.dataset.Dataset:
                 Dataset parsed from ``resource``.
         """
         if (
@@ -950,7 +950,7 @@ class DatasetListItem(object):
 
     For performance reasons, the BigQuery API only includes some of the
     dataset properties when listing datasets. Notably,
-    :attr:`~google.cloud.bigquery.dataset.Dataset.access_entries` is missing.
+    :attr:`~arrivy.google.cloud.bigquery.dataset.Dataset.access_entries` is missing.
 
     For a full list of the properties that the BigQuery API returns, see the
     `REST documentation for datasets.list
@@ -1014,7 +1014,7 @@ class DatasetListItem(object):
 
     @property
     def reference(self):
-        """google.cloud.bigquery.dataset.DatasetReference: A reference to this
+        """arrivy.google.cloud.bigquery.dataset.DatasetReference: A reference to this
         dataset.
         """
         return DatasetReference(self.project, self.dataset_id)

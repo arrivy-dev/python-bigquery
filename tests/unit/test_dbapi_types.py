@@ -18,7 +18,7 @@ import unittest
 import pytest
 
 import google.cloud._helpers
-from google.cloud.bigquery.dbapi import types
+from arrivy.google.cloud.bigquery.dbapi import types
 
 
 class TestTypes(unittest.TestCase):

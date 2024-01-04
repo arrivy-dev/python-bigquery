@@ -1047,7 +1047,7 @@
 
 ### Internal / Testing Changes
 
-- update `google.cloud.bigquery.__version__`
+- update `arrivy.google.cloud.bigquery.__version__`
 
 ## [2.3.0](https://www.github.com/googleapis/python-bigquery/compare/v2.2.0...v2.3.0) (2020-11-04)
 
@@ -2161,7 +2161,7 @@ PyPI: https://pypi.org/project/google-cloud-bigquery/0.27.0/
   column is nullable. (#3620)
 - `job_name` argument added to `Table.upload_from_file` for setting the job
   ID. (#3605)
-- Adding `google.cloud.bigquery.dbapi` package, which implements PEP-249
+- Adding `arrivy.google.cloud.bigquery.dbapi` package, which implements PEP-249
   DB-API specification. (#2921)
 - Adding `Table.view_use_legacy_sql` property. Can be used to create views
   with legacy or standard SQL. (#3514)

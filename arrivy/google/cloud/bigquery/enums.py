@@ -170,13 +170,13 @@ class QueryApiMethod(str, enum.Enum):
       finish.
 
     * The full job resource (including job statistics) may not be available.
-      Call :meth:`~google.cloud.bigquery.job.QueryJob.reload` or
-      :meth:`~google.cloud.bigquery.client.Client.get_job` to get full job
+      Call :meth:`~arrivy.google.cloud.bigquery.job.QueryJob.reload` or
+      :meth:`~arrivy.google.cloud.bigquery.client.Client.get_job` to get full job
       statistics and configuration.
 
-    * :meth:`~google.cloud.bigquery.Client.query` can raise API exceptions if
+    * :meth:`~arrivy.google.cloud.bigquery.Client.query` can raise API exceptions if
       the query fails, whereas the same errors don't appear until calling
-      :meth:`~google.cloud.bigquery.job.QueryJob.result` when the ``INSERT``
+      :meth:`~arrivy.google.cloud.bigquery.job.QueryJob.result` when the ``INSERT``
       API method is used.
     """
 
@@ -198,7 +198,7 @@ class SourceFormat(object):
 
     Note that the set of allowed values for loading data is different
     than the set used for external data sources (see
-    :class:`~google.cloud.bigquery.external_config.ExternalSourceFormat`).
+    :class:`~arrivy.google.cloud.bigquery.external_config.ExternalSourceFormat`).
     """
 
     CSV = "CSV"

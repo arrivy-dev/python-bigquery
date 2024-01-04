@@ -15,7 +15,7 @@
 import mock
 import pytest
 
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 from .helpers import make_connection
 
 
@@ -23,7 +23,7 @@ from .helpers import make_connection
     "extra,query", [({}, {}), (dict(page_size=42), dict(maxResults=42))]
 )
 def test_list_datasets_defaults(client, PROJECT, extra, query):
-    from google.cloud.bigquery.dataset import DatasetListItem
+    from arrivy.google.cloud.bigquery.dataset import DatasetListItem
 
     DATASET_1 = "dataset_one"
     DATASET_2 = "dataset_two"
@@ -50,7 +50,7 @@ def test_list_datasets_defaults(client, PROJECT, extra, query):
 
     iterator = client.list_datasets(**extra)
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         page = next(iterator.pages)
 
@@ -74,7 +74,7 @@ def test_list_datasets_w_project_and_timeout(client, PROJECT):
     conn = client._connection = make_connection({})
 
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         list(client.list_datasets(project="other-project", timeout=7.5))
 
@@ -101,7 +101,7 @@ def test_list_datasets_explicit_response_missing_datasets_key(client, PROJECT):
         include_all=True, filter=FILTER, max_results=3, page_token=TOKEN
     )
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         page = next(iterator.pages)
 

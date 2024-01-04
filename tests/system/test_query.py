@@ -21,11 +21,11 @@ from google.api_core import exceptions
 import pytest
 
 from google.cloud import bigquery
-from google.cloud.bigquery.query import ArrayQueryParameter
-from google.cloud.bigquery.query import ScalarQueryParameter
-from google.cloud.bigquery.query import ScalarQueryParameterType
-from google.cloud.bigquery.query import StructQueryParameter
-from google.cloud.bigquery.query import StructQueryParameterType
+from arrivy.google.cloud.bigquery.query import ArrayQueryParameter
+from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
+from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
+from arrivy.google.cloud.bigquery.query import StructQueryParameter
+from arrivy.google.cloud.bigquery.query import StructQueryParameterType
 
 
 @pytest.fixture(params=["INSERT", "QUERY"])

@@ -21,7 +21,7 @@ import pytest
 import test_utils.prefixer
 
 from google.cloud import bigquery
-from google.cloud.bigquery import enums
+from arrivy.google.cloud.bigquery import enums
 from . import helpers
 
 
@@ -77,10 +77,10 @@ def dataset_id_tokyo(bigquery_client: bigquery.Client, project_id: str):
 
 @pytest.fixture()
 def dataset_client(bigquery_client, dataset_id):
-    import google.cloud.bigquery.job
+    import arrivy.google.cloud.bigquery.job
 
     return bigquery.Client(
-        default_query_job_config=google.cloud.bigquery.job.QueryJobConfig(
+        default_query_job_config=arrivy.google.cloud.bigquery.job.QueryJobConfig(
             default_dataset=f"{bigquery_client.project}.{dataset_id}",
         )
     )

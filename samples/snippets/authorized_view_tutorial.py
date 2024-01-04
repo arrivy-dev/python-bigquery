@@ -31,7 +31,7 @@ def run_authorized_view_tutorial(
     # Create a source dataset
     # [START bigquery_avt_create_source_dataset]
     from google.cloud import bigquery
-    from google.cloud.bigquery.enums import EntityTypes
+    from arrivy.google.cloud.bigquery.enums import EntityTypes
 
     client = bigquery.Client()
     source_dataset_id = "github_source_data"

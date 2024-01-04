@@ -21,10 +21,10 @@ import google.api_core.exceptions
 from google.api_core import retry as retries
 import pytest
 
-from google.cloud.bigquery.client import Client
-from google.cloud.bigquery import _job_helpers
-from google.cloud.bigquery.job import query as job_query
-from google.cloud.bigquery.query import ConnectionProperty, ScalarQueryParameter
+from arrivy.google.cloud.bigquery.client import Client
+from arrivy.google.cloud.bigquery import _job_helpers
+from arrivy.google.cloud.bigquery.job import query as job_query
+from arrivy.google.cloud.bigquery.query import ConnectionProperty, ScalarQueryParameter
 
 
 def make_query_request(additional_properties: Optional[Dict[str, Any]] = None):

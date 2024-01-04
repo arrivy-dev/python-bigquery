@@ -29,8 +29,8 @@ except ImportError:  # pragma: NO COVER
     tqdm = None
 
 if typing.TYPE_CHECKING:  # pragma: NO COVER
-    from google.cloud.bigquery import QueryJob
-    from google.cloud.bigquery.table import RowIterator
+    from arrivy.google.cloud.bigquery import QueryJob
+    from arrivy.google.cloud.bigquery.table import RowIterator
 
 _NO_TQDM_ERROR = (
     "A progress bar was requested, but there was an error loading the tqdm "

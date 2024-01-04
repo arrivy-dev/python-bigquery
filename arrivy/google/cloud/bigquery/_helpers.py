@@ -148,7 +148,7 @@ def _timestamp_query_param_from_json(value, field):
     Args:
         value (str): The timestamp.
 
-        field (google.cloud.bigquery.schema.SchemaField):
+        field (arrivy.google.cloud.bigquery.schema.SchemaField):
             The field corresponding to the value.
 
     Returns:
@@ -185,7 +185,7 @@ def _datetime_from_json(value, field):
 
     Args:
         value (str): The timestamp.
-        field (google.cloud.bigquery.schema.SchemaField):
+        field (arrivy.google.cloud.bigquery.schema.SchemaField):
             The field corresponding to the value.
 
     Returns:
@@ -294,14 +294,14 @@ def _row_tuple_from_json(row, schema):
     Args:
         row (Dict): A JSON response row to be converted.
         schema (Sequence[Union[ \
-                :class:`~google.cloud.bigquery.schema.SchemaField`, \
+                :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
                 Mapping[str, Any] \
         ]]):  Specification of the field types in ``row``.
 
     Returns:
         Tuple: A tuple of data converted to native types.
     """
-    from google.cloud.bigquery.schema import _to_schema_fields
+    from arrivy.google.cloud.bigquery.schema import _to_schema_fields
 
     schema = _to_schema_fields(schema)
 
@@ -317,18 +317,18 @@ def _rows_from_json(values, schema):
     Args:
         values (Sequence[Dict]): The list of responses (JSON rows) to convert.
         schema (Sequence[Union[ \
-                :class:`~google.cloud.bigquery.schema.SchemaField`, \
+                :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
                 Mapping[str, Any] \
         ]]):
             The table's schema. If any item is a mapping, its content must be
             compatible with
-            :meth:`~google.cloud.bigquery.schema.SchemaField.from_api_repr`.
+            :meth:`~arrivy.google.cloud.bigquery.schema.SchemaField.from_api_repr`.
 
     Returns:
-        List[:class:`~google.cloud.bigquery.Row`]
+        List[:class:`~arrivy.google.cloud.bigquery.Row`]
     """
-    from google.cloud.bigquery import Row
-    from google.cloud.bigquery.schema import _to_schema_fields
+    from arrivy.google.cloud.bigquery import Row
+    from arrivy.google.cloud.bigquery.schema import _to_schema_fields
 
     schema = _to_schema_fields(schema)
     field_to_index = _field_to_index_mapping(schema)
@@ -464,7 +464,7 @@ def _scalar_field_to_json(field, row_value):
     """Maps a field and value to a JSON-safe value.
 
     Args:
-        field (google.cloud.bigquery.schema.SchemaField):
+        field (arrivy.google.cloud.bigquery.schema.SchemaField):
             The SchemaField to use for type conversion and field name.
         row_value (Any):
             Value to be converted, based on the field's type.
@@ -482,7 +482,7 @@ def _repeated_field_to_json(field, row_value):
     """Convert a repeated/array field to its JSON representation.
 
     Args:
-        field (google.cloud.bigquery.schema.SchemaField):
+        field (arrivy.google.cloud.bigquery.schema.SchemaField):
             The SchemaField to use for type conversion and field name. The
             field mode must equal ``REPEATED``.
         row_value (Sequence[Any]):
@@ -501,8 +501,8 @@ def _record_field_to_json(fields, row_value):
     """Convert a record/struct field to its JSON representation.
 
     Args:
-        fields (Sequence[google.cloud.bigquery.schema.SchemaField]):
-            The :class:`~google.cloud.bigquery.schema.SchemaField`s of the
+        fields (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]):
+            The :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`s of the
             record's subfields to use for type conversion and field names.
         row_value (Union[Tuple[Any], Mapping[str, Any]):
             A tuple or dictionary to convert to JSON-serializable values.
@@ -560,7 +560,7 @@ def _single_field_to_json(field, row_value):
     https://github.com/googleapis/python-bigquery/issues/6
 
     Args:
-        field (google.cloud.bigquery.schema.SchemaField):
+        field (arrivy.google.cloud.bigquery.schema.SchemaField):
             The SchemaField to use for type conversion and field name.
 
         row_value (Any):
@@ -583,7 +583,7 @@ def _field_to_json(field, row_value):
     """Convert a field into JSON-serializable values.
 
     Args:
-        field (google.cloud.bigquery.schema.SchemaField):
+        field (arrivy.google.cloud.bigquery.schema.SchemaField):
             The SchemaField to use for type conversion and field name.
 
         row_value (Union[Sequence[List], Any]):

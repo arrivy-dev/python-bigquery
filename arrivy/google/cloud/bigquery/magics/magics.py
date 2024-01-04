@@ -39,7 +39,7 @@
         Do not use cached query results.
     * ``--project <project>`` (Optional[line argument]):
         Project to use for running the query. Defaults to the context
-        :attr:`~google.cloud.bigquery.magics.Context.project`.
+        :attr:`~arrivy.google.cloud.bigquery.magics.Context.project`.
     * ``--use_bqstorage_api`` (Optional[line argument]):
         [Deprecated] Not used anymore, as BigQuery Storage API is used by default.
     * ``--use_rest_api`` (Optional[line argument]):
@@ -77,7 +77,7 @@
 
     .. note::
         All queries run using this magic will run using the context
-        :attr:`~google.cloud.bigquery.magics.Context.credentials`.
+        :attr:`~arrivy.google.cloud.bigquery.magics.Context.credentials`.
 """
 
 from __future__ import print_function
@@ -103,11 +103,11 @@ from google.api_core import client_options
 from google.api_core.exceptions import NotFound
 import google.auth  # type: ignore
 from google.cloud import bigquery
-import google.cloud.bigquery.dataset
-from google.cloud.bigquery import _versions_helpers
-from google.cloud.bigquery import exceptions
-from google.cloud.bigquery.dbapi import _helpers
-from google.cloud.bigquery.magics import line_arg_parser as lap
+import arrivy.google.cloud.bigquery.dataset
+from arrivy.google.cloud.bigquery import _versions_helpers
+from arrivy.google.cloud.bigquery import exceptions
+from arrivy.google.cloud.bigquery.dbapi import _helpers
+from arrivy.google.cloud.bigquery.magics import line_arg_parser as lap
 
 
 IPYTHON_USER_AGENT = "ipython-{}".format(IPython.__version__)
@@ -117,7 +117,7 @@ class Context(object):
     """Storage for objects to be used throughout an IPython notebook session.
 
     A Context object is initialized when the ``magics`` module is imported,
-    and can be found at ``google.cloud.bigquery.magics.context``.
+    and can be found at ``arrivy.google.cloud.bigquery.magics.context``.
     """
 
     def __init__(self):
@@ -145,7 +145,7 @@ class Context(object):
         Example:
             Manually setting the context credentials:
 
-            >>> from google.cloud.bigquery import magics
+            >>> from arrivy.google.cloud.bigquery import magics
             >>> from google.oauth2 import service_account
             >>> credentials = (service_account
             ...     .Credentials.from_service_account_file(
@@ -178,7 +178,7 @@ class Context(object):
         Example:
             Manually setting the context project:
 
-            >>> from google.cloud.bigquery import magics
+            >>> from arrivy.google.cloud.bigquery import magics
             >>> magics.context.project = 'my-project'
         """
         if self._project is None:
@@ -202,7 +202,7 @@ class Context(object):
         Example:
             Manually setting the endpoint:
 
-            >>> from google.cloud.bigquery import magics
+            >>> from arrivy.google.cloud.bigquery import magics
             >>> client_options = {}
             >>> client_options['api_endpoint'] = "https://some.special.url"
             >>> magics.context.bigquery_client_options = client_options
@@ -226,7 +226,7 @@ class Context(object):
         Example:
             Manually setting the endpoint:
 
-            >>> from google.cloud.bigquery import magics
+            >>> from arrivy.google.cloud.bigquery import magics
             >>> client_options = {}
             >>> client_options['api_endpoint'] = "https://some.special.url"
             >>> magics.context.bqstorage_client_options = client_options
@@ -239,10 +239,10 @@ class Context(object):
 
     @property
     def default_query_job_config(self):
-        """google.cloud.bigquery.job.QueryJobConfig: Default job
+        """arrivy.google.cloud.bigquery.job.QueryJobConfig: Default job
         configuration for queries.
 
-        The context's :class:`~google.cloud.bigquery.job.QueryJobConfig` is
+        The context's :class:`~arrivy.google.cloud.bigquery.job.QueryJobConfig` is
         used for queries. Some properties can be overridden with arguments to
         the magics.
 
@@ -250,7 +250,7 @@ class Context(object):
             Manually setting the default value for ``maximum_bytes_billed``
             to 100 MB:
 
-            >>> from google.cloud.bigquery import magics
+            >>> from arrivy.google.cloud.bigquery import magics
             >>> magics.context.default_query_job_config.maximum_bytes_billed = 100000000
         """
         return self._default_query_job_config
@@ -270,7 +270,7 @@ class Context(object):
         Example:
             Manually setting the progress_bar_type:
 
-            >>> from google.cloud.bigquery import magics
+            >>> from arrivy.google.cloud.bigquery import magics
             >>> magics.context.progress_bar_type = "tqdm_notebook"
         """
         return self._progress_bar_type
@@ -312,16 +312,16 @@ def _run_query(client, query, job_config=None):
     """Runs a query while printing status updates
 
     Args:
-        client (google.cloud.bigquery.client.Client):
+        client (arrivy.google.cloud.bigquery.client.Client):
             Client to bundle configuration needed for API requests.
         query (str):
             SQL query to be executed. Defaults to the standard SQL dialect.
             Use the ``job_config`` parameter to change dialects.
-        job_config (Optional[google.cloud.bigquery.job.QueryJobConfig]):
+        job_config (Optional[arrivy.google.cloud.bigquery.job.QueryJobConfig]):
             Extra configuration options for the job.
 
     Returns:
-        google.cloud.bigquery.job.QueryJob: the query job created
+        arrivy.google.cloud.bigquery.job.QueryJob: the query job created
 
     Example:
         >>> client = bigquery.Client()
@@ -357,7 +357,7 @@ def _create_dataset_if_necessary(client, dataset_id):
     """Create a dataset in the current project if it doesn't exist.
 
     Args:
-        client (google.cloud.bigquery.client.Client):
+        client (arrivy.google.cloud.bigquery.client.Client):
             Client to bundle configuration needed for API requests.
         dataset_id (str):
             Dataset id.
@@ -749,7 +749,7 @@ def _make_bqstorage_client(client, use_bqstorage_api, client_options):
     """Creates a BigQuery Storage client.
 
     Args:
-        client (:class:`~google.cloud.bigquery.client.Client`): BigQuery client.
+        client (:class:`~arrivy.google.cloud.bigquery.client.Client`): BigQuery client.
         use_bqstorage_api (bool): whether BigQuery Storage API is used or not.
         client_options (:class:`google.api_core.client_options.ClientOptions`):
             Custom options used with a new BigQuery Storage client instance
@@ -802,7 +802,7 @@ def _close_transports(client, bqstorage_client):
     sockets.
 
     Args:
-        client (:class:`~google.cloud.bigquery.client.Client`):
+        client (:class:`~arrivy.google.cloud.bigquery.client.Client`):
         bqstorage_client
             (Optional[:class:`~google.cloud.bigquery_storage.BigQueryReadClient`]):
             A client for the BigQuery Storage API.

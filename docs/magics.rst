@@ -6,7 +6,7 @@ in a Jupyter notebook cell.
 
 .. code::
 
-    %load_ext google.cloud.bigquery
+    %load_ext arrivy.google.cloud.bigquery
 
 This makes the ``%%bigquery`` magic available.
 
@@ -30,5 +30,5 @@ Running a parameterized query:
 API Reference
 -------------
 
-.. automodule:: google.cloud.bigquery.magics.magics
+.. automodule:: arrivy.google.cloud.bigquery.magics.magics
     :members:

@@ -20,7 +20,7 @@ import pyarrow
 import pytest
 
 from google.cloud import bigquery
-from google.cloud.bigquery import enums
+from arrivy.google.cloud.bigquery import enums
 
 
 @pytest.mark.parametrize(

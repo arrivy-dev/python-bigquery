@@ -17,7 +17,7 @@ import pathlib
 from typing import Dict, Optional
 
 from google.cloud import bigquery
-from google.cloud.bigquery import enums
+from arrivy.google.cloud.bigquery import enums
 
 
 def load_from_newline_delimited_json(

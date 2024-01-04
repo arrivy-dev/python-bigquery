@@ -20,10 +20,10 @@ import datetime
 import decimal
 from typing import Any, Optional, Dict, Union
 
-from google.cloud.bigquery.table import _parse_schema_resource
-from google.cloud.bigquery._helpers import _rows_from_json
-from google.cloud.bigquery._helpers import _QUERY_PARAMS_FROM_JSON
-from google.cloud.bigquery._helpers import _SCALAR_VALUE_TO_JSON_PARAM
+from arrivy.google.cloud.bigquery.table import _parse_schema_resource
+from arrivy.google.cloud.bigquery._helpers import _rows_from_json
+from arrivy.google.cloud.bigquery._helpers import _QUERY_PARAMS_FROM_JSON
+from arrivy.google.cloud.bigquery._helpers import _SCALAR_VALUE_TO_JSON_PARAM
 
 
 _SCALAR_VALUE_TYPE = Optional[
@@ -68,7 +68,7 @@ class ConnectionProperty:
 
     @classmethod
     def from_api_repr(cls, resource) -> "ConnectionProperty":
-        """Construct :class:`~google.cloud.bigquery.query.ConnectionProperty`
+        """Construct :class:`~arrivy.google.cloud.bigquery.query.ConnectionProperty`
         from JSON resource.
 
         Args:
@@ -129,7 +129,7 @@ class _AbstractQueryParameterType:
             resource (Dict): JSON mapping of parameter
 
         Returns:
-            google.cloud.bigquery.query.QueryParameterType: Instance
+            arrivy.google.cloud.bigquery.query.QueryParameterType: Instance
         """
         raise NotImplementedError
 
@@ -170,7 +170,7 @@ class ScalarQueryParameterType(_AbstractQueryParameterType):
             resource (Dict): JSON mapping of parameter
 
         Returns:
-            google.cloud.bigquery.query.ScalarQueryParameterType: Instance
+            arrivy.google.cloud.bigquery.query.ScalarQueryParameterType: Instance
         """
         type_ = resource["type"]
         return cls(type_)
@@ -195,7 +195,7 @@ class ScalarQueryParameterType(_AbstractQueryParameterType):
                 name is cleared.
 
         Returns:
-            google.cloud.bigquery.query.ScalarQueryParameterType:
+            arrivy.google.cloud.bigquery.query.ScalarQueryParameterType:
                A new instance with updated name.
         """
         return type(self)(self._type, name=new_name, description=self.description)
@@ -237,7 +237,7 @@ class ArrayQueryParameterType(_AbstractQueryParameterType):
             resource (Dict): JSON mapping of parameter
 
         Returns:
-            google.cloud.bigquery.query.ArrayQueryParameterType: Instance
+            arrivy.google.cloud.bigquery.query.ArrayQueryParameterType: Instance
         """
         array_item_type = resource["arrayType"]["type"]
 
@@ -309,7 +309,7 @@ class StructQueryParameterType(_AbstractQueryParameterType):
             resource (Dict): JSON mapping of parameter
 
         Returns:
-            google.cloud.bigquery.query.StructQueryParameterType: Instance
+            arrivy.google.cloud.bigquery.query.StructQueryParameterType: Instance
         """
         fields = []
 
@@ -396,8 +396,8 @@ class ScalarQueryParameter(_AbstractQueryParameter):
 
         type_:
             Name of parameter type. See
-            :class:`google.cloud.bigquery.enums.SqlTypeNames` and
-            :class:`google.cloud.bigquery.query.SqlParameterScalarTypes` for
+            :class:`arrivy.google.cloud.bigquery.enums.SqlTypeNames` and
+            :class:`arrivy.google.cloud.bigquery.query.SqlParameterScalarTypes` for
             supported types.
 
         value:
@@ -433,7 +433,7 @@ class ScalarQueryParameter(_AbstractQueryParameter):
                 The scalar parameter value.
 
         Returns:
-            google.cloud.bigquery.query.ScalarQueryParameter: Instance without name
+            arrivy.google.cloud.bigquery.query.ScalarQueryParameter: Instance without name
         """
         return cls(None, type_, value)
 
@@ -445,7 +445,7 @@ class ScalarQueryParameter(_AbstractQueryParameter):
             resource (Dict): JSON mapping of parameter
 
         Returns:
-            google.cloud.bigquery.query.ScalarQueryParameter: Instance
+            arrivy.google.cloud.bigquery.query.ScalarQueryParameter: Instance
         """
         name = resource.get("name")
         type_ = resource["parameterType"]["type"]
@@ -484,7 +484,7 @@ class ScalarQueryParameter(_AbstractQueryParameter):
         Used to compute this instance's hashcode and evaluate equality.
 
         Returns:
-            Tuple: The contents of this :class:`~google.cloud.bigquery.query.ScalarQueryParameter`.
+            Tuple: The contents of this :class:`~arrivy.google.cloud.bigquery.query.ScalarQueryParameter`.
         """
         return (self.name, self.type_.upper(), self.value)
 
@@ -547,7 +547,7 @@ class ArrayQueryParameter(_AbstractQueryParameter):
             values (List[appropriate type]): The parameter array values.
 
         Returns:
-            google.cloud.bigquery.query.ArrayQueryParameter: Instance without name
+            arrivy.google.cloud.bigquery.query.ArrayQueryParameter: Instance without name
         """
         return cls(None, array_type, values)
 
@@ -588,7 +588,7 @@ class ArrayQueryParameter(_AbstractQueryParameter):
             resource (Dict): JSON mapping of parameter
 
         Returns:
-            google.cloud.bigquery.query.ArrayQueryParameter: Instance
+            arrivy.google.cloud.bigquery.query.ArrayQueryParameter: Instance
         """
         array_type = resource["parameterType"]["arrayType"]["type"]
         if array_type == "STRUCT":
@@ -644,7 +644,7 @@ class ArrayQueryParameter(_AbstractQueryParameter):
         Used to compute this instance's hashcode and evaluate equality.
 
         Returns:
-            Tuple: The contents of this :class:`~google.cloud.bigquery.query.ArrayQueryParameter`.
+            Tuple: The contents of this :class:`~arrivy.google.cloud.bigquery.query.ArrayQueryParameter`.
         """
         if isinstance(self.array_type, str):
             item_type = self.array_type
@@ -676,9 +676,9 @@ class StructQueryParameter(_AbstractQueryParameter):
             parameter can only be addressed via position (``?``).
 
         sub_params (Union[Tuple[
-            google.cloud.bigquery.query.ScalarQueryParameter,
-            google.cloud.bigquery.query.ArrayQueryParameter,
-            google.cloud.bigquery.query.StructQueryParameter
+            arrivy.google.cloud.bigquery.query.ScalarQueryParameter,
+            arrivy.google.cloud.bigquery.query.ArrayQueryParameter,
+            arrivy.google.cloud.bigquery.query.StructQueryParameter
         ]]): The sub-parameters for the struct
     """
 
@@ -706,13 +706,13 @@ class StructQueryParameter(_AbstractQueryParameter):
 
         Args:
             sub_params (Union[Tuple[
-                google.cloud.bigquery.query.ScalarQueryParameter,
-                google.cloud.bigquery.query.ArrayQueryParameter,
-                google.cloud.bigquery.query.StructQueryParameter
+                arrivy.google.cloud.bigquery.query.ScalarQueryParameter,
+                arrivy.google.cloud.bigquery.query.ArrayQueryParameter,
+                arrivy.google.cloud.bigquery.query.StructQueryParameter
             ]]): The sub-parameters for the struct
 
         Returns:
-            google.cloud.bigquery.query.StructQueryParameter: Instance without name
+            arrivy.google.cloud.bigquery.query.StructQueryParameter: Instance without name
         """
         return cls(None, *sub_params)
 
@@ -724,7 +724,7 @@ class StructQueryParameter(_AbstractQueryParameter):
             resource (Dict): JSON mapping of parameter
 
         Returns:
-            google.cloud.bigquery.query.StructQueryParameter: Instance
+            arrivy.google.cloud.bigquery.query.StructQueryParameter: Instance
         """
         name = resource.get("name")
         instance = cls(name)
@@ -795,7 +795,7 @@ class StructQueryParameter(_AbstractQueryParameter):
         Used to compute this instance's hashcode and evaluate equality.
 
         Returns:
-            Tuple: The contents of this :class:`~google.cloud.bigquery.ArrayQueryParameter`.
+            Tuple: The contents of this :class:`~arrivy.google.cloud.bigquery.ArrayQueryParameter`.
         """
         return (self.name, self.struct_types, self.struct_values)
 
@@ -993,7 +993,7 @@ class _QueryResults(object):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query#body.QueryResponse.FIELDS.rows
 
         Returns:
-            Optional[List[google.cloud.bigquery.table.Row]]:
+            Optional[List[arrivy.google.cloud.bigquery.table.Row]]:
                 Rows containing the results of the query.
         """
         return _rows_from_json(self._properties.get("rows", ()), self.schema)

@@ -20,14 +20,14 @@ import pytest
 
 
 import google.cloud._helpers
-import google.cloud.bigquery.model
+import arrivy.google.cloud.bigquery.model
 
 KMS_KEY_NAME = "projects/1/locations/us/keyRings/1/cryptoKeys/1"
 
 
 @pytest.fixture
 def target_class():
-    from google.cloud.bigquery import Model
+    from arrivy.google.cloud.bigquery import Model
 
     return Model
 
@@ -38,7 +38,7 @@ def object_under_test(target_class):
 
 
 def test_ctor(target_class):
-    from google.cloud.bigquery import ModelReference
+    from arrivy.google.cloud.bigquery import ModelReference
 
     ref = ModelReference.from_string("my-proj.my_dset.my_model")
     got = target_class(ref)
@@ -46,7 +46,7 @@ def test_ctor(target_class):
 
 
 def test_ctor_string(target_class):
-    from google.cloud.bigquery import ModelReference
+    from arrivy.google.cloud.bigquery import ModelReference
 
     model_id = "my-proj.my_dset.my_model"
     ref = ModelReference.from_string(model_id)
@@ -55,7 +55,7 @@ def test_ctor_string(target_class):
 
 
 def test_from_api_repr(target_class):
-    from google.cloud.bigquery import ModelReference
+    from arrivy.google.cloud.bigquery import ModelReference
 
     creation_time = datetime.datetime(
         2010, 5, 19, 16, 0, 0, tzinfo=google.cloud._helpers.UTC
@@ -142,7 +142,7 @@ def test_from_api_repr(target_class):
 
 
 def test_from_api_repr_w_minimal_resource(target_class):
-    from google.cloud.bigquery import ModelReference
+    from arrivy.google.cloud.bigquery import ModelReference
 
     resource = {
         "modelReference": {
@@ -170,7 +170,7 @@ def test_from_api_repr_w_minimal_resource(target_class):
 
 
 def test_from_api_repr_w_unknown_fields(target_class):
-    from google.cloud.bigquery import ModelReference
+    from arrivy.google.cloud.bigquery import ModelReference
 
     resource = {
         "modelReference": {
@@ -186,7 +186,7 @@ def test_from_api_repr_w_unknown_fields(target_class):
 
 
 def test_from_api_repr_w_unknown_type(target_class):
-    from google.cloud.bigquery import ModelReference
+    from arrivy.google.cloud.bigquery import ModelReference
 
     resource = {
         "modelReference": {
@@ -277,7 +277,7 @@ def test_build_resource(object_under_test, resource, filter_fields, expected):
 
 
 def test_feature_columns(object_under_test):
-    from google.cloud.bigquery import standard_sql
+    from arrivy.google.cloud.bigquery import standard_sql
 
     object_under_test._properties["featureColumns"] = [
         {"name": "col_1", "type": {"typeKind": "STRING"}},
@@ -314,38 +314,38 @@ def test_from_api_repr_w_transform_columns(target_class):
     got = target_class.from_api_repr(resource)
     assert len(got.transform_columns) == 1
     transform_column = got.transform_columns[0]
-    assert isinstance(transform_column, google.cloud.bigquery.model.TransformColumn)
+    assert isinstance(transform_column, arrivy.google.cloud.bigquery.model.TransformColumn)
     assert transform_column.name == "transform_name"
 
 
 def test_transform_column_name():
-    transform_columns = google.cloud.bigquery.model.TransformColumn(
+    transform_columns = arrivy.google.cloud.bigquery.model.TransformColumn(
         {"name": "is_female"}
     )
     assert transform_columns.name == "is_female"
 
 
 def test_transform_column_transform_sql():
-    transform_columns = google.cloud.bigquery.model.TransformColumn(
+    transform_columns = arrivy.google.cloud.bigquery.model.TransformColumn(
         {"transformSql": "is_female"}
     )
     assert transform_columns.transform_sql == "is_female"
 
 
 def test_transform_column_type():
-    transform_columns = google.cloud.bigquery.model.TransformColumn(
+    transform_columns = arrivy.google.cloud.bigquery.model.TransformColumn(
         {"type": {"typeKind": "BOOL"}}
     )
     assert transform_columns.type_.type_kind == "BOOL"
 
 
 def test_transform_column_type_none():
-    transform_columns = google.cloud.bigquery.model.TransformColumn({})
+    transform_columns = arrivy.google.cloud.bigquery.model.TransformColumn({})
     assert transform_columns.type_ is None
 
 
 def test_transform_column_from_api_repr_with_unknown_properties():
-    transform_column = google.cloud.bigquery.model.TransformColumn.from_api_repr(
+    transform_column = arrivy.google.cloud.bigquery.model.TransformColumn.from_api_repr(
         {
             "name": "is_female",
             "type": {"typeKind": "BOOL"},
@@ -362,7 +362,7 @@ def test_transform_column_from_api_repr_with_unknown_properties():
 
 
 def test_label_columns(object_under_test):
-    from google.cloud.bigquery import standard_sql
+    from arrivy.google.cloud.bigquery import standard_sql
 
     object_under_test._properties["labelColumns"] = [
         {"name": "col_1", "type": {"typeKind": "STRING"}},
@@ -428,7 +428,7 @@ def test_replace_labels(object_under_test):
 
 
 def test_set_encryption_configuration(object_under_test):
-    from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+    from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
 
     assert not object_under_test.encryption_configuration
     object_under_test.encryption_configuration = EncryptionConfiguration(

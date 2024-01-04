@@ -24,9 +24,9 @@ import warnings
 from typing import Any, Union
 
 
-from google.cloud.bigquery import _pyarrow_helpers
-from google.cloud.bigquery import _versions_helpers
-from google.cloud.bigquery import schema
+from arrivy.google.cloud.bigquery import _pyarrow_helpers
+from arrivy.google.cloud.bigquery import _versions_helpers
+from arrivy.google.cloud.bigquery import schema
 
 try:
     import pandas  # type: ignore
@@ -395,14 +395,14 @@ def dataframe_to_bq_schema(dataframe, bq_schema):
         dataframe (pandas.DataFrame):
             DataFrame for which the client determines the BigQuery schema.
         bq_schema (Sequence[Union[ \
-            :class:`~google.cloud.bigquery.schema.SchemaField`, \
+            :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
             Mapping[str, Any] \
         ]]):
             A BigQuery schema. Use this argument to override the autodetected
             type for some or all of the DataFrame columns.
 
     Returns:
-        Optional[Sequence[google.cloud.bigquery.schema.SchemaField]]:
+        Optional[Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]]:
             The automatically determined schema. Returns None if the type of
             any column cannot be determined.
     """
@@ -477,11 +477,11 @@ def augment_schema(dataframe, current_bq_schema):
     Args:
         dataframe (pandas.DataFrame):
             DataFrame for which some of the field types are still unknown.
-        current_bq_schema (Sequence[google.cloud.bigquery.schema.SchemaField]):
+        current_bq_schema (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]):
             A BigQuery schema for ``dataframe``. The types of some or all of
             the fields may be ``None``.
     Returns:
-        Optional[Sequence[google.cloud.bigquery.schema.SchemaField]]
+        Optional[Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]]
     """
     # pytype: disable=attribute-error
     augmented_schema = []
@@ -550,7 +550,7 @@ def dataframe_to_arrow(dataframe, bq_schema):
         dataframe (pandas.DataFrame):
             DataFrame to convert to Arrow table.
         bq_schema (Sequence[Union[ \
-            :class:`~google.cloud.bigquery.schema.SchemaField`, \
+            :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
             Mapping[str, Any] \
         ]]):
             Desired BigQuery schema. The number of columns must match the
@@ -618,7 +618,7 @@ def dataframe_to_parquet(
         dataframe (pandas.DataFrame):
             DataFrame to convert to Parquet file.
         bq_schema (Sequence[Union[ \
-            :class:`~google.cloud.bigquery.schema.SchemaField`, \
+            :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
             Mapping[str, Any] \
         ]]):
             Desired BigQuery schema. Number of columns must match number of
@@ -680,7 +680,7 @@ def download_arrow_row_iterator(pages, bq_schema):
         pages (Iterator[:class:`google.api_core.page_iterator.Page`]):
             An iterator over the result pages.
         bq_schema (Sequence[Union[ \
-            :class:`~google.cloud.bigquery.schema.SchemaField`, \
+            :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
             Mapping[str, Any] \
         ]]):
             A decription of the fields in result pages.
@@ -718,7 +718,7 @@ def download_dataframe_row_iterator(pages, bq_schema, dtypes):
         pages (Iterator[:class:`google.api_core.page_iterator.Page`]):
             An iterator over the result pages.
         bq_schema (Sequence[Union[ \
-            :class:`~google.cloud.bigquery.schema.SchemaField`, \
+            :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
             Mapping[str, Any] \
         ]]):
             A decription of the fields in result pages.

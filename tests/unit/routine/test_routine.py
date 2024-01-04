@@ -23,7 +23,7 @@ from google.cloud import bigquery
 
 @pytest.fixture
 def target_class():
-    from google.cloud.bigquery.routine import Routine
+    from arrivy.google.cloud.bigquery.routine import Routine
 
     return Routine
 
@@ -34,7 +34,7 @@ def object_under_test(target_class):
 
 
 def test_ctor(target_class):
-    from google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
 
     ref = RoutineReference.from_string("my-proj.my_dset.my_routine")
     actual_routine = target_class(ref)
@@ -45,7 +45,7 @@ def test_ctor(target_class):
 
 
 def test_ctor_w_string(target_class):
-    from google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
 
     routine_id = "my-proj.my_dset.my_routine"
     ref = RoutineReference.from_string(routine_id)
@@ -54,8 +54,8 @@ def test_ctor_w_string(target_class):
 
 
 def test_ctor_w_properties(target_class):
-    from google.cloud.bigquery.routine import RoutineArgument
-    from google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineArgument
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
 
     routine_id = "my-proj.my_dset.my_routine"
     arguments = [
@@ -111,7 +111,7 @@ def test_ctor_w_properties(target_class):
 def test_ctor_invalid_remote_function_options(target_class):
     with pytest.raises(
         ValueError,
-        match=".*must be google.cloud.bigquery.routine.RemoteFunctionOptions.*",
+        match=".*must be arrivy.google.cloud.bigquery.routine.RemoteFunctionOptions.*",
     ):
         target_class(
             "my-proj.my_dset.my_routine",
@@ -120,8 +120,8 @@ def test_ctor_invalid_remote_function_options(target_class):
 
 
 def test_from_api_repr(target_class):
-    from google.cloud.bigquery.routine import RoutineArgument
-    from google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineArgument
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
 
     creation_time = datetime.datetime(
         2010, 5, 19, 16, 0, 0, tzinfo=google.cloud._helpers.UTC
@@ -197,9 +197,9 @@ def test_from_api_repr(target_class):
 
 
 def test_from_api_repr_tvf_function(target_class):
-    from google.cloud.bigquery.routine import RoutineArgument
-    from google.cloud.bigquery.routine import RoutineReference
-    from google.cloud.bigquery.routine import RoutineType
+    from arrivy.google.cloud.bigquery.routine import RoutineArgument
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineType
 
     StandardSqlDataType = bigquery.standard_sql.StandardSqlDataType
     StandardSqlField = bigquery.standard_sql.StandardSqlField
@@ -272,7 +272,7 @@ def test_from_api_repr_tvf_function(target_class):
 
 
 def test_from_api_repr_w_minimal_resource(target_class):
-    from google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
 
     resource = {
         "routineReference": {
@@ -300,7 +300,7 @@ def test_from_api_repr_w_minimal_resource(target_class):
 
 
 def test_from_api_repr_w_unknown_fields(target_class):
-    from google.cloud.bigquery.routine import RoutineReference
+    from arrivy.google.cloud.bigquery.routine import RoutineReference
 
     resource = {
         "routineReference": {

@@ -25,7 +25,7 @@ class TestExtractJobConfig(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import ExtractJobConfig
+        from arrivy.google.cloud.bigquery.job import ExtractJobConfig
 
         return ExtractJobConfig
 
@@ -36,7 +36,7 @@ class TestExtractJobConfig(_Base):
         self.assertTrue(config.print_header)
 
     def test_to_api_repr(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         config = self._make_one()
         config.compression = job.Compression.SNAPPY
@@ -89,7 +89,7 @@ class TestExtractJob(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import ExtractJob
+        from arrivy.google.cloud.bigquery.job import ExtractJob
 
         return ExtractJob
 
@@ -143,7 +143,7 @@ class TestExtractJob(_Base):
             self.assertIsNone(job.print_header)
 
     def test_ctor(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         client = _make_client(project=self.PROJECT)
         source = Table(self.TABLE_REF)
@@ -245,7 +245,7 @@ class TestExtractJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_from_api_repr_w_properties(self):
-        from google.cloud.bigquery.job import Compression
+        from arrivy.google.cloud.bigquery.job import Compression
 
         client = _make_client(project=self.PROJECT)
         RESOURCE = self._make_resource()
@@ -257,7 +257,7 @@ class TestExtractJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_bound_client(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
         RESOURCE = self._make_resource()
@@ -272,7 +272,7 @@ class TestExtractJob(_Base):
         source = source_dataset.table(self.SOURCE_TABLE)
         job = self._make_one(self.JOB_ID, source, [self.DESTINATION_URI], client)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin()
 
@@ -299,10 +299,10 @@ class TestExtractJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_begin_w_alternate_client(self):
-        from google.cloud.bigquery.dataset import DatasetReference
-        from google.cloud.bigquery.job import Compression
-        from google.cloud.bigquery.job import DestinationFormat
-        from google.cloud.bigquery.job import ExtractJobConfig
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.job import Compression
+        from arrivy.google.cloud.bigquery.job import DestinationFormat
+        from arrivy.google.cloud.bigquery.job import ExtractJobConfig
 
         PATH = "/projects/%s/jobs" % (self.PROJECT,)
         RESOURCE = self._make_resource(ended=True)
@@ -334,7 +334,7 @@ class TestExtractJob(_Base):
             self.JOB_ID, source, [self.DESTINATION_URI], client1, config
         )
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job._begin(client=client2)
 
@@ -360,7 +360,7 @@ class TestExtractJob(_Base):
             self.JOB_ID, self.TABLE_REF, [self.DESTINATION_URI], client
         )
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertFalse(job.exists())
 
@@ -380,7 +380,7 @@ class TestExtractJob(_Base):
             self.JOB_ID, self.TABLE_REF, [self.DESTINATION_URI], client1
         )
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             self.assertTrue(job.exists(client=client2))
 
@@ -392,7 +392,7 @@ class TestExtractJob(_Base):
         )
 
     def test_reload_w_bound_client(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         PATH = "/projects/%s/jobs/%s" % (self.PROJECT, self.JOB_ID)
         RESOURCE = self._make_resource()
@@ -402,7 +402,7 @@ class TestExtractJob(_Base):
         source = source_dataset.table(self.SOURCE_TABLE)
         job = self._make_one(self.JOB_ID, source, [self.DESTINATION_URI], client)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job.reload()
 
@@ -413,7 +413,7 @@ class TestExtractJob(_Base):
         self._verifyResourceProperties(job, RESOURCE)
 
     def test_reload_w_alternate_client(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         PATH = "/projects/%s/jobs/%s" % (self.PROJECT, self.JOB_ID)
         RESOURCE = self._make_resource()
@@ -425,7 +425,7 @@ class TestExtractJob(_Base):
         source = source_dataset.table(self.SOURCE_TABLE)
         job = self._make_one(self.JOB_ID, source, [self.DESTINATION_URI], client1)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             job.reload(client=client2)
 

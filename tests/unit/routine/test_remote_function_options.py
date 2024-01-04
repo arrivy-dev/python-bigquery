@@ -26,7 +26,7 @@ USER_DEFINED_CONTEXT = {
 
 @pytest.fixture
 def target_class():
-    from google.cloud.bigquery.routine import RemoteFunctionOptions
+    from arrivy.google.cloud.bigquery.routine import RemoteFunctionOptions
 
     return RemoteFunctionOptions
 

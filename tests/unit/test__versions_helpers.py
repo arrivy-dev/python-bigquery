@@ -31,8 +31,8 @@ try:
 except ImportError:  # pragma: NO COVER
     pandas = None
 
-from google.cloud.bigquery import _versions_helpers
-from google.cloud.bigquery import exceptions
+from arrivy.google.cloud.bigquery import _versions_helpers
+from arrivy.google.cloud.bigquery import exceptions
 
 
 @pytest.mark.skipif(pyarrow is None, reason="pyarrow is not installed")

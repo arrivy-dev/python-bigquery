@@ -20,7 +20,7 @@ import requests.exceptions
 
 class Test_should_retry(unittest.TestCase):
     def _call_fut(self, exc):
-        from google.cloud.bigquery.retry import _should_retry
+        from arrivy.google.cloud.bigquery.retry import _should_retry
 
         return _should_retry(exc)
 
@@ -107,7 +107,7 @@ class Test_should_retry(unittest.TestCase):
 
 
 def test_DEFAULT_JOB_RETRY_predicate():
-    from google.cloud.bigquery.retry import DEFAULT_JOB_RETRY
+    from arrivy.google.cloud.bigquery.retry import DEFAULT_JOB_RETRY
     from google.api_core.exceptions import ClientError
 
     assert not DEFAULT_JOB_RETRY._predicate(TypeError())
@@ -125,7 +125,7 @@ def test_DEFAULT_JOB_RETRY_predicate():
 
 
 def test_DEFAULT_JOB_RETRY_deadline():
-    from google.cloud.bigquery.retry import DEFAULT_JOB_RETRY, DEFAULT_RETRY
+    from arrivy.google.cloud.bigquery.retry import DEFAULT_JOB_RETRY, DEFAULT_RETRY
 
     # Make sure we can retry the job at least once.
     assert DEFAULT_JOB_RETRY._deadline > DEFAULT_RETRY._deadline

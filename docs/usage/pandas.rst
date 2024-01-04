@@ -5,7 +5,7 @@ Retrieve BigQuery data as a Pandas DataFrame
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As of version 0.29.0, you can use the
-:func:`~google.cloud.bigquery.table.RowIterator.to_dataframe` function to
+:func:`~arrivy.google.cloud.bigquery.table.RowIterator.to_dataframe` function to
 retrieve query results or table rows as a :class:`pandas.DataFrame`.
 
 First, ensure that the :mod:`pandas` library is installed by running:
@@ -88,9 +88,9 @@ Load a Pandas DataFrame to a BigQuery Table
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As of version 1.3.0, you can use the
-:func:`~google.cloud.bigquery.client.Client.load_table_from_dataframe` function
+:func:`~arrivy.google.cloud.bigquery.client.Client.load_table_from_dataframe` function
 to load data from a :class:`pandas.DataFrame` to a
-:class:`~google.cloud.bigquery.table.Table`. To use this function, in addition
+:class:`~arrivy.google.cloud.bigquery.table.Table`. To use this function, in addition
 to :mod:`pandas`, you will need to install the :mod:`pyarrow` library. You can
 install the BigQuery Python client library with :mod:`pandas` and
 :mod:`pyarrow` by running:

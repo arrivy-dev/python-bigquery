@@ -15,12 +15,12 @@
 """User-Defined Routines."""
 
 
-from google.cloud.bigquery.enums import DeterminismLevel
-from google.cloud.bigquery.routine.routine import Routine
-from google.cloud.bigquery.routine.routine import RoutineArgument
-from google.cloud.bigquery.routine.routine import RoutineReference
-from google.cloud.bigquery.routine.routine import RoutineType
-from google.cloud.bigquery.routine.routine import RemoteFunctionOptions
+from arrivy.google.cloud.bigquery.enums import DeterminismLevel
+from arrivy.google.cloud.bigquery.routine.routine import Routine
+from arrivy.google.cloud.bigquery.routine.routine import RoutineArgument
+from arrivy.google.cloud.bigquery.routine.routine import RoutineReference
+from arrivy.google.cloud.bigquery.routine.routine import RoutineType
+from arrivy.google.cloud.bigquery.routine.routine import RemoteFunctionOptions
 
 
 __all__ = (

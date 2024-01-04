@@ -21,13 +21,13 @@ import requests
 class TestConnection(unittest.TestCase):
     @staticmethod
     def _get_default_timeout():
-        from google.cloud.bigquery._http import _http
+        from arrivy.google.cloud.bigquery._http import _http
 
         return _http._DEFAULT_TIMEOUT
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery._http import Connection
+        from arrivy.google.cloud.bigquery._http import Connection
 
         return Connection
 

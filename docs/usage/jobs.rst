@@ -12,7 +12,7 @@ Listing jobs
 ^^^^^^^^^^^^
 
 List jobs for a project with the
-:func:`~google.cloud.bigquery.client.Client.list_jobs` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.list_jobs` method:
 
 .. literalinclude:: ../samples/client_list_jobs.py
    :language: python

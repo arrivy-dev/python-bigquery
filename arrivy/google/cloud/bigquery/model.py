@@ -24,9 +24,9 @@ import typing
 from typing import Any, Dict, Optional, Sequence, Union
 
 import google.cloud._helpers  # type: ignore
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery import standard_sql
-from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery import standard_sql
+from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
 
 
 class Model:
@@ -475,7 +475,7 @@ class TransformColumn:
         """Data type of the column after the transform.
 
         Returns:
-            Optional[google.cloud.bigquery.standard_sql.StandardSqlDataType]:
+            Optional[arrivy.google.cloud.bigquery.standard_sql.StandardSqlDataType]:
                 Data type of the column.
         """
         type_json = self._properties.get("type")

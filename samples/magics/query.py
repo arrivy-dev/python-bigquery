@@ -24,7 +24,7 @@ if typing.TYPE_CHECKING:
 
 def query() -> "pandas.DataFrame":
     ip = IPython.get_ipython()
-    ip.extension_manager.load_extension("google.cloud.bigquery")
+    ip.extension_manager.load_extension("arrivy.google.cloud.bigquery")
 
     sample = """
     # [START bigquery_jupyter_query]

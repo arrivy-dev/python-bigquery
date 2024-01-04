@@ -38,11 +38,11 @@ from google.api_core.exceptions import ServiceUnavailable
 from google.api_core.exceptions import TooManyRequests
 from google.api_core.iam import Policy
 from google.cloud import bigquery
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.dataset import DatasetReference
-from google.cloud.bigquery.table import Table
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.dataset import DatasetReference
+from arrivy.google.cloud.bigquery.table import Table
 from google.cloud._helpers import UTC
-from google.cloud.bigquery import dbapi, enums
+from arrivy.google.cloud.bigquery import dbapi, enums
 from google.cloud import storage
 from google.cloud.datacatalog_v1 import types as datacatalog_types
 from google.cloud.datacatalog_v1 import PolicyTagManagerClient
@@ -140,7 +140,7 @@ def _make_dataset_id(prefix):
 
 
 def _load_json_schema(filename="schema.json"):
-    from google.cloud.bigquery.table import _parse_schema_resource
+    from arrivy.google.cloud.bigquery.table import _parse_schema_resource
 
     json_filename = DATA_PATH / filename
 
@@ -405,7 +405,7 @@ class TestBigQuery(unittest.TestCase):
         self.assertIs(dataset.is_case_insensitive, False)
 
     def test_create_table_with_real_custom_policy(self):
-        from google.cloud.bigquery.schema import PolicyTagList
+        from arrivy.google.cloud.bigquery.schema import PolicyTagList
 
         policy_tag_client = PolicyTagManagerClient()
         taxonomy_parent = f"projects/{Config.CLIENT.project}/locations/us"
@@ -529,8 +529,8 @@ class TestBigQuery(unittest.TestCase):
         self.assertEqual("FOO", row_2.get("username"))
 
     def test_create_table_w_time_partitioning_w_clustering_fields(self):
-        from google.cloud.bigquery.table import TimePartitioning
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         dataset = self.temp_dataset(_make_dataset_id("create_table_tp_cf"))
         table_id = "test_table"
@@ -717,7 +717,7 @@ class TestBigQuery(unittest.TestCase):
             self.assertEqual(found.mode, expected.mode)
 
     def test_unset_table_schema_attributes(self):
-        from google.cloud.bigquery.schema import PolicyTagList
+        from arrivy.google.cloud.bigquery.schema import PolicyTagList
 
         dataset = self.temp_dataset(_make_dataset_id("unset_policy_tags"))
         table_id = "test_table"
@@ -831,8 +831,8 @@ class TestBigQuery(unittest.TestCase):
         self.assertEqual(sorted(row_tuples, key=by_age), sorted(ROWS, key=by_age))
 
     def test_load_table_from_local_avro_file_then_dump_table(self):
-        from google.cloud.bigquery.job import SourceFormat
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         TABLE_NAME = "test_table_avro"
         ROWS = [
@@ -871,9 +871,9 @@ class TestBigQuery(unittest.TestCase):
         )
 
     def test_load_table_from_local_parquet_file_decimal_types(self):
-        from google.cloud.bigquery.enums import DecimalTargetType
-        from google.cloud.bigquery.job import SourceFormat
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.enums import DecimalTargetType
+        from arrivy.google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         TABLE_NAME = "test_table_parquet"
 
@@ -995,9 +995,9 @@ class TestBigQuery(unittest.TestCase):
         self.assertEqual(table.num_rows, 2)
 
     def test_load_avro_from_uri_then_dump_table(self):
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import SourceFormat
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         table_name = "test_table"
         rows = [
@@ -1035,9 +1035,9 @@ class TestBigQuery(unittest.TestCase):
         )
 
     def test_load_table_from_uri_then_dump_table(self):
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import SourceFormat
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         TABLE_ID = "test_table"
         GS_URL = self._write_csv_to_storage(
@@ -1447,7 +1447,7 @@ class TestBigQuery(unittest.TestCase):
         self.assertTrue(len(got_rows) > 0)
 
     def test_get_set_iam_policy(self):
-        from google.cloud.bigquery.iam import BIGQUERY_DATA_VIEWER_ROLE
+        from arrivy.google.cloud.bigquery.iam import BIGQUERY_DATA_VIEWER_ROLE
 
         dataset = self.temp_dataset(_make_dataset_id("create_table"))
         table_id = "test_table"
@@ -1588,7 +1588,7 @@ class TestBigQuery(unittest.TestCase):
             Config.CLIENT.query("invalid syntax;").result()
 
     def test_query_w_wrong_config(self):
-        from google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
 
         good_query = "SELECT 1;"
         rows = list(Config.CLIENT.query("SELECT 1;").result())
@@ -1809,7 +1809,7 @@ class TestBigQuery(unittest.TestCase):
         self.assertEqual(fetched_data, expected_data)
 
     def test_dbapi_dry_run_query(self):
-        from google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
 
         query = """
             SELECT country_name
@@ -1852,9 +1852,9 @@ class TestBigQuery(unittest.TestCase):
 
     def _load_table_for_dml(self, rows, dataset_id, table_id):
         from google.cloud._testing import _NamedTemporaryFile
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import SourceFormat
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         dataset = self.temp_dataset(dataset_id)
         greeting = bigquery.SchemaField("greeting", "STRING", mode="NULLABLE")
@@ -2156,7 +2156,7 @@ class TestBigQuery(unittest.TestCase):
         assert rows[0].max_value == 100.0
 
     def test_create_tvf_routine(self):
-        from google.cloud.bigquery import (
+        from arrivy.google.cloud.bigquery import (
             Routine,
             RoutineArgument,
             RoutineType,
@@ -2339,8 +2339,8 @@ class TestBigQuery(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_nested_table_to_arrow(self):
-        from google.cloud.bigquery.job import SourceFormat
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         SF = bigquery.SchemaField
         schema = [
@@ -2472,8 +2472,8 @@ def test_parameterized_types_round_trip(dataset_id: str):
 
 
 def test_table_snapshots(dataset_id: str):
-    from google.cloud.bigquery import CopyJobConfig
-    from google.cloud.bigquery import OperationType
+    from arrivy.google.cloud.bigquery import CopyJobConfig
+    from arrivy.google.cloud.bigquery import OperationType
 
     client = Config.CLIENT
 
@@ -2543,8 +2543,8 @@ def test_table_snapshots(dataset_id: str):
 
 
 def test_table_clones(dataset_id: str):
-    from google.cloud.bigquery import CopyJobConfig
-    from google.cloud.bigquery import OperationType
+    from arrivy.google.cloud.bigquery import CopyJobConfig
+    from arrivy.google.cloud.bigquery import OperationType
 
     client = Config.CLIENT
 

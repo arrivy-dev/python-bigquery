@@ -8,7 +8,7 @@ Listing Tables
 ^^^^^^^^^^^^^^
 
 List the tables belonging to a dataset with the
-:func:`~google.cloud.bigquery.client.Client.list_tables` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.list_tables` method:
 
 .. literalinclude:: ../samples/list_tables.py
    :language: python
@@ -20,7 +20,7 @@ Getting a Table
 ^^^^^^^^^^^^^^^
 
 Get a table resource with the
-:func:`~google.cloud.bigquery.client.Client.get_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.get_table` method:
 
 .. literalinclude:: ../samples/get_table.py
    :language: python
@@ -29,7 +29,7 @@ Get a table resource with the
    :end-before: [END bigquery_get_table]
 
 Determine if a table exists with the
-:func:`~google.cloud.bigquery.client.Client.get_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.get_table` method:
 
 .. literalinclude:: ../samples/table_exists.py
    :language: python
@@ -38,7 +38,7 @@ Determine if a table exists with the
    :end-before: [END bigquery_table_exists]
 
 Browse data rows in a table with the
-:func:`~google.cloud.bigquery.client.Client.list_rows` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.list_rows` method:
 
 .. literalinclude:: ../samples/browse_table_data.py
    :language: python
@@ -50,7 +50,7 @@ Creating a Table
 ^^^^^^^^^^^^^^^^
 
 Create an empty table with the
-:func:`~google.cloud.bigquery.client.Client.create_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.create_table` method:
 
 .. literalinclude:: ../samples/create_table.py
    :language: python
@@ -59,7 +59,7 @@ Create an empty table with the
    :end-before: [END bigquery_create_table]
 
 Create a table using an external data source with the
-:func:`~google.cloud.bigquery.client.Client.create_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.create_table` method:
 
 .. literalinclude:: ../samples/snippets/create_table_external_data_configuration.py
    :language: python
@@ -68,7 +68,7 @@ Create a table using an external data source with the
    :end-before: [END bigquery_create_table_external_data_configuration]
 
 Create a clustered table with the
-:func:`~google.cloud.bigquery.client.Client.create_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.create_table` method:
 
 .. literalinclude:: ../samples/create_table_clustered.py
    :language: python
@@ -77,7 +77,7 @@ Create a clustered table with the
    :end-before: [END bigquery_create_table_clustered]
 
 Create an integer range partitioned table with the
-:func:`~google.cloud.bigquery.client.Client.create_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.create_table` method:
 
 .. literalinclude:: ../samples/create_table_range_partitioned.py
    :language: python
@@ -86,7 +86,7 @@ Create an integer range partitioned table with the
    :end-before: [END bigquery_create_table_range_partitioned]
 
 Load table data from a file with the
-:func:`~google.cloud.bigquery.client.Client.load_table_from_file` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.load_table_from_file` method:
 
 .. literalinclude:: ../samples/load_table_file.py
    :language: python
@@ -103,7 +103,7 @@ Creating a clustered table from a query result:
    :end-before: [END bigquery_query_clustered_table]
 
 Creating a clustered table when you load data with the
-:func:`~google.cloud.bigquery.client.Client.load_table_from_uri` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.load_table_from_uri` method:
 
 .. literalinclude:: ../samples/load_table_clustered.py
    :language: python
@@ -112,7 +112,7 @@ Creating a clustered table when you load data with the
    :end-before: [END bigquery_load_table_clustered]
 
 Load a CSV file from Cloud Storage with the
-:func:`~google.cloud.bigquery.client.Client.load_table_from_uri` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.load_table_from_uri` method:
 
 .. literalinclude:: ../samples/load_table_uri_csv.py
    :language: python
@@ -187,7 +187,7 @@ Updating a Table
 ^^^^^^^^^^^^^^^^
 
 Update a property in a table's metadata with the
-:func:`~google.cloud.bigquery.client.Client.update_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.update_table` method:
 
 .. literalinclude:: ../snippets.py
    :language: python
@@ -196,7 +196,7 @@ Update a property in a table's metadata with the
    :end-before: [END bigquery_update_table_description]
 
 Insert rows into a table's data with the
-:func:`~google.cloud.bigquery.client.Client.insert_rows` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.insert_rows` method:
 
 .. literalinclude:: ../samples/table_insert_rows.py
    :language: python
@@ -205,7 +205,7 @@ Insert rows into a table's data with the
    :end-before: [END bigquery_table_insert_rows]
 
 Insert rows into a table's data with the
-:func:`~google.cloud.bigquery.client.Client.insert_rows` method, achieving
+:func:`~arrivy.google.cloud.bigquery.client.Client.insert_rows` method, achieving
 higher write limit:
 
 .. literalinclude:: ../samples/table_insert_rows_explicit_none_insert_ids.py
@@ -219,7 +219,7 @@ more duplicate inserts. See also:
 `Streaming inserts <https://cloud.google.com/bigquery/quotas#streaming_inserts>`_.
 
 Add an empty column to the existing table with the
-:func:`~google.cloud.bigquery.update_table` method:
+:func:`~arrivy.google.cloud.bigquery.update_table` method:
 
 .. literalinclude:: ../samples/add_empty_column.py
    :language: python
@@ -231,7 +231,7 @@ Copying a Table
 ^^^^^^^^^^^^^^^
 
 Copy a table with the
-:func:`~google.cloud.bigquery.client.Client.copy_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.copy_table` method:
 
 .. literalinclude:: ../samples/copy_table.py
    :language: python
@@ -240,7 +240,7 @@ Copy a table with the
    :end-before: [END bigquery_copy_table]
 
 Copy table data to Google Cloud Storage with the
-:func:`~google.cloud.bigquery.client.Client.extract_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.extract_table` method:
 
 .. literalinclude:: ../snippets.py
    :language: python
@@ -252,7 +252,7 @@ Deleting a Table
 ^^^^^^^^^^^^^^^^
 
 Delete a table with the
-:func:`~google.cloud.bigquery.client.Client.delete_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.delete_table` method:
 
 .. literalinclude:: ../samples/delete_table.py
    :language: python
@@ -264,7 +264,7 @@ Restoring a Deleted Table
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Restore a deleted table from a snapshot by using the
-:func:`~google.cloud.bigquery.client.Client.copy_table` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.copy_table` method:
 
 .. literalinclude:: ../samples/undelete_table.py
    :language: python

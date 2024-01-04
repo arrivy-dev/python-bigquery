@@ -16,7 +16,7 @@
 class TestAvroOptions:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.format_options import AvroOptions
+        from arrivy.google.cloud.bigquery.format_options import AvroOptions
 
         return AvroOptions
 
@@ -39,7 +39,7 @@ class TestAvroOptions:
 class TestParquetOptions:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.format_options import ParquetOptions
+        from arrivy.google.cloud.bigquery.format_options import ParquetOptions
 
         return ParquetOptions
 

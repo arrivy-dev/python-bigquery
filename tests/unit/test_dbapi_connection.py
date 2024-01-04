@@ -26,7 +26,7 @@ except ImportError:  # pragma: NO COVER
 class TestConnection(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.dbapi import Connection
+        from arrivy.google.cloud.bigquery.dbapi import Connection
 
         return Connection
 
@@ -34,7 +34,7 @@ class TestConnection(unittest.TestCase):
         return self._get_target_class()(*args, **kw)
 
     def _mock_client(self):
-        from google.cloud.bigquery import client
+        from arrivy.google.cloud.bigquery import client
 
         mock_client = mock.create_autospec(client.Client)
         return mock_client
@@ -48,7 +48,7 @@ class TestConnection(unittest.TestCase):
         return mock_client
 
     def test_ctor_wo_bqstorage_client(self):
-        from google.cloud.bigquery.dbapi import Connection
+        from arrivy.google.cloud.bigquery.dbapi import Connection
 
         mock_client = self._mock_client()
         mock_client._ensure_bqstorage_client.return_value = None
@@ -62,7 +62,7 @@ class TestConnection(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_ctor_w_bqstorage_client(self):
-        from google.cloud.bigquery.dbapi import Connection
+        from arrivy.google.cloud.bigquery.dbapi import Connection
 
         mock_client = self._mock_client()
         mock_bqstorage_client = self._mock_bqstorage_client()
@@ -80,10 +80,10 @@ class TestConnection(unittest.TestCase):
         self.assertIs(connection._client, mock_client)
         self.assertIs(connection._bqstorage_client, mock_bqstorage_client)
 
-    @mock.patch("google.cloud.bigquery.Client", autospec=True)
+    @mock.patch("arrivy.google.cloud.bigquery.Client", autospec=True)
     def test_connect_wo_client(self, mock_client):
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery.dbapi import Connection
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import Connection
 
         connection = connect()
         self.assertIsInstance(connection, Connection)
@@ -94,8 +94,8 @@ class TestConnection(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_connect_w_client(self):
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery.dbapi import Connection
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import Connection
 
         mock_client = self._mock_client()
         mock_bqstorage_client = self._mock_bqstorage_client()
@@ -112,8 +112,8 @@ class TestConnection(unittest.TestCase):
         bigquery_storage is None, "Requires `google-cloud-bigquery-storage`"
     )
     def test_connect_w_both_clients(self):
-        from google.cloud.bigquery.dbapi import connect
-        from google.cloud.bigquery.dbapi import Connection
+        from arrivy.google.cloud.bigquery.dbapi import connect
+        from arrivy.google.cloud.bigquery.dbapi import Connection
 
         mock_client = self._mock_client()
         mock_bqstorage_client = self._mock_bqstorage_client()
@@ -132,7 +132,7 @@ class TestConnection(unittest.TestCase):
         self.assertIs(connection._bqstorage_client, mock_bqstorage_client)
 
     def test_raises_error_if_closed(self):
-        from google.cloud.bigquery.dbapi.exceptions import ProgrammingError
+        from arrivy.google.cloud.bigquery.dbapi.exceptions import ProgrammingError
 
         connection = self._make_one(client=self._mock_client())
 
@@ -152,7 +152,7 @@ class TestConnection(unittest.TestCase):
         bqstorage_client = self._mock_bqstorage_client()
 
         client_patcher = mock.patch(
-            "google.cloud.bigquery.dbapi.connection.bigquery.Client",
+            "arrivy.google.cloud.bigquery.dbapi.connection.bigquery.Client",
             return_value=client,
         )
         bqstorage_client_patcher = mock.patch.object(
@@ -211,7 +211,7 @@ class TestConnection(unittest.TestCase):
         self.assertTrue(cursor_2._closed)
 
     def test_does_not_keep_cursor_instances_alive(self):
-        from google.cloud.bigquery.dbapi import Cursor
+        from arrivy.google.cloud.bigquery.dbapi import Cursor
 
         connection = self._make_one(client=self._mock_client())
         cursor_1 = connection.cursor()  # noqa
@@ -238,7 +238,7 @@ class TestConnection(unittest.TestCase):
         connection.commit()
 
     def test_cursor(self):
-        from google.cloud.bigquery.dbapi import Cursor
+        from arrivy.google.cloud.bigquery.dbapi import Cursor
 
         connection = self._make_one(client=self._mock_client())
         cursor = connection.cursor()

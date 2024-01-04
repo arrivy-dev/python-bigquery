@@ -22,7 +22,7 @@ import mock
 class Test_UDFResource(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import UDFResource
+        from arrivy.google.cloud.bigquery.query import UDFResource
 
         return UDFResource
 
@@ -47,7 +47,7 @@ class Test_UDFResource(unittest.TestCase):
 class Test__AbstractQueryParameterType(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import _AbstractQueryParameterType
+        from arrivy.google.cloud.bigquery.query import _AbstractQueryParameterType
 
         return _AbstractQueryParameterType
 
@@ -69,7 +69,7 @@ class Test__AbstractQueryParameterType(unittest.TestCase):
 class Test_ScalarQueryParameterType(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         return ScalarQueryParameterType
 
@@ -123,7 +123,7 @@ class Test_ScalarQueryParameterType(unittest.TestCase):
 class Test_ArrayQueryParameterType(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import ArrayQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ArrayQueryParameterType
 
         return ArrayQueryParameterType
 
@@ -131,7 +131,7 @@ class Test_ArrayQueryParameterType(unittest.TestCase):
         return self._get_target_class()(*args, **kw)
 
     def test_from_api_repr(self):
-        from google.cloud.bigquery.query import StructQueryParameterType
+        from arrivy.google.cloud.bigquery.query import StructQueryParameterType
 
         api_resource = {
             "type": "ARRAY",
@@ -170,8 +170,8 @@ class Test_ArrayQueryParameterType(unittest.TestCase):
         self.assertEqual(field._type, "STRING")
 
     def test_to_api_repr(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
-        from google.cloud.bigquery.query import StructQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import StructQueryParameterType
 
         array_item_type = StructQueryParameterType(
             ScalarQueryParameterType("INTEGER", name="weight", description="in kg"),
@@ -212,7 +212,7 @@ class Test_ArrayQueryParameterType(unittest.TestCase):
 class Test_StructQueryParameterType(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import StructQueryParameterType
+        from arrivy.google.cloud.bigquery.query import StructQueryParameterType
 
         return StructQueryParameterType
 
@@ -224,8 +224,8 @@ class Test_StructQueryParameterType(unittest.TestCase):
             self._make_one()
 
     def test_from_api_repr(self):
-        from google.cloud.bigquery.query import ArrayQueryParameterType
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ArrayQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         api_resource = {
             "type": "STRUCT",
@@ -290,7 +290,7 @@ class Test_StructQueryParameterType(unittest.TestCase):
         self.assertEqual(bool_field.description, "nested bool field")
 
     def test_to_api_repr(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         int_type = ScalarQueryParameterType("INTEGER", description="in years")
         date_type = ScalarQueryParameterType("DATE", name="day_of_birth")
@@ -308,7 +308,7 @@ class Test_StructQueryParameterType(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     def test_to_api_repr_nested(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         struct_class = self._get_target_class()
 
@@ -346,7 +346,7 @@ class Test_StructQueryParameterType(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     def test_repr_no_optional_attrs(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         param_type = self._make_one(
             ScalarQueryParameterType("BOOLEAN"), ScalarQueryParameterType("STRING")
@@ -359,7 +359,7 @@ class Test_StructQueryParameterType(unittest.TestCase):
         self.assertEqual(repr(param_type), expected)
 
     def test_repr_all_optional_attrs(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         param_type = self._make_one(
             ScalarQueryParameterType("BOOLEAN"),
@@ -379,7 +379,7 @@ class Test_StructQueryParameterType(unittest.TestCase):
 class Test__AbstractQueryParameter(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import _AbstractQueryParameter
+        from arrivy.google.cloud.bigquery.query import _AbstractQueryParameter
 
         return _AbstractQueryParameter
 
@@ -400,7 +400,7 @@ class Test__AbstractQueryParameter(unittest.TestCase):
 class Test_ScalarQueryParameter(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         return ScalarQueryParameter
 
@@ -432,7 +432,7 @@ class Test_ScalarQueryParameter(unittest.TestCase):
         self.assertEqual(param.value, 123)
 
     def test_ctor_w_scalar_query_parameter_type(self):
-        from google.cloud.bigquery import query
+        from arrivy.google.cloud.bigquery import query
 
         param = self._make_one(
             name="foo",
@@ -664,7 +664,7 @@ class Test_ScalarQueryParameter(unittest.TestCase):
 
 
 def _make_subparam(name, type_, value):
-    from google.cloud.bigquery.query import ScalarQueryParameter
+    from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
     return ScalarQueryParameter(name, type_, value)
 
@@ -672,7 +672,7 @@ def _make_subparam(name, type_, value):
 class Test_ArrayQueryParameter(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import ArrayQueryParameter
+        from arrivy.google.cloud.bigquery.query import ArrayQueryParameter
 
         return ArrayQueryParameter
 
@@ -753,7 +753,7 @@ class Test_ArrayQueryParameter(unittest.TestCase):
         self.assertEqual(param.values, [1, None])
 
     def test_from_api_repr_w_struct_type(self):
-        from google.cloud.bigquery.query import StructQueryParameter
+        from arrivy.google.cloud.bigquery.query import StructQueryParameter
 
         RESOURCE = {
             "parameterType": {
@@ -817,7 +817,7 @@ class Test_ArrayQueryParameter(unittest.TestCase):
         self.assertEqual(param.to_api_repr(), EXPECTED)
 
     def test_to_api_repr_array_type_as_type_instance(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         EXPECTED = {
             "parameterType": {"type": "ARRAY", "arrayType": {"type": "BOOLEAN"}},
@@ -840,7 +840,7 @@ class Test_ArrayQueryParameter(unittest.TestCase):
         self.assertEqual(param.to_api_repr(), EXPECTED)
 
     def test_to_api_repr_w_record_type(self):
-        from google.cloud.bigquery.query import StructQueryParameter
+        from arrivy.google.cloud.bigquery.query import StructQueryParameter
 
         EXPECTED = {
             "parameterType": {
@@ -867,8 +867,8 @@ class Test_ArrayQueryParameter(unittest.TestCase):
         self.assertEqual(param.to_api_repr(), EXPECTED)
 
     def test_to_api_repr_w_empty_array_of_records_type(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
-        from google.cloud.bigquery.query import StructQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import StructQueryParameterType
 
         EXPECTED = {
             "parameterType": {
@@ -941,7 +941,7 @@ class Test_ArrayQueryParameter(unittest.TestCase):
         self.assertEqual(repr(field1), expected)
 
     def test___repr__array_type_scalar_type_instance(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
 
         int_items = self._make_one(
             "int_items", ScalarQueryParameterType("INTEGER"), [64]
@@ -950,8 +950,8 @@ class Test_ArrayQueryParameter(unittest.TestCase):
         self.assertEqual(repr(int_items), expected)
 
     def test___repr__array_type_struct_type_instance(self):
-        from google.cloud.bigquery.query import ScalarQueryParameterType
-        from google.cloud.bigquery.query import StructQueryParameterType
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameterType
+        from arrivy.google.cloud.bigquery.query import StructQueryParameterType
 
         struct_items = self._make_one(
             "struct_items",
@@ -971,7 +971,7 @@ class Test_ArrayQueryParameter(unittest.TestCase):
 class Test_StructQueryParameter(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import StructQueryParameter
+        from arrivy.google.cloud.bigquery.query import StructQueryParameter
 
         return StructQueryParameter
 
@@ -1050,7 +1050,7 @@ class Test_StructQueryParameter(unittest.TestCase):
         self.assertEqual(param.struct_values, {"bar": 123, "baz": "abc"})
 
     def test_from_api_repr_w_nested_array(self):
-        from google.cloud.bigquery.query import ArrayQueryParameter
+        from arrivy.google.cloud.bigquery.query import ArrayQueryParameter
 
         RESOURCE = {
             "name": "foo",
@@ -1169,7 +1169,7 @@ class Test_StructQueryParameter(unittest.TestCase):
         self.assertEqual(param.to_api_repr(), EXPECTED)
 
     def test_to_api_repr_w_nested_array(self):
-        from google.cloud.bigquery.query import ArrayQueryParameter
+        from arrivy.google.cloud.bigquery.query import ArrayQueryParameter
 
         EXPECTED = {
             "name": "foo",
@@ -1291,7 +1291,7 @@ class Test_QueryResults(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.query import _QueryResults
+        from arrivy.google.cloud.bigquery.query import _QueryResults
 
         return _QueryResults
 
@@ -1302,7 +1302,7 @@ class Test_QueryResults(unittest.TestCase):
         return {"jobReference": {"projectId": self.PROJECT, "jobId": self.JOB_ID}}
 
     def _verifySchema(self, query, resource):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         if "schema" in resource:
             fields = resource["schema"]["fields"]
@@ -1466,12 +1466,12 @@ class Test_QueryResults(unittest.TestCase):
 class Test__query_param_from_api_repr(unittest.TestCase):
     @staticmethod
     def _call_fut(resource):
-        from google.cloud.bigquery.query import _query_param_from_api_repr
+        from arrivy.google.cloud.bigquery.query import _query_param_from_api_repr
 
         return _query_param_from_api_repr(resource)
 
     def test_w_scalar(self):
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         RESOURCE = {
             "name": "foo",
@@ -1488,7 +1488,7 @@ class Test__query_param_from_api_repr(unittest.TestCase):
 
     def test_w_scalar_timestamp(self):
         from google.cloud._helpers import UTC
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         RESOURCE = {
             "name": "zoned",
@@ -1507,7 +1507,7 @@ class Test__query_param_from_api_repr(unittest.TestCase):
 
     def test_w_scalar_timestamp_micros(self):
         from google.cloud._helpers import UTC
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         RESOURCE = {
             "name": "zoned",
@@ -1525,7 +1525,7 @@ class Test__query_param_from_api_repr(unittest.TestCase):
         )
 
     def test_w_array(self):
-        from google.cloud.bigquery.query import ArrayQueryParameter
+        from arrivy.google.cloud.bigquery.query import ArrayQueryParameter
 
         RESOURCE = {
             "name": "foo",
@@ -1541,7 +1541,7 @@ class Test__query_param_from_api_repr(unittest.TestCase):
         self.assertEqual(parameter.values, [123])
 
     def test_w_struct(self):
-        from google.cloud.bigquery.query import StructQueryParameter
+        from arrivy.google.cloud.bigquery.query import StructQueryParameter
 
         RESOURCE = {
             "name": "foo",

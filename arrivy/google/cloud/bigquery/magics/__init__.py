@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from google.cloud.bigquery.magics.magics import context
+from arrivy.google.cloud.bigquery.magics.magics import context
 
 
 # For backwards compatibility we need to make the context available in the path
-# google.cloud.bigquery.magics.context
+# arrivy.google.cloud.bigquery.magics.context
 __all__ = ("context",)

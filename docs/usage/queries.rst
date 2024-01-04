@@ -5,7 +5,7 @@ Querying data
 ^^^^^^^^^^^^^
 
 Run a query and wait for it to finish with the
-:func:`~google.cloud.bigquery.client.Client.query` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.query` method:
 
 .. literalinclude:: ../samples/client_query.py
    :language: python

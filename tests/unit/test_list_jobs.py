@@ -17,7 +17,7 @@ import datetime
 import mock
 import pytest
 
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 from .helpers import make_connection
 
 
@@ -25,12 +25,12 @@ from .helpers import make_connection
     "extra,query", [({}, {}), (dict(page_size=42), dict(maxResults=42))]
 )
 def test_list_jobs_defaults(client, PROJECT, DS_ID, extra, query):
-    from google.cloud.bigquery.job import CopyJob
-    from google.cloud.bigquery.job import CreateDisposition
-    from google.cloud.bigquery.job import ExtractJob
-    from google.cloud.bigquery.job import LoadJob
-    from google.cloud.bigquery.job import QueryJob
-    from google.cloud.bigquery.job import WriteDisposition
+    from arrivy.google.cloud.bigquery.job import CopyJob
+    from arrivy.google.cloud.bigquery.job import CreateDisposition
+    from arrivy.google.cloud.bigquery.job import ExtractJob
+    from arrivy.google.cloud.bigquery.job import LoadJob
+    from arrivy.google.cloud.bigquery.job import QueryJob
+    from arrivy.google.cloud.bigquery.job import WriteDisposition
 
     SOURCE_TABLE = "source_table"
     DESTINATION_TABLE = "destination_table"
@@ -118,7 +118,7 @@ def test_list_jobs_defaults(client, PROJECT, DS_ID, extra, query):
 
     iterator = client.list_jobs(**extra)
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         page = next(iterator.pages)
 
@@ -142,7 +142,7 @@ def test_list_jobs_defaults(client, PROJECT, DS_ID, extra, query):
 
 
 def test_list_jobs_load_job_wo_sourceUris(client, PROJECT, DS_ID):
-    from google.cloud.bigquery.job import LoadJob
+    from arrivy.google.cloud.bigquery.job import LoadJob
 
     SOURCE_TABLE = "source_table"
     JOB_TYPES = {"load_job": LoadJob}
@@ -167,7 +167,7 @@ def test_list_jobs_load_job_wo_sourceUris(client, PROJECT, DS_ID):
 
     iterator = client.list_jobs()
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         page = next(iterator.pages)
 
@@ -200,7 +200,7 @@ def test_list_jobs_explicit_missing(client, PROJECT):
         max_results=1000, page_token=TOKEN, all_users=True, state_filter="done"
     )
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         page = next(iterator.pages)
 
@@ -275,7 +275,7 @@ def test_list_jobs_w_time_filter(client, PROJECT):
 
 
 def test_list_jobs_w_parent_job_filter(client, PROJECT):
-    from google.cloud.bigquery import job
+    from arrivy.google.cloud.bigquery import job
 
     conn = client._connection = make_connection({}, {})
 

@@ -14,8 +14,8 @@
 
 import pytest
 
-import google.cloud.bigquery.dataset
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+import arrivy.google.cloud.bigquery.dataset
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 from .helpers import make_connection, dataset_polymorphic
 
 
@@ -42,7 +42,7 @@ def test_list_tables_empty_w_timeout(
 
 @dataset_polymorphic
 def test_list_tables_defaults(make_dataset, get_reference, client, PROJECT, DS_ID):
-    from google.cloud.bigquery.table import TableListItem
+    from arrivy.google.cloud.bigquery.table import TableListItem
 
     TABLE_1 = "table_one"
     TABLE_2 = "table_two"
@@ -96,7 +96,7 @@ def test_list_tables_defaults(make_dataset, get_reference, client, PROJECT, DS_I
 
 
 def test_list_tables_explicit(client, PROJECT, DS_ID):
-    from google.cloud.bigquery.table import TableListItem
+    from arrivy.google.cloud.bigquery.table import TableListItem
 
     TABLE_1 = "table_one"
     TABLE_2 = "table_two"
@@ -128,7 +128,7 @@ def test_list_tables_explicit(client, PROJECT, DS_ID):
     }
 
     conn = client._connection = make_connection(DATA)
-    dataset = google.cloud.bigquery.dataset.DatasetReference(PROJECT, DS_ID)
+    dataset = arrivy.google.cloud.bigquery.dataset.DatasetReference(PROJECT, DS_ID)
 
     iterator = client.list_tables(
         # Test with string for dataset ID.

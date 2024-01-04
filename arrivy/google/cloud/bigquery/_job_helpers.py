@@ -44,13 +44,13 @@ from typing import Any, Dict, TYPE_CHECKING, Optional
 import google.api_core.exceptions as core_exceptions
 from google.api_core import retry as retries
 
-from google.cloud.bigquery import job
-import google.cloud.bigquery.query
-from google.cloud.bigquery import table
+from arrivy.google.cloud.bigquery import job
+import arrivy.google.cloud.bigquery.query
+from arrivy.google.cloud.bigquery import table
 
 # Avoid circular imports
 if TYPE_CHECKING:  # pragma: NO COVER
-    from google.cloud.bigquery.client import Client
+    from arrivy.google.cloud.bigquery.client import Client
 
 
 # The purpose of _TIMEOUT_BUFFER_MILLIS is to allow the server-side timeout to
@@ -256,7 +256,7 @@ def _to_query_job(
     job_complete = query_response.get("jobComplete")
     if job_complete:
         query_job._properties["status"]["state"] = "DONE"
-        query_job._query_results = google.cloud.bigquery.query._QueryResults(
+        query_job._query_results = arrivy.google.cloud.bigquery.query._QueryResults(
             query_response
         )
     else:
@@ -342,7 +342,7 @@ def query_and_wait(
         query (str):
             SQL query to be executed. Defaults to the standard SQL
             dialect. Use the ``job_config`` parameter to change dialects.
-        job_config (Optional[google.cloud.bigquery.job.QueryJobConfig]):
+        job_config (Optional[arrivy.google.cloud.bigquery.job.QueryJobConfig]):
             Extra configuration options for the job.
             To override any options that were previously set in
             the ``default_query_job_config`` given to the
@@ -377,9 +377,9 @@ def query_and_wait(
             The maximum total number of rows from this request.
 
     Returns:
-        google.cloud.bigquery.table.RowIterator:
+        arrivy.google.cloud.bigquery.table.RowIterator:
             Iterator of row data
-            :class:`~google.cloud.bigquery.table.Row`-s. During each
+            :class:`~arrivy.google.cloud.bigquery.table.Row`-s. During each
             page, the iterator will have the ``total_rows`` attribute
             set, which counts the total number of rows **in the result
             set** (this is distinct from the total number of rows in the
@@ -391,7 +391,7 @@ def query_and_wait(
     Raises:
         TypeError:
             If ``job_config`` is not an instance of
-            :class:`~google.cloud.bigquery.job.QueryJobConfig`
+            :class:`~arrivy.google.cloud.bigquery.job.QueryJobConfig`
             class.
     """
     # Some API parameters aren't supported by the jobs.query API. In these
@@ -458,7 +458,7 @@ def query_and_wait(
 
         # Even if we run with JOB_CREATION_OPTIONAL, if there are more pages
         # to fetch, there will be a job ID for jobs.getQueryResults.
-        query_results = google.cloud.bigquery.query._QueryResults.from_api_repr(
+        query_results = arrivy.google.cloud.bigquery.query._QueryResults.from_api_repr(
             response
         )
         page_token = query_results.page_token

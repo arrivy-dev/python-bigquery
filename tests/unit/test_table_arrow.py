@@ -15,7 +15,7 @@
 import pytest
 
 from google.cloud import bigquery
-import google.cloud.bigquery.table
+import arrivy.google.cloud.bigquery.table
 
 
 pyarrow = pytest.importorskip("pyarrow", minversion="3.0.0")
@@ -53,7 +53,7 @@ def test_to_arrow_with_jobs_query_response():
         "queryId": "job_ocd3cb-N62QIslU7R5qKKa2_427J",
     }
 
-    rows = google.cloud.bigquery.table.RowIterator(
+    rows = arrivy.google.cloud.bigquery.table.RowIterator(
         client=None,
         api_request=None,
         path=None,
@@ -112,7 +112,7 @@ def test_to_arrow_with_jobs_query_response_and_max_results():
         "queryId": "job_ocd3cb-N62QIslU7R5qKKa2_427J",
     }
 
-    rows = google.cloud.bigquery.table.RowIterator(
+    rows = arrivy.google.cloud.bigquery.table.RowIterator(
         client=None,
         api_request=None,
         path=None,

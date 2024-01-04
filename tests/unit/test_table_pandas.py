@@ -39,7 +39,7 @@ else:  # pragma: NO COVER
 
 @pytest.fixture
 def class_under_test():
-    from google.cloud.bigquery.table import RowIterator
+    from arrivy.google.cloud.bigquery.table import RowIterator
 
     return RowIterator
 

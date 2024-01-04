@@ -18,11 +18,11 @@ import decimal
 from dateutil import relativedelta
 
 from google.cloud import bigquery
-from google.cloud.bigquery import enums
+from arrivy.google.cloud.bigquery import enums
 
 
 def test_list_rows_empty_table(bigquery_client: bigquery.Client, table_id: str):
-    from google.cloud.bigquery.table import RowIterator
+    from arrivy.google.cloud.bigquery.table import RowIterator
 
     table = bigquery_client.create_table(table_id)
 

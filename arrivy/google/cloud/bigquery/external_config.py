@@ -24,12 +24,12 @@ import base64
 import copy
 from typing import Any, Dict, FrozenSet, Iterable, Optional, Union
 
-from google.cloud.bigquery._helpers import _to_bytes
-from google.cloud.bigquery._helpers import _bytes_to_json
-from google.cloud.bigquery._helpers import _int_or_none
-from google.cloud.bigquery._helpers import _str_or_none
-from google.cloud.bigquery.format_options import AvroOptions, ParquetOptions
-from google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery._helpers import _to_bytes
+from arrivy.google.cloud.bigquery._helpers import _bytes_to_json
+from arrivy.google.cloud.bigquery._helpers import _int_or_none
+from arrivy.google.cloud.bigquery._helpers import _str_or_none
+from arrivy.google.cloud.bigquery.format_options import AvroOptions, ParquetOptions
+from arrivy.google.cloud.bigquery.schema import SchemaField
 
 
 class ExternalSourceFormat(object):
@@ -37,7 +37,7 @@ class ExternalSourceFormat(object):
 
     Note that the set of allowed values for external data sources is different
     than the set used for loading data (see
-    :class:`~google.cloud.bigquery.job.SourceFormat`).
+    :class:`~arrivy.google.cloud.bigquery.job.SourceFormat`).
     """
 
     CSV = "CSV"
@@ -827,7 +827,7 @@ class ExternalConfig(object):
 
     @property
     def schema(self):
-        """List[:class:`~google.cloud.bigquery.schema.SchemaField`]: The schema
+        """List[:class:`~arrivy.google.cloud.bigquery.schema.SchemaField`]: The schema
         for the data.
 
         See

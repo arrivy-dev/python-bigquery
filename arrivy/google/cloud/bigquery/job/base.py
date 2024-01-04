@@ -25,9 +25,9 @@ from google.api_core import retry as retries
 from google.api_core import exceptions
 import google.api_core.future.polling
 
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery.retry import DEFAULT_RETRY
-from google.cloud.bigquery._helpers import _int_or_none
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
+from arrivy.google.cloud.bigquery._helpers import _int_or_none
 
 
 _DONE_STATE = "DONE"
@@ -307,11 +307,11 @@ class _JobConfig(object):
         level below the job type.
 
         Args:
-            default_job_config (google.cloud.bigquery.job._JobConfig):
+            default_job_config (arrivy.google.cloud.bigquery.job._JobConfig):
                 The default job config that will be used to fill in self.
 
         Returns:
-            google.cloud.bigquery.job._JobConfig: A new (merged) job config.
+            arrivy.google.cloud.bigquery.job._JobConfig: A new (merged) job config.
         """
         if not default_job_config:
             new_job_config = copy.deepcopy(self)
@@ -350,7 +350,7 @@ class _JobConfig(object):
                 from the API.
 
         Returns:
-            google.cloud.bigquery.job._JobConfig: Configuration parsed from ``resource``.
+            arrivy.google.cloud.bigquery.job._JobConfig: Configuration parsed from ``resource``.
         """
         # cls is one of the job config subclasses that provides the job_type argument to
         # this base class on instantiation, thus missing-parameter warning is a false
@@ -367,7 +367,7 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
         job_id (Union[str, _JobReference]):
             Job's ID in the project associated with the client or a
             fully-qualified job reference.
-        client (google.cloud.bigquery.client.Client):
+        client (arrivy.google.cloud.bigquery.client.Client):
             Client which holds credentials and project configuration.
     """
 
@@ -467,12 +467,12 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
         """Check client or verify over-ride.
 
         Args:
-            client (Optional[google.cloud.bigquery.client.Client]):
+            client (Optional[arrivy.google.cloud.bigquery.client.Client]):
                 the client to use.  If not passed, falls back to the
                 ``client`` stored on the current dataset.
 
         Returns:
-            google.cloud.bigquery.client.Client:
+            arrivy.google.cloud.bigquery.client.Client:
                 The client passed in or the currently bound client.
         """
         if client is None:
@@ -577,7 +577,7 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
         """Job resource usage breakdown by reservation.
 
         Returns:
-            List[google.cloud.bigquery.job.ReservationUsage]:
+            List[arrivy.google.cloud.bigquery.job.ReservationUsage]:
                 Reservation usage stats. Can be empty if not set from the server.
         """
         usage_stats_raw = _helpers._get_sub_prop(
@@ -594,7 +594,7 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
 
         Since a scripting query job can execute multiple transactions, this
         property is only expected on child jobs. Use the
-        :meth:`google.cloud.bigquery.client.Client.list_jobs` method with the
+        :meth:`arrivy.google.cloud.bigquery.client.Client.list_jobs` method with the
         ``parent_job`` parameter to iterate over child jobs.
 
         .. versionadded:: 2.24.0
@@ -698,7 +698,7 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert
 
         Args:
-            client (Optional[google.cloud.bigquery.client.Client]):
+            client (Optional[arrivy.google.cloud.bigquery.client.Client]):
                 The client to use. If not passed, falls back to the ``client``
                 associated with the job object or``NoneType``
             retry (Optional[google.api_core.retry.Retry]):
@@ -744,7 +744,7 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/get
 
         Args:
-            client (Optional[google.cloud.bigquery.client.Client]):
+            client (Optional[arrivy.google.cloud.bigquery.client.Client]):
                 the client to use.  If not passed, falls back to the
                 ``client`` stored on the current dataset.
 
@@ -792,7 +792,7 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/get
 
         Args:
-            client (Optional[google.cloud.bigquery.client.Client]):
+            client (Optional[arrivy.google.cloud.bigquery.client.Client]):
                 the client to use.  If not passed, falls back to the
                 ``client`` stored on the current dataset.
 
@@ -832,7 +832,7 @@ class _AsyncJob(google.api_core.future.polling.PollingFuture):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/cancel
 
         Args:
-            client (Optional[google.cloud.bigquery.client.Client]):
+            client (Optional[arrivy.google.cloud.bigquery.client.Client]):
                 the client to use.  If not passed, falls back to the
                 ``client`` stored on the current dataset.
             retry (Optional[google.api_core.retry.Retry]): How to retry the RPC.
@@ -1079,7 +1079,7 @@ class UnknownJob(_AsyncJob):
 
         Args:
             resource (Dict): JSON representation of a job.
-            client (google.cloud.bigquery.client.Client):
+            client (arrivy.google.cloud.bigquery.client.Client):
                 Client connected to BigQuery API.
 
         Returns:

@@ -29,9 +29,9 @@ else:
     # Having BQ Storage available implies that pyarrow >=1.0.0 is available, too.
     _ARROW_COMPRESSION_SUPPORT = True
 
-from google.cloud.bigquery import job
-from google.cloud.bigquery.dbapi import _helpers
-from google.cloud.bigquery.dbapi import exceptions
+from arrivy.google.cloud.bigquery import job
+from arrivy.google.cloud.bigquery.dbapi import _helpers
+from arrivy.google.cloud.bigquery.dbapi import exceptions
 import google.cloud.exceptions  # type: ignore
 
 
@@ -58,7 +58,7 @@ class Cursor(object):
     """DB-API Cursor to Google BigQuery.
 
     Args:
-        connection (google.cloud.bigquery.dbapi.Connection):
+        connection (arrivy.google.cloud.bigquery.dbapi.Connection):
             A DB-API connection to Google BigQuery.
     """
 
@@ -80,7 +80,7 @@ class Cursor(object):
 
     @property
     def query_job(self) -> Optional[job.QueryJob]:
-        """google.cloud.bigquery.job.query.QueryJob | None: The query job
+        """arrivy.google.cloud.bigquery.job.query.QueryJob | None: The query job
         created by the last ``execute*()`` call, if a query job was created.
 
         .. note::
@@ -109,7 +109,7 @@ class Cursor(object):
         """Set description from schema.
 
         Args:
-            schema (Sequence[google.cloud.bigquery.schema.SchemaField]):
+            schema (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]):
                 A description of fields in the schema.
         """
         if schema is None:
@@ -137,7 +137,7 @@ class Cursor(object):
         of modified rows.
 
         Args:
-            query_results (google.cloud.bigquery.query._QueryResults):
+            query_results (arrivy.google.cloud.bigquery.query._QueryResults):
                 Results of a query.
         """
         total_rows = 0
@@ -182,7 +182,7 @@ class Cursor(object):
                 the query job. For best performance and reliability, manually
                 setting a job ID is discouraged.
 
-            job_config (google.cloud.bigquery.job.QueryJobConfig):
+            job_config (arrivy.google.cloud.bigquery.job.QueryJobConfig):
                 (Optional) Extra configuration options for the query job.
         """
         formatted_operation, parameter_types = _format_operation(operation, parameters)
@@ -346,7 +346,7 @@ class Cursor(object):
                 available.
 
         Raises:
-            google.cloud.bigquery.dbapi.InterfaceError: if called before ``execute()``.
+            arrivy.google.cloud.bigquery.dbapi.InterfaceError: if called before ``execute()``.
         """
         self._try_fetch()
         try:
@@ -375,7 +375,7 @@ class Cursor(object):
             List[Tuple]: A list of rows.
 
         Raises:
-            google.cloud.bigquery.dbapi.InterfaceError: if called before ``execute()``.
+            arrivy.google.cloud.bigquery.dbapi.InterfaceError: if called before ``execute()``.
         """
         if size is None:
             # Since self.arraysize can be None (a deviation from PEP 249),
@@ -403,7 +403,7 @@ class Cursor(object):
             List[Tuple]: A list of all the rows in the results.
 
         Raises:
-            google.cloud.bigquery.dbapi.InterfaceError: if called before ``execute()``.
+            arrivy.google.cloud.bigquery.dbapi.InterfaceError: if called before ``execute()``.
         """
         self._try_fetch()
         return list(self._query_data)
@@ -434,7 +434,7 @@ def _format_operation_list(operation, parameters):
         str: A formatted query string.
 
     Raises:
-        google.cloud.bigquery.dbapi.ProgrammingError:
+        arrivy.google.cloud.bigquery.dbapi.ProgrammingError:
             if a parameter used in the operation is not found in the
             ``parameters`` argument.
     """
@@ -461,7 +461,7 @@ def _format_operation_dict(operation, parameters):
         str: A formatted query string.
 
     Raises:
-        google.cloud.bigquery.dbapi.ProgrammingError:
+        arrivy.google.cloud.bigquery.dbapi.ProgrammingError:
             if a parameter used in the operation is not found in the
             ``parameters`` argument.
     """
@@ -489,7 +489,7 @@ def _format_operation(operation, parameters):
         str: A formatted query string.
 
     Raises:
-        google.cloud.bigquery.dbapi.ProgrammingError:
+        arrivy.google.cloud.bigquery.dbapi.ProgrammingError:
             if a parameter used in the operation is not found in the
             ``parameters`` argument.
     """

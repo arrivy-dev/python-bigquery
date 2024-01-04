@@ -17,13 +17,13 @@
 import typing
 from typing import Optional
 
-from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery.table import TableReference
+from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery.table import TableReference
 
-from google.cloud.bigquery.job.base import _AsyncJob
-from google.cloud.bigquery.job.base import _JobConfig
-from google.cloud.bigquery.job.base import _JobReference
+from arrivy.google.cloud.bigquery.job.base import _AsyncJob
+from arrivy.google.cloud.bigquery.job.base import _JobConfig
+from arrivy.google.cloud.bigquery.job.base import _JobReference
 
 
 class OperationType:
@@ -61,7 +61,7 @@ class CopyJobConfig(_JobConfig):
 
     @property
     def create_disposition(self):
-        """google.cloud.bigquery.job.CreateDisposition: Specifies behavior
+        """arrivy.google.cloud.bigquery.job.CreateDisposition: Specifies behavior
         for creating tables.
 
         See
@@ -75,7 +75,7 @@ class CopyJobConfig(_JobConfig):
 
     @property
     def write_disposition(self):
-        """google.cloud.bigquery.job.WriteDisposition: Action that occurs if
+        """arrivy.google.cloud.bigquery.job.WriteDisposition: Action that occurs if
         the destination table already exists.
 
         See
@@ -89,7 +89,7 @@ class CopyJobConfig(_JobConfig):
 
     @property
     def destination_encryption_configuration(self):
-        """google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
+        """arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
         encryption configuration for the destination table.
 
         Custom encryption configuration (e.g., Cloud KMS keys) or :data:`None`
@@ -129,7 +129,7 @@ class CopyJobConfig(_JobConfig):
 
     @property
     def destination_expiration_time(self) -> str:
-        """google.cloud.bigquery.job.DestinationExpirationTime: The time when the
+        """arrivy.google.cloud.bigquery.job.DestinationExpirationTime: The time when the
         destination table expires. Expired tables will be deleted and their storage reclaimed.
 
         See
@@ -148,15 +148,15 @@ class CopyJob(_AsyncJob):
     Args:
         job_id (str): the job's ID, within the project belonging to ``client``.
 
-        sources (List[google.cloud.bigquery.table.TableReference]): Table from which data is to be loaded.
+        sources (List[arrivy.google.cloud.bigquery.table.TableReference]): Table from which data is to be loaded.
 
-        destination (google.cloud.bigquery.table.TableReference): Table into which data is to be loaded.
+        destination (arrivy.google.cloud.bigquery.table.TableReference): Table into which data is to be loaded.
 
-        client (google.cloud.bigquery.client.Client):
+        client (arrivy.google.cloud.bigquery.client.Client):
             A client which holds credentials and project configuration
             for the dataset (which requires a project).
 
-        job_config (Optional[google.cloud.bigquery.job.CopyJobConfig]):
+        job_config (Optional[arrivy.google.cloud.bigquery.job.CopyJobConfig]):
             Extra configuration options for the copy job.
     """
 
@@ -191,7 +191,7 @@ class CopyJob(_AsyncJob):
 
     @property
     def destination(self):
-        """google.cloud.bigquery.table.TableReference: Table into which data
+        """arrivy.google.cloud.bigquery.table.TableReference: Table into which data
         is to be loaded.
         """
         return TableReference.from_api_repr(
@@ -202,7 +202,7 @@ class CopyJob(_AsyncJob):
 
     @property
     def sources(self):
-        """List[google.cloud.bigquery.table.TableReference]): Table(s) from
+        """List[arrivy.google.cloud.bigquery.table.TableReference]): Table(s) from
         which data is to be loaded.
         """
         source_configs = _helpers._get_sub_prop(
@@ -225,27 +225,27 @@ class CopyJob(_AsyncJob):
     @property
     def create_disposition(self):
         """See
-        :attr:`google.cloud.bigquery.job.CopyJobConfig.create_disposition`.
+        :attr:`arrivy.google.cloud.bigquery.job.CopyJobConfig.create_disposition`.
         """
         return self.configuration.create_disposition
 
     @property
     def write_disposition(self):
         """See
-        :attr:`google.cloud.bigquery.job.CopyJobConfig.write_disposition`.
+        :attr:`arrivy.google.cloud.bigquery.job.CopyJobConfig.write_disposition`.
         """
         return self.configuration.write_disposition
 
     @property
     def destination_encryption_configuration(self):
-        """google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
+        """arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
         encryption configuration for the destination table.
 
         Custom encryption configuration (e.g., Cloud KMS keys) or :data:`None`
         if using default encryption.
 
         See
-        :attr:`google.cloud.bigquery.job.CopyJobConfig.destination_encryption_configuration`.
+        :attr:`arrivy.google.cloud.bigquery.job.CopyJobConfig.destination_encryption_configuration`.
         """
         return self.configuration.destination_encryption_configuration
 
@@ -268,12 +268,12 @@ class CopyJob(_AsyncJob):
 
         Args:
             resource (Dict): dataset job representation returned from the API
-            client (google.cloud.bigquery.client.Client):
+            client (arrivy.google.cloud.bigquery.client.Client):
                 Client which holds credentials and project
                 configuration for the dataset.
 
         Returns:
-            google.cloud.bigquery.job.CopyJob: Job parsed from ``resource``.
+            arrivy.google.cloud.bigquery.job.CopyJob: Job parsed from ``resource``.
         """
         cls._check_resource_config(resource)
         job_ref = _JobReference._from_api_repr(resource["jobReference"])

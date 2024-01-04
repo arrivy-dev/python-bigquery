@@ -50,7 +50,7 @@ def disable_add_server_timeout_header(request):
         yield
     else:
         with mock.patch(
-            "google.cloud.bigquery.client._add_server_timeout_header",
+            "arrivy.google.cloud.bigquery.client._add_server_timeout_header",
             noop_add_server_timeout_header,
         ):
             yield

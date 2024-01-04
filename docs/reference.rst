@@ -1,19 +1,19 @@
 API Reference
 ~~~~~~~~~~~~~
 
-.. currentmodule:: google.cloud.bigquery
+.. currentmodule:: arrivy.google.cloud.bigquery
 
 The main concepts with this API are:
 
-- :class:`~google.cloud.bigquery.client.Client` manages connections to the
+- :class:`~arrivy.google.cloud.bigquery.client.Client` manages connections to the
   BigQuery API. Use the client methods to run jobs (such as a
-  :class:`~google.cloud.bigquery.job.QueryJob` via
-  :meth:`~google.cloud.bigquery.client.Client.query`) and manage resources.
+  :class:`~arrivy.google.cloud.bigquery.job.QueryJob` via
+  :meth:`~arrivy.google.cloud.bigquery.client.Client.query`) and manage resources.
 
-- :class:`~google.cloud.bigquery.dataset.Dataset` represents a
+- :class:`~arrivy.google.cloud.bigquery.dataset.Dataset` represents a
   collection of tables.
 
-- :class:`~google.cloud.bigquery.table.Table` represents a single "relation".
+- :class:`~arrivy.google.cloud.bigquery.table.Table` represents a single "relation".
 
 Client
 ======

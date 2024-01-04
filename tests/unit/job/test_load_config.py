@@ -24,7 +24,7 @@ class TestLoadJobConfig(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
 
         return LoadJobConfig
 
@@ -107,7 +107,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.create_disposition)
 
     def test_create_disposition_hit(self):
-        from google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
 
         disposition = CreateDisposition.CREATE_IF_NEEDED
         config = self._get_target_class()()
@@ -115,7 +115,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(config.create_disposition, disposition)
 
     def test_create_disposition_setter(self):
-        from google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
 
         disposition = CreateDisposition.CREATE_IF_NEEDED
         config = self._get_target_class()()
@@ -123,7 +123,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(config._properties["load"]["createDisposition"], disposition)
 
     def test_connection_properties(self):
-        from google.cloud.bigquery.query import ConnectionProperty
+        from arrivy.google.cloud.bigquery.query import ConnectionProperty
 
         config = self._get_target_class()()
         self.assertEqual(len(config.connection_properties), 0)
@@ -148,7 +148,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.decimal_target_types)
 
     def test_decimal_target_types_hit(self):
-        from google.cloud.bigquery.enums import DecimalTargetType
+        from arrivy.google.cloud.bigquery.enums import DecimalTargetType
 
         config = self._get_target_class()()
         decimal_target_types = [DecimalTargetType.NUMERIC, DecimalTargetType.STRING]
@@ -158,7 +158,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(config.decimal_target_types, expected)
 
     def test_decimal_target_types_setter(self):
-        from google.cloud.bigquery.enums import DecimalTargetType
+        from arrivy.google.cloud.bigquery.enums import DecimalTargetType
 
         decimal_target_types = (DecimalTargetType.NUMERIC, DecimalTargetType.BIGNUMERIC)
         config = self._get_target_class()()
@@ -169,7 +169,7 @@ class TestLoadJobConfig(_Base):
         )
 
     def test_decimal_target_types_setter_w_none(self):
-        from google.cloud.bigquery.enums import DecimalTargetType
+        from arrivy.google.cloud.bigquery.enums import DecimalTargetType
 
         config = self._get_target_class()()
         decimal_target_types = [DecimalTargetType.BIGNUMERIC]
@@ -187,7 +187,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.destination_encryption_configuration)
 
     def test_destination_encryption_configuration_hit(self):
-        from google.cloud.bigquery.encryption_configuration import (
+        from arrivy.google.cloud.bigquery.encryption_configuration import (
             EncryptionConfiguration,
         )
 
@@ -202,7 +202,7 @@ class TestLoadJobConfig(_Base):
         )
 
     def test_destination_encryption_configuration_setter(self):
-        from google.cloud.bigquery.encryption_configuration import (
+        from arrivy.google.cloud.bigquery.encryption_configuration import (
             EncryptionConfiguration,
         )
 
@@ -328,7 +328,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.encoding)
 
     def test_encoding_hit(self):
-        from google.cloud.bigquery.job import Encoding
+        from arrivy.google.cloud.bigquery.job import Encoding
 
         encoding = Encoding.UTF_8
         config = self._get_target_class()()
@@ -336,7 +336,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(config.encoding, encoding)
 
     def test_encoding_setter(self):
-        from google.cloud.bigquery.job import Encoding
+        from arrivy.google.cloud.bigquery.job import Encoding
 
         encoding = Encoding.UTF_8
         config = self._get_target_class()()
@@ -364,7 +364,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.hive_partitioning)
 
     def test_hive_partitioning_hit(self):
-        from google.cloud.bigquery.external_config import HivePartitioningOptions
+        from arrivy.google.cloud.bigquery.external_config import HivePartitioningOptions
 
         config = self._get_target_class()()
         config._properties["load"]["hivePartitioningOptions"] = {
@@ -377,7 +377,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(result.mode, "STRINGS")
 
     def test_hive_partitioning_setter(self):
-        from google.cloud.bigquery.external_config import HivePartitioningOptions
+        from arrivy.google.cloud.bigquery.external_config import HivePartitioningOptions
 
         hive_partitioning = HivePartitioningOptions()
         hive_partitioning.source_uri_prefix = "http://foo/bar"
@@ -491,7 +491,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.schema)
 
     def test_schema_hit(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         config = self._get_target_class()()
         all_props_repr = {
@@ -509,7 +509,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(minimal, SchemaField.from_api_repr(minimal_repr))
 
     def test_schema_setter_fields(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         config = self._get_target_class()()
         full_name = SchemaField("full_name", "STRING", mode="REQUIRED")
@@ -560,7 +560,7 @@ class TestLoadJobConfig(_Base):
             config.schema = schema
 
     def test_schema_setter_unsetting_schema(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         config = self._get_target_class()()
         config._properties["load"]["schema"] = [
@@ -577,7 +577,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.schema_update_options)
 
     def test_schema_update_options_hit(self):
-        from google.cloud.bigquery.job import SchemaUpdateOption
+        from arrivy.google.cloud.bigquery.job import SchemaUpdateOption
 
         options = [
             SchemaUpdateOption.ALLOW_FIELD_ADDITION,
@@ -588,7 +588,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(config.schema_update_options, options)
 
     def test_schema_update_options_setter(self):
-        from google.cloud.bigquery.job import SchemaUpdateOption
+        from arrivy.google.cloud.bigquery.job import SchemaUpdateOption
 
         options = [
             SchemaUpdateOption.ALLOW_FIELD_ADDITION,
@@ -627,7 +627,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.source_format)
 
     def test_source_format_hit(self):
-        from google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import SourceFormat
 
         source_format = SourceFormat.CSV
         config = self._get_target_class()()
@@ -635,7 +635,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(config.source_format, source_format)
 
     def test_source_format_setter(self):
-        from google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import SourceFormat
 
         source_format = SourceFormat.CSV
         config = self._get_target_class()()
@@ -658,8 +658,8 @@ class TestLoadJobConfig(_Base):
         object_under_test.range_partitioning.range_.interval == 10
 
     def test_range_partitioning_setter(self):
-        from google.cloud.bigquery.table import PartitionRange
-        from google.cloud.bigquery.table import RangePartitioning
+        from arrivy.google.cloud.bigquery.table import PartitionRange
+        from arrivy.google.cloud.bigquery.table import RangePartitioning
 
         object_under_test = self._get_target_class()()
         object_under_test.range_partitioning = RangePartitioning(
@@ -685,8 +685,8 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.time_partitioning)
 
     def test_time_partitioning_hit(self):
-        from google.cloud.bigquery.table import TimePartitioning
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         field = "creation_date"
         year_ms = 86400 * 1000 * 365
@@ -711,8 +711,8 @@ class TestLoadJobConfig(_Base):
         assert "TimePartitioning.require_partition_filter" in str(warning)
 
     def test_time_partitioning_setter(self):
-        from google.cloud.bigquery.table import TimePartitioning
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         field = "creation_date"
         year_ms = 86400 * 1000 * 365
@@ -740,7 +740,7 @@ class TestLoadJobConfig(_Base):
         assert "TimePartitioning.require_partition_filter" in str(warning)
 
     def test_time_partitioning_setter_w_none(self):
-        from google.cloud.bigquery.table import TimePartitioningType
+        from arrivy.google.cloud.bigquery.table import TimePartitioningType
 
         field = "creation_date"
         year_ms = 86400 * 1000 * 365
@@ -769,7 +769,7 @@ class TestLoadJobConfig(_Base):
         self.assertIsNone(config.write_disposition)
 
     def test_write_disposition_hit(self):
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         write_disposition = WriteDisposition.WRITE_TRUNCATE
         config = self._get_target_class()()
@@ -777,7 +777,7 @@ class TestLoadJobConfig(_Base):
         self.assertEqual(config.write_disposition, write_disposition)
 
     def test_write_disposition_setter(self):
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         write_disposition = WriteDisposition.WRITE_TRUNCATE
         config = self._get_target_class()()
@@ -799,7 +799,7 @@ class TestLoadJobConfig(_Base):
         self.assertFalse(config.parquet_options.enable_list_inference)
 
     def test_parquet_options_setter(self):
-        from google.cloud.bigquery.format_options import ParquetOptions
+        from arrivy.google.cloud.bigquery.format_options import ParquetOptions
 
         parquet_options = ParquetOptions.from_api_repr(
             dict(enumAsString=False, enableListInference=True)

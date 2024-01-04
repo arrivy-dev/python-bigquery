@@ -17,8 +17,8 @@
 import weakref
 
 from google.cloud import bigquery
-from google.cloud.bigquery.dbapi import cursor
-from google.cloud.bigquery.dbapi import _helpers
+from arrivy.google.cloud.bigquery.dbapi import cursor
+from arrivy.google.cloud.bigquery.dbapi import _helpers
 
 
 @_helpers.raise_on_closed("Operating on a closed connection.")
@@ -26,7 +26,7 @@ class Connection(object):
     """DB-API Connection to Google BigQuery.
 
     Args:
-        client (Optional[google.cloud.bigquery.Client]):
+        client (Optional[arrivy.google.cloud.bigquery.Client]):
             A REST API client used to connect to BigQuery. If not passed, a
             client is created using default options inferred from the environment.
         bqstorage_client(\
@@ -88,7 +88,7 @@ class Connection(object):
         """Return a new cursor object.
 
         Returns:
-            google.cloud.bigquery.dbapi.Cursor: A DB-API cursor that uses this connection.
+            arrivy.google.cloud.bigquery.dbapi.Cursor: A DB-API cursor that uses this connection.
         """
         new_cursor = cursor.Cursor(self)
         self._cursors_created.add(new_cursor)
@@ -99,7 +99,7 @@ def connect(client=None, bqstorage_client=None):
     """Construct a DB-API connection to Google BigQuery.
 
     Args:
-        client (Optional[google.cloud.bigquery.Client]):
+        client (Optional[arrivy.google.cloud.bigquery.Client]):
             A REST API client used to connect to BigQuery. If not passed, a
             client is created using default options inferred from the environment.
         bqstorage_client(\
@@ -113,6 +113,6 @@ def connect(client=None, bqstorage_client=None):
             fetching query results.
 
     Returns:
-        google.cloud.bigquery.dbapi.Connection: A new DB-API connection to BigQuery.
+        arrivy.google.cloud.bigquery.dbapi.Connection: A new DB-API connection to BigQuery.
     """
     return Connection(client, bqstorage_client)

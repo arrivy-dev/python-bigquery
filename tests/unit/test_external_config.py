@@ -16,8 +16,8 @@ import base64
 import copy
 import unittest
 
-from google.cloud.bigquery import external_config
-from google.cloud.bigquery import schema
+from arrivy.google.cloud.bigquery import external_config
+from arrivy.google.cloud.bigquery import schema
 
 
 class TestExternalConfig(unittest.TestCase):
@@ -435,7 +435,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertEqual(got_resource, exp_resource)
 
     def test_avro_options_getter_and_setter(self):
-        from google.cloud.bigquery.external_config import AvroOptions
+        from arrivy.google.cloud.bigquery.external_config import AvroOptions
 
         options = AvroOptions.from_api_repr({"useAvroLogicalTypes": True})
         ec = external_config.ExternalConfig(external_config.ExternalSourceFormat.AVRO)
@@ -461,7 +461,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertIsNone(ec.avro_options)
 
     def test_avro_options_setter_wrong_format(self):
-        from google.cloud.bigquery.format_options import AvroOptions
+        from arrivy.google.cloud.bigquery.format_options import AvroOptions
 
         options = AvroOptions()
         ec = external_config.ExternalConfig(external_config.ExternalSourceFormat.CSV)
@@ -470,7 +470,7 @@ class TestExternalConfig(unittest.TestCase):
             ec.avro_options = options
 
     def test_bigtable_options_getter_and_setter(self):
-        from google.cloud.bigquery.external_config import BigtableOptions
+        from arrivy.google.cloud.bigquery.external_config import BigtableOptions
 
         options = BigtableOptions.from_api_repr(
             {"ignoreUnspecifiedColumnFamilies": True, "readRowkeyAsString": False}
@@ -505,7 +505,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertIsNone(ec.bigtable_options)
 
     def test_bigtable_options_setter_wrong_format(self):
-        from google.cloud.bigquery.external_config import BigtableOptions
+        from arrivy.google.cloud.bigquery.external_config import BigtableOptions
 
         options = BigtableOptions()
         ec = external_config.ExternalConfig(external_config.ExternalSourceFormat.CSV)
@@ -514,7 +514,7 @@ class TestExternalConfig(unittest.TestCase):
             ec.bigtable_options = options
 
     def test_csv_options_getter_and_setter(self):
-        from google.cloud.bigquery.external_config import CSVOptions
+        from arrivy.google.cloud.bigquery.external_config import CSVOptions
 
         options = CSVOptions.from_api_repr(
             {
@@ -548,7 +548,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertIsNone(ec.csv_options)
 
     def test_csv_options_setter_wrong_format(self):
-        from google.cloud.bigquery.external_config import CSVOptions
+        from arrivy.google.cloud.bigquery.external_config import CSVOptions
 
         options = CSVOptions()
         ec = external_config.ExternalConfig(external_config.ExternalSourceFormat.AVRO)
@@ -557,7 +557,7 @@ class TestExternalConfig(unittest.TestCase):
             ec.csv_options = options
 
     def test_google_sheets_options_getter_and_setter(self):
-        from google.cloud.bigquery.external_config import GoogleSheetsOptions
+        from arrivy.google.cloud.bigquery.external_config import GoogleSheetsOptions
 
         options = GoogleSheetsOptions.from_api_repr({"skipLeadingRows": "123"})
         ec = external_config.ExternalConfig(
@@ -588,7 +588,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertIsNone(ec.google_sheets_options)
 
     def test_google_sheets_options_setter_wrong_format(self):
-        from google.cloud.bigquery.external_config import GoogleSheetsOptions
+        from arrivy.google.cloud.bigquery.external_config import GoogleSheetsOptions
 
         options = GoogleSheetsOptions()
         ec = external_config.ExternalConfig(external_config.ExternalSourceFormat.CSV)
@@ -597,7 +597,7 @@ class TestExternalConfig(unittest.TestCase):
             ec.google_sheets_options = options
 
     def test_parquet_options_getter_and_setter(self):
-        from google.cloud.bigquery.format_options import ParquetOptions
+        from arrivy.google.cloud.bigquery.format_options import ParquetOptions
 
         options = ParquetOptions.from_api_repr(
             {"enumAsString": True, "enableListInference": False}
@@ -655,7 +655,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertIsNone(ec.parquet_options)
 
     def test_parquet_options_setter_non_parquet_format(self):
-        from google.cloud.bigquery.format_options import ParquetOptions
+        from arrivy.google.cloud.bigquery.format_options import ParquetOptions
 
         parquet_options = ParquetOptions.from_api_repr(
             {"enumAsString": False, "enableListInference": True}
@@ -666,7 +666,7 @@ class TestExternalConfig(unittest.TestCase):
             ec.parquet_options = parquet_options
 
     def test_from_api_repr_parquet(self):
-        from google.cloud.bigquery.format_options import ParquetOptions
+        from arrivy.google.cloud.bigquery.format_options import ParquetOptions
 
         resource = _copy_and_update(
             self.BASE_RESOURCE,
@@ -695,7 +695,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertEqual(got_resource, resource)
 
     def test_to_api_repr_parquet(self):
-        from google.cloud.bigquery.format_options import ParquetOptions
+        from arrivy.google.cloud.bigquery.format_options import ParquetOptions
 
         ec = external_config.ExternalConfig(
             external_config.ExternalSourceFormat.PARQUET
@@ -715,7 +715,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertEqual(got_resource, exp_resource)
 
     def test_from_api_repr_decimal_target_types(self):
-        from google.cloud.bigquery.enums import DecimalTargetType
+        from arrivy.google.cloud.bigquery.enums import DecimalTargetType
 
         resource = _copy_and_update(
             self.BASE_RESOURCE,
@@ -745,7 +745,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertEqual(got_resource, resource)
 
     def test_to_api_repr_decimal_target_types(self):
-        from google.cloud.bigquery.enums import DecimalTargetType
+        from arrivy.google.cloud.bigquery.enums import DecimalTargetType
 
         ec = external_config.ExternalConfig("FORMAT_FOO")
         ec.decimal_target_types = [DecimalTargetType.NUMERIC, DecimalTargetType.STRING]
@@ -759,7 +759,7 @@ class TestExternalConfig(unittest.TestCase):
         self.assertEqual(got_resource, expected_resource)
 
     def test_to_api_repr_decimal_target_types_unset(self):
-        from google.cloud.bigquery.enums import DecimalTargetType
+        from arrivy.google.cloud.bigquery.enums import DecimalTargetType
 
         ec = external_config.ExternalConfig("FORMAT_FOO")
         ec._properties["decimalTargetTypes"] = [DecimalTargetType.NUMERIC]

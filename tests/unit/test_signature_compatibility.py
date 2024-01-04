@@ -20,14 +20,14 @@ import pytest
 
 @pytest.fixture
 def query_job_class():
-    from google.cloud.bigquery.job import QueryJob
+    from arrivy.google.cloud.bigquery.job import QueryJob
 
     return QueryJob
 
 
 @pytest.fixture
 def row_iterator_class():
-    from google.cloud.bigquery.table import RowIterator
+    from arrivy.google.cloud.bigquery.table import RowIterator
 
     return RowIterator
 

@@ -21,7 +21,7 @@ class TestEncryptionConfiguration(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.encryption_configuration import (
+        from arrivy.google.cloud.bigquery.encryption_configuration import (
             EncryptionConfiguration,
         )
 

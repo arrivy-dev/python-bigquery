@@ -19,9 +19,9 @@
 from typing import Any, Dict, Optional
 
 import google.cloud._helpers  # type: ignore
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery.standard_sql import StandardSqlDataType
-from google.cloud.bigquery.standard_sql import StandardSqlTableType
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlDataType
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlTableType
 
 
 class RoutineType:
@@ -45,7 +45,7 @@ class Routine(object):
     https://cloud.google.com/bigquery/docs/reference/rest/v2/routines
 
     Args:
-        routine_ref (Union[str, google.cloud.bigquery.routine.RoutineReference]):
+        routine_ref (Union[str, arrivy.google.cloud.bigquery.routine.RoutineReference]):
             A pointer to a routine. If ``routine_ref`` is a string, it must
             included a project ID, dataset ID, and routine ID, each separated
             by ``.``.
@@ -81,7 +81,7 @@ class Routine(object):
 
     @property
     def reference(self):
-        """google.cloud.bigquery.routine.RoutineReference: Reference
+        """arrivy.google.cloud.bigquery.routine.RoutineReference: Reference
         describing the ID of this routine.
         """
         return RoutineReference.from_api_repr(
@@ -172,12 +172,12 @@ class Routine(object):
 
     @property
     def arguments(self):
-        """List[google.cloud.bigquery.routine.RoutineArgument]: Input/output
+        """List[arrivy.google.cloud.bigquery.routine.RoutineArgument]: Input/output
         argument of a function or a stored procedure.
 
         In-place modification is not supported. To set, replace the entire
         property value with the modified list of
-        :class:`~google.cloud.bigquery.routine.RoutineArgument` objects.
+        :class:`~arrivy.google.cloud.bigquery.routine.RoutineArgument` objects.
         """
         resources = self._properties.get(self._PROPERTY_TO_API_FIELD["arguments"], [])
         return [RoutineArgument.from_api_repr(resource) for resource in resources]
@@ -192,11 +192,11 @@ class Routine(object):
 
     @property
     def return_type(self):
-        """google.cloud.bigquery.StandardSqlDataType: Return type of
+        """arrivy.google.cloud.bigquery.StandardSqlDataType: Return type of
         the routine.
 
         If absent, the return type is inferred from
-        :attr:`~google.cloud.bigquery.routine.Routine.body` at query time in
+        :attr:`~arrivy.google.cloud.bigquery.routine.Routine.body` at query time in
         each query that references this routine. If present, then the
         evaluated result will be cast to the specified returned type at query
         time.
@@ -242,7 +242,7 @@ class Routine(object):
     def imported_libraries(self):
         """List[str]: The path of the imported JavaScript libraries.
 
-        The :attr:`~google.cloud.bigquery.routine.Routine.language` must
+        The :attr:`~arrivy.google.cloud.bigquery.routine.Routine.language` must
         equal ``JAVACRIPT``.
 
         Examples:
@@ -301,13 +301,13 @@ class Routine(object):
 
     @property
     def remote_function_options(self):
-        """Optional[google.cloud.bigquery.routine.RemoteFunctionOptions]:
+        """Optional[arrivy.google.cloud.bigquery.routine.RemoteFunctionOptions]:
         Configures remote function options for a routine.
 
         Raises:
             ValueError:
                 If the value is not
-                :class:`~google.cloud.bigquery.routine.RemoteFunctionOptions` or
+                :class:`~arrivy.google.cloud.bigquery.routine.RemoteFunctionOptions` or
                 :data:`None`.
         """
         prop = self._properties.get(
@@ -323,7 +323,7 @@ class Routine(object):
             api_repr = value.to_api_repr()
         elif value is not None:
             raise ValueError(
-                "value must be google.cloud.bigquery.routine.RemoteFunctionOptions "
+                "value must be arrivy.google.cloud.bigquery.routine.RemoteFunctionOptions "
                 "or None"
             )
         self._properties[
@@ -358,7 +358,7 @@ class Routine(object):
                 Resource, as returned from the API.
 
         Returns:
-            google.cloud.bigquery.routine.Routine:
+            arrivy.google.cloud.bigquery.routine.Routine:
                 Python object, as parsed from ``resource``.
         """
         ref = cls(RoutineReference.from_api_repr(resource["routineReference"]))
@@ -446,7 +446,7 @@ class RoutineArgument(object):
 
     @property
     def data_type(self):
-        """Optional[google.cloud.bigquery.StandardSqlDataType]: Type
+        """Optional[arrivy.google.cloud.bigquery.StandardSqlDataType]: Type
         of a variable, e.g., a function argument.
 
         See:
@@ -474,7 +474,7 @@ class RoutineArgument(object):
             resource (Dict[str, object]): Resource, as returned from the API.
 
         Returns:
-            google.cloud.bigquery.routine.RoutineArgument:
+            arrivy.google.cloud.bigquery.routine.RoutineArgument:
                 Python object, as parsed from ``resource``.
         """
         ref = cls()
@@ -548,7 +548,7 @@ class RoutineReference(object):
                 Routine reference representation returned from the API.
 
         Returns:
-            google.cloud.bigquery.routine.RoutineReference:
+            arrivy.google.cloud.bigquery.routine.RoutineReference:
                 Routine reference parsed from ``resource``.
         """
         ref = cls()
@@ -571,7 +571,7 @@ class RoutineReference(object):
                 include a project ID.
 
         Returns:
-            google.cloud.bigquery.routine.RoutineReference:
+            arrivy.google.cloud.bigquery.routine.RoutineReference:
                 Routine reference parsed from ``routine_id``.
 
         Raises:
@@ -707,7 +707,7 @@ class RemoteFunctionOptions(object):
             resource (Dict[str, object]): Resource, as returned from the API.
 
         Returns:
-            google.cloud.bigquery.routine.RemoteFunctionOptions:
+            arrivy.google.cloud.bigquery.routine.RemoteFunctionOptions:
                 Python object, as parsed from ``resource``.
         """
         ref = cls()

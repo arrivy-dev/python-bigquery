@@ -33,7 +33,7 @@ from .types.table_reference import TableReference
 
 _LEGACY_MSG = (
     "Legacy proto-based types from bigquery_v2 are not maintained anymore, "
-    "use types defined in google.cloud.bigquery instead."
+    "use types defined in arrivy.google.cloud.bigquery instead."
 )
 
 warnings.warn(_LEGACY_MSG, category=DeprecationWarning)

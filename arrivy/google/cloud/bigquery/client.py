@@ -65,26 +65,26 @@ except ImportError:
     DEFAULT_BQSTORAGE_CLIENT_INFO = None  # type: ignore
 
 
-from google.cloud.bigquery._http import Connection
-from google.cloud.bigquery import _job_helpers
-from google.cloud.bigquery import _pandas_helpers
-from google.cloud.bigquery import _versions_helpers
-from google.cloud.bigquery import enums
-from google.cloud.bigquery import exceptions as bq_exceptions
-from google.cloud.bigquery import job
-from google.cloud.bigquery._helpers import _get_sub_prop
-from google.cloud.bigquery._helpers import _record_field_to_json
-from google.cloud.bigquery._helpers import _str_or_none
-from google.cloud.bigquery._helpers import _verify_job_config_type
-from google.cloud.bigquery._helpers import _get_bigquery_host
-from google.cloud.bigquery._helpers import _DEFAULT_HOST
-from google.cloud.bigquery._job_helpers import make_job_id as _make_job_id
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.dataset import DatasetListItem
-from google.cloud.bigquery.dataset import DatasetReference
-from google.cloud.bigquery.enums import AutoRowIDs
-from google.cloud.bigquery.format_options import ParquetOptions
-from google.cloud.bigquery.job import (
+from arrivy.google.cloud.bigquery._http import Connection
+from arrivy.google.cloud.bigquery import _job_helpers
+from arrivy.google.cloud.bigquery import _pandas_helpers
+from arrivy.google.cloud.bigquery import _versions_helpers
+from arrivy.google.cloud.bigquery import enums
+from arrivy.google.cloud.bigquery import exceptions as bq_exceptions
+from arrivy.google.cloud.bigquery import job
+from arrivy.google.cloud.bigquery._helpers import _get_sub_prop
+from arrivy.google.cloud.bigquery._helpers import _record_field_to_json
+from arrivy.google.cloud.bigquery._helpers import _str_or_none
+from arrivy.google.cloud.bigquery._helpers import _verify_job_config_type
+from arrivy.google.cloud.bigquery._helpers import _get_bigquery_host
+from arrivy.google.cloud.bigquery._helpers import _DEFAULT_HOST
+from arrivy.google.cloud.bigquery._job_helpers import make_job_id as _make_job_id
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.dataset import DatasetListItem
+from arrivy.google.cloud.bigquery.dataset import DatasetReference
+from arrivy.google.cloud.bigquery.enums import AutoRowIDs
+from arrivy.google.cloud.bigquery.format_options import ParquetOptions
+from arrivy.google.cloud.bigquery.job import (
     CopyJob,
     CopyJobConfig,
     ExtractJob,
@@ -94,25 +94,25 @@ from google.cloud.bigquery.job import (
     QueryJob,
     QueryJobConfig,
 )
-from google.cloud.bigquery.model import Model
-from google.cloud.bigquery.model import ModelReference
-from google.cloud.bigquery.model import _model_arg_to_model_ref
-from google.cloud.bigquery.opentelemetry_tracing import create_span
-from google.cloud.bigquery.query import _QueryResults
-from google.cloud.bigquery.retry import (
+from arrivy.google.cloud.bigquery.model import Model
+from arrivy.google.cloud.bigquery.model import ModelReference
+from arrivy.google.cloud.bigquery.model import _model_arg_to_model_ref
+from arrivy.google.cloud.bigquery.opentelemetry_tracing import create_span
+from arrivy.google.cloud.bigquery.query import _QueryResults
+from arrivy.google.cloud.bigquery.retry import (
     DEFAULT_JOB_RETRY,
     DEFAULT_RETRY,
     DEFAULT_TIMEOUT,
 )
-from google.cloud.bigquery.routine import Routine
-from google.cloud.bigquery.routine import RoutineReference
-from google.cloud.bigquery.schema import SchemaField
-from google.cloud.bigquery.table import _table_arg_to_table
-from google.cloud.bigquery.table import _table_arg_to_table_ref
-from google.cloud.bigquery.table import Table
-from google.cloud.bigquery.table import TableListItem
-from google.cloud.bigquery.table import TableReference
-from google.cloud.bigquery.table import RowIterator
+from arrivy.google.cloud.bigquery.routine import Routine
+from arrivy.google.cloud.bigquery.routine import RoutineReference
+from arrivy.google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery.table import _table_arg_to_table
+from arrivy.google.cloud.bigquery.table import _table_arg_to_table_ref
+from arrivy.google.cloud.bigquery.table import Table
+from arrivy.google.cloud.bigquery.table import TableListItem
+from arrivy.google.cloud.bigquery.table import TableReference
+from arrivy.google.cloud.bigquery.table import RowIterator
 
 pyarrow = _versions_helpers.PYARROW_VERSIONS.try_import()
 pandas = (
@@ -199,10 +199,10 @@ class Client(ClientWithProject):
             the future.
         location (Optional[str]):
             Default location for jobs / datasets / tables.
-        default_query_job_config (Optional[google.cloud.bigquery.job.QueryJobConfig]):
+        default_query_job_config (Optional[arrivy.google.cloud.bigquery.job.QueryJobConfig]):
             Default ``QueryJobConfig``.
             Will be merged into job configs passed into the ``query`` method.
-        default_load_job_config (Optional[google.cloud.bigquery.job.LoadJobConfig]):
+        default_load_job_config (Optional[arrivy.google.cloud.bigquery.job.LoadJobConfig]):
             Default ``LoadJobConfig``.
             Will be merged into job configs passed into the ``load_table_*`` methods.
         client_info (Optional[google.api_core.client_info.ClientInfo]):
@@ -389,7 +389,7 @@ class Client(ClientWithProject):
 
         Returns:
             google.api_core.page_iterator.Iterator:
-                Iterator of :class:`~google.cloud.bigquery.client.Project`
+                Iterator of :class:`~arrivy.google.cloud.bigquery.client.Project`
                 accessible to the current client.
         """
         span_attributes = {"path": "/projects"}
@@ -459,7 +459,7 @@ class Client(ClientWithProject):
 
         Returns:
             google.api_core.page_iterator.Iterator:
-                Iterator of :class:`~google.cloud.bigquery.dataset.DatasetListItem`.
+                Iterator of :class:`~arrivy.google.cloud.bigquery.dataset.DatasetListItem`.
                 associated with the project.
         """
         extra_params: Dict[str, Any] = {}
@@ -504,14 +504,14 @@ class Client(ClientWithProject):
 
         .. deprecated:: 1.24.0
            Construct a
-           :class:`~google.cloud.bigquery.dataset.DatasetReference` using its
+           :class:`~arrivy.google.cloud.bigquery.dataset.DatasetReference` using its
            constructor or use a string where previously a reference object
            was used.
 
            As of ``google-cloud-bigquery`` version 1.7.0, all client methods
            that take a
-           :class:`~google.cloud.bigquery.dataset.DatasetReference` or
-           :class:`~google.cloud.bigquery.table.TableReference` also take a
+           :class:`~arrivy.google.cloud.bigquery.dataset.DatasetReference` or
+           :class:`~arrivy.google.cloud.bigquery.table.TableReference` also take a
            string in standard SQL format, e.g. ``project.dataset_id`` or
            ``project.dataset_id.table_id``.
 
@@ -522,7 +522,7 @@ class Client(ClientWithProject):
                 Project ID for the dataset (defaults to the project of the client).
 
         Returns:
-            google.cloud.bigquery.dataset.DatasetReference:
+            arrivy.google.cloud.bigquery.dataset.DatasetReference:
                 a new ``DatasetReference`` instance.
         """
         if project is None:
@@ -619,12 +619,12 @@ class Client(ClientWithProject):
 
         Args:
             dataset (Union[ \
-                google.cloud.bigquery.dataset.Dataset, \
-                google.cloud.bigquery.dataset.DatasetReference, \
-                google.cloud.bigquery.dataset.DatasetListItem, \
+                arrivy.google.cloud.bigquery.dataset.Dataset, \
+                arrivy.google.cloud.bigquery.dataset.DatasetReference, \
+                arrivy.google.cloud.bigquery.dataset.DatasetListItem, \
                 str, \
             ]):
-                A :class:`~google.cloud.bigquery.dataset.Dataset` to create.
+                A :class:`~arrivy.google.cloud.bigquery.dataset.Dataset` to create.
                 If ``dataset`` is a reference, an empty dataset is created
                 with the specified ID and client's default location.
             exists_ok (Optional[bool]):
@@ -637,7 +637,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.dataset.Dataset:
+            arrivy.google.cloud.bigquery.dataset.Dataset:
                 A new ``Dataset`` returned from the API.
 
         Raises:
@@ -693,8 +693,8 @@ class Client(ClientWithProject):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/routines/insert
 
         Args:
-            routine (google.cloud.bigquery.routine.Routine):
-                A :class:`~google.cloud.bigquery.routine.Routine` to create.
+            routine (arrivy.google.cloud.bigquery.routine.Routine):
+                A :class:`~arrivy.google.cloud.bigquery.routine.Routine` to create.
                 The dataset that the routine belongs to must already exist.
             exists_ok (Optional[bool]):
                 Defaults to ``False``. If ``True``, ignore "already exists"
@@ -706,7 +706,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.routine.Routine:
+            arrivy.google.cloud.bigquery.routine.Routine:
                 A new ``Routine`` returned from the service.
 
         Raises:
@@ -749,12 +749,12 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str, \
             ]):
-                A :class:`~google.cloud.bigquery.table.Table` to create.
+                A :class:`~arrivy.google.cloud.bigquery.table.Table` to create.
                 If ``table`` is a reference, an empty table is created
                 with the specified ID. The dataset that the table belongs to
                 must already exist.
@@ -768,7 +768,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.table.Table:
+            arrivy.google.cloud.bigquery.table.Table:
                 A new ``Table`` returned from the service.
 
         Raises:
@@ -829,13 +829,13 @@ class Client(ClientWithProject):
 
         Args:
             dataset_ref (Union[ \
-                google.cloud.bigquery.dataset.DatasetReference, \
+                arrivy.google.cloud.bigquery.dataset.DatasetReference, \
                 str, \
             ]):
                 A reference to the dataset to fetch from the BigQuery API.
                 If a string is passed in, this method attempts to create a
                 dataset reference from a string using
-                :func:`~google.cloud.bigquery.dataset.DatasetReference.from_string`.
+                :func:`~arrivy.google.cloud.bigquery.dataset.DatasetReference.from_string`.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
             timeout (Optional[float]):
@@ -843,7 +843,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.dataset.Dataset:
+            arrivy.google.cloud.bigquery.dataset.Dataset:
                 A ``Dataset`` instance.
         """
         if isinstance(dataset_ref, str):
@@ -958,13 +958,13 @@ class Client(ClientWithProject):
 
          Args:
             model_ref (Union[ \
-                google.cloud.bigquery.model.ModelReference, \
+                arrivy.google.cloud.bigquery.model.ModelReference, \
                 str, \
             ]):
                 A reference to the model to fetch from the BigQuery API.
                 If a string is passed in, this method attempts to create a
                 model reference from a string using
-                :func:`google.cloud.bigquery.model.ModelReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.model.ModelReference.from_string`.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
             timeout (Optional[float]):
@@ -972,7 +972,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
          Returns:
-            google.cloud.bigquery.model.Model: A ``Model`` instance.
+            arrivy.google.cloud.bigquery.model.Model: A ``Model`` instance.
         """
         if isinstance(model_ref, str):
             model_ref = ModelReference.from_string(
@@ -1001,14 +1001,14 @@ class Client(ClientWithProject):
 
          Args:
             routine_ref (Union[ \
-                google.cloud.bigquery.routine.Routine, \
-                google.cloud.bigquery.routine.RoutineReference, \
+                arrivy.google.cloud.bigquery.routine.Routine, \
+                arrivy.google.cloud.bigquery.routine.RoutineReference, \
                 str, \
             ]):
                 A reference to the routine to fetch from the BigQuery API. If
                 a string is passed in, this method attempts to create a
                 reference from a string using
-                :func:`google.cloud.bigquery.routine.RoutineReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.routine.RoutineReference.from_string`.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the API call.
             timeout (Optional[float]):
@@ -1016,7 +1016,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
          Returns:
-            google.cloud.bigquery.routine.Routine:
+            arrivy.google.cloud.bigquery.routine.Routine:
                 A ``Routine`` instance.
         """
         if isinstance(routine_ref, str):
@@ -1045,15 +1045,15 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str, \
             ]):
                 A reference to the table to fetch from the BigQuery API.
                 If a string is passed in, this method attempts to create a
                 table reference from a string using
-                :func:`google.cloud.bigquery.table.TableReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.table.TableReference.from_string`.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
             timeout (Optional[float]):
@@ -1061,7 +1061,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.table.Table:
+            arrivy.google.cloud.bigquery.table.Table:
                 A ``Table`` instance.
         """
         table_ref = _table_arg_to_table_ref(table, default_project=self.project)
@@ -1098,12 +1098,12 @@ class Client(ClientWithProject):
         since the read.
 
         Args:
-            dataset (google.cloud.bigquery.dataset.Dataset):
+            dataset (arrivy.google.cloud.bigquery.dataset.Dataset):
                 The dataset to update.
             fields (Sequence[str]):
                 The properties of ``dataset`` to change. These are strings
                 corresponding to the properties of
-                :class:`~google.cloud.bigquery.dataset.Dataset`.
+                :class:`~arrivy.google.cloud.bigquery.dataset.Dataset`.
 
                 For example, to update the default expiration times, specify
                 both properties in the ``fields`` argument:
@@ -1124,7 +1124,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.dataset.Dataset:
+            arrivy.google.cloud.bigquery.dataset.Dataset:
                 The modified ``Dataset`` instance.
         """
         partial = dataset._build_resource(fields)
@@ -1167,11 +1167,11 @@ class Client(ClientWithProject):
         no modifications to the model occurred since the read.
 
         Args:
-            model (google.cloud.bigquery.model.Model): The model to update.
+            model (arrivy.google.cloud.bigquery.model.Model): The model to update.
             fields (Sequence[str]):
                 The properties of ``model`` to change. These are strings
                 corresponding to the properties of
-                :class:`~google.cloud.bigquery.model.Model`.
+                :class:`~arrivy.google.cloud.bigquery.model.Model`.
 
                 For example, to update the descriptive properties of the model,
                 specify them in the ``fields`` argument:
@@ -1188,7 +1188,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.model.Model:
+            arrivy.google.cloud.bigquery.model.Model:
                 The model resource returned from the API call.
         """
         partial = model._build_resource(fields)
@@ -1228,20 +1228,20 @@ class Client(ClientWithProject):
            During beta, partial updates are not supported. You must provide
            all fields in the resource.
 
-        If :attr:`~google.cloud.bigquery.routine.Routine.etag` is not
+        If :attr:`~arrivy.google.cloud.bigquery.routine.Routine.etag` is not
         ``None``, the update will only succeed if the resource on the server
         has the same ETag. Thus reading a routine with
-        :func:`~google.cloud.bigquery.client.Client.get_routine`, changing
+        :func:`~arrivy.google.cloud.bigquery.client.Client.get_routine`, changing
         its fields, and then passing it to this method will ensure that the
         changes will only be saved if no modifications to the resource
         occurred since the read.
 
         Args:
-            routine (google.cloud.bigquery.routine.Routine):
+            routine (arrivy.google.cloud.bigquery.routine.Routine):
                 The routine to update.
             fields (Sequence[str]):
                 The fields of ``routine`` to change, spelled as the
-                :class:`~google.cloud.bigquery.routine.Routine` properties.
+                :class:`~arrivy.google.cloud.bigquery.routine.Routine` properties.
 
                 For example, to update the description property of the routine,
                 specify it in the ``fields`` argument:
@@ -1258,7 +1258,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.routine.Routine:
+            arrivy.google.cloud.bigquery.routine.Routine:
                 The routine resource returned from the API call.
         """
         partial = routine._build_resource(fields)
@@ -1305,10 +1305,10 @@ class Client(ClientWithProject):
         no modifications to the table occurred since the read.
 
         Args:
-            table (google.cloud.bigquery.table.Table): The table to update.
+            table (arrivy.google.cloud.bigquery.table.Table): The table to update.
             fields (Sequence[str]):
                 The fields of ``table`` to change, spelled as the
-                :class:`~google.cloud.bigquery.table.Table` properties.
+                :class:`~arrivy.google.cloud.bigquery.table.Table` properties.
 
                 For example, to update the descriptive properties of the table,
                 specify them in the ``fields`` argument:
@@ -1326,7 +1326,7 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.table.Table:
+            arrivy.google.cloud.bigquery.table.Table:
                 The table resource returned from the API call.
         """
         partial = table._build_resource(fields)
@@ -1366,15 +1366,15 @@ class Client(ClientWithProject):
 
         Args:
             dataset (Union[ \
-                google.cloud.bigquery.dataset.Dataset, \
-                google.cloud.bigquery.dataset.DatasetReference, \
-                google.cloud.bigquery.dataset.DatasetListItem, \
+                arrivy.google.cloud.bigquery.dataset.Dataset, \
+                arrivy.google.cloud.bigquery.dataset.DatasetReference, \
+                arrivy.google.cloud.bigquery.dataset.DatasetListItem, \
                 str, \
             ]):
                 A reference to the dataset whose models to list from the
                 BigQuery API. If a string is passed in, this method attempts
                 to create a dataset reference from a string using
-                :func:`google.cloud.bigquery.dataset.DatasetReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.dataset.DatasetReference.from_string`.
             max_results (Optional[int]):
                 Maximum number of models to return. Defaults to a
                 value set by the API.
@@ -1396,7 +1396,7 @@ class Client(ClientWithProject):
          Returns:
             google.api_core.page_iterator.Iterator:
                 Iterator of
-                :class:`~google.cloud.bigquery.model.Model` contained
+                :class:`~arrivy.google.cloud.bigquery.model.Model` contained
                 within the requested dataset.
         """
         dataset = self._dataset_from_arg(dataset)
@@ -1443,15 +1443,15 @@ class Client(ClientWithProject):
 
         Args:
             dataset (Union[ \
-                google.cloud.bigquery.dataset.Dataset, \
-                google.cloud.bigquery.dataset.DatasetReference, \
-                google.cloud.bigquery.dataset.DatasetListItem, \
+                arrivy.google.cloud.bigquery.dataset.Dataset, \
+                arrivy.google.cloud.bigquery.dataset.DatasetReference, \
+                arrivy.google.cloud.bigquery.dataset.DatasetListItem, \
                 str, \
             ]):
                 A reference to the dataset whose routines to list from the
                 BigQuery API. If a string is passed in, this method attempts
                 to create a dataset reference from a string using
-                :func:`google.cloud.bigquery.dataset.DatasetReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.dataset.DatasetReference.from_string`.
             max_results (Optional[int]):
                 Maximum number of routines to return. Defaults
                 to a value set by the API.
@@ -1473,7 +1473,7 @@ class Client(ClientWithProject):
          Returns:
             google.api_core.page_iterator.Iterator:
                 Iterator of all
-                :class:`~google.cloud.bigquery.routine.Routine`s contained
+                :class:`~arrivy.google.cloud.bigquery.routine.Routine`s contained
                 within the requested dataset, limited by ``max_results``.
         """
         dataset = self._dataset_from_arg(dataset)
@@ -1520,15 +1520,15 @@ class Client(ClientWithProject):
 
         Args:
             dataset (Union[ \
-                google.cloud.bigquery.dataset.Dataset, \
-                google.cloud.bigquery.dataset.DatasetReference, \
-                google.cloud.bigquery.dataset.DatasetListItem, \
+                arrivy.google.cloud.bigquery.dataset.Dataset, \
+                arrivy.google.cloud.bigquery.dataset.DatasetReference, \
+                arrivy.google.cloud.bigquery.dataset.DatasetListItem, \
                 str, \
             ]):
                 A reference to the dataset whose tables to list from the
                 BigQuery API. If a string is passed in, this method attempts
                 to create a dataset reference from a string using
-                :func:`google.cloud.bigquery.dataset.DatasetReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.dataset.DatasetReference.from_string`.
             max_results (Optional[int]):
                 Maximum number of tables to return. Defaults
                 to a value set by the API.
@@ -1550,7 +1550,7 @@ class Client(ClientWithProject):
         Returns:
             google.api_core.page_iterator.Iterator:
                 Iterator of
-                :class:`~google.cloud.bigquery.table.TableListItem` contained
+                :class:`~arrivy.google.cloud.bigquery.table.TableListItem` contained
                 within the requested dataset.
         """
         dataset = self._dataset_from_arg(dataset)
@@ -1595,15 +1595,15 @@ class Client(ClientWithProject):
 
         Args:
             dataset (Union[ \
-                google.cloud.bigquery.dataset.Dataset, \
-                google.cloud.bigquery.dataset.DatasetReference, \
-                google.cloud.bigquery.dataset.DatasetListItem, \
+                arrivy.google.cloud.bigquery.dataset.Dataset, \
+                arrivy.google.cloud.bigquery.dataset.DatasetReference, \
+                arrivy.google.cloud.bigquery.dataset.DatasetListItem, \
                 str, \
             ]):
                 A reference to the dataset to delete. If a string is passed
                 in, this method attempts to create a dataset reference from a
                 string using
-                :func:`google.cloud.bigquery.dataset.DatasetReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.dataset.DatasetReference.from_string`.
             delete_contents (Optional[bool]):
                 If True, delete all the tables in the dataset. If False and
                 the dataset contains tables, the request will fail.
@@ -1654,14 +1654,14 @@ class Client(ClientWithProject):
 
         Args:
             model (Union[ \
-                google.cloud.bigquery.model.Model, \
-                google.cloud.bigquery.model.ModelReference, \
+                arrivy.google.cloud.bigquery.model.Model, \
+                arrivy.google.cloud.bigquery.model.ModelReference, \
                 str, \
             ]):
                 A reference to the model to delete. If a string is passed in,
                 this method attempts to create a model reference from a
                 string using
-                :func:`google.cloud.bigquery.model.ModelReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.model.ModelReference.from_string`.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
             timeout (Optional[float]):
@@ -1704,7 +1704,7 @@ class Client(ClientWithProject):
         """[Beta] Delete job metadata from job history.
 
         Note: This does not stop a running job. Use
-        :func:`~google.cloud.bigquery.client.Client.cancel_job` instead.
+        :func:`~arrivy.google.cloud.bigquery.client.Client.cancel_job` instead.
 
         Args:
             job_id: Job or job identifier.
@@ -1771,14 +1771,14 @@ class Client(ClientWithProject):
 
         Args:
             routine (Union[ \
-                google.cloud.bigquery.routine.Routine, \
-                google.cloud.bigquery.routine.RoutineReference, \
+                arrivy.google.cloud.bigquery.routine.Routine, \
+                arrivy.google.cloud.bigquery.routine.RoutineReference, \
                 str, \
             ]):
                 A reference to the routine to delete. If a string is passed
                 in, this method attempts to create a routine reference from a
                 string using
-                :func:`google.cloud.bigquery.routine.RoutineReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.routine.RoutineReference.from_string`.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
             timeout (Optional[float]):
@@ -1825,15 +1825,15 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str, \
             ]):
                 A reference to the table to delete. If a string is passed in,
                 this method attempts to create a table reference from a
                 string using
-                :func:`google.cloud.bigquery.table.TableReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.table.TableReference.from_string`.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
             timeout (Optional[float]):
@@ -1890,7 +1890,7 @@ class Client(ClientWithProject):
                 would otherwise be a successful response.
 
         Returns:
-            google.cloud.bigquery.query._QueryResults:
+            arrivy.google.cloud.bigquery.query._QueryResults:
                 A new ``_QueryResults`` instance.
         """
 
@@ -1973,16 +1973,16 @@ class Client(ClientWithProject):
 
         Returns:
             Union[ \
-                google.cloud.bigquery.job.LoadJob, \
-                google.cloud.bigquery.job.CopyJob, \
-                google.cloud.bigquery.job.ExtractJob, \
-                google.cloud.bigquery.job.QueryJob \
+                arrivy.google.cloud.bigquery.job.LoadJob, \
+                arrivy.google.cloud.bigquery.job.CopyJob, \
+                arrivy.google.cloud.bigquery.job.ExtractJob, \
+                arrivy.google.cloud.bigquery.job.QueryJob \
             ]:
                 A new job instance.
         """
 
         if "load" in job_config:
-            load_job_config = google.cloud.bigquery.job.LoadJobConfig.from_api_repr(
+            load_job_config = arrivy.google.cloud.bigquery.job.LoadJobConfig.from_api_repr(
                 job_config
             )
             destination = _get_sub_prop(job_config, ["load", "destinationTable"])
@@ -1996,7 +1996,7 @@ class Client(ClientWithProject):
                 timeout=timeout,
             )
         elif "copy" in job_config:
-            copy_job_config = google.cloud.bigquery.job.CopyJobConfig.from_api_repr(
+            copy_job_config = arrivy.google.cloud.bigquery.job.CopyJobConfig.from_api_repr(
                 job_config
             )
             destination = _get_sub_prop(job_config, ["copy", "destinationTable"])
@@ -2010,7 +2010,7 @@ class Client(ClientWithProject):
             )
         elif "extract" in job_config:
             extract_job_config = (
-                google.cloud.bigquery.job.ExtractJobConfig.from_api_repr(job_config)
+                arrivy.google.cloud.bigquery.job.ExtractJobConfig.from_api_repr(job_config)
             )
             source = _get_sub_prop(job_config, ["extract", "sourceTable"])
             if source:
@@ -2030,7 +2030,7 @@ class Client(ClientWithProject):
                 source_type=source_type,
             )
         elif "query" in job_config:
-            query_job_config = google.cloud.bigquery.job.QueryJobConfig.from_api_repr(
+            query_job_config = arrivy.google.cloud.bigquery.job.QueryJobConfig.from_api_repr(
                 job_config
             )
             query = _get_sub_prop(job_config, ["query", "query"])
@@ -2123,10 +2123,10 @@ class Client(ClientWithProject):
         Args:
             job_id (Union[ \
                 str, \
-                google.cloud.bigquery.job.LoadJob, \
-                google.cloud.bigquery.job.CopyJob, \
-                google.cloud.bigquery.job.ExtractJob, \
-                google.cloud.bigquery.job.QueryJob \
+                arrivy.google.cloud.bigquery.job.LoadJob, \
+                arrivy.google.cloud.bigquery.job.CopyJob, \
+                arrivy.google.cloud.bigquery.job.ExtractJob, \
+                arrivy.google.cloud.bigquery.job.QueryJob \
             ]): Job identifier.
 
         Keyword Arguments:
@@ -2143,10 +2143,10 @@ class Client(ClientWithProject):
 
         Returns:
             Union[ \
-                google.cloud.bigquery.job.LoadJob, \
-                google.cloud.bigquery.job.CopyJob, \
-                google.cloud.bigquery.job.ExtractJob, \
-                google.cloud.bigquery.job.QueryJob, \
+                arrivy.google.cloud.bigquery.job.LoadJob, \
+                arrivy.google.cloud.bigquery.job.CopyJob, \
+                arrivy.google.cloud.bigquery.job.ExtractJob, \
+                arrivy.google.cloud.bigquery.job.QueryJob, \
             ]:
                 Job instance, based on the resource returned by the API.
         """
@@ -2210,7 +2210,7 @@ class Client(ClientWithProject):
                 Project ID to use for retreiving datasets. Defaults
                 to the client's project.
             parent_job (Optional[Union[ \
-                google.cloud.bigquery.job._AsyncJob, \
+                arrivy.google.cloud.bigquery.job._AsyncJob, \
                 str, \
             ]]):
                 If set, retrieve only child jobs of the specified parent.
@@ -2322,15 +2322,15 @@ class Client(ClientWithProject):
                 URIs of data files to be loaded; in format
                 ``gs://<bucket_name>/<object_name_or_glob>``.
             destination (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str, \
             ]):
                 Table into which data is to be loaded. If a string is passed
                 in, this method attempts to create a table reference from a
                 string using
-                :func:`google.cloud.bigquery.table.TableReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.table.TableReference.from_string`.
 
         Keyword Arguments:
             job_id (Optional[str]): Name of the job.
@@ -2343,7 +2343,7 @@ class Client(ClientWithProject):
             project (Optional[str]):
                 Project ID of the project of where to run the job. Defaults
                 to the client's project.
-            job_config (Optional[google.cloud.bigquery.job.LoadJobConfig]):
+            job_config (Optional[arrivy.google.cloud.bigquery.job.LoadJobConfig]):
                 Extra configuration options for the job.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
@@ -2352,12 +2352,12 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.job.LoadJob: A new load job.
+            arrivy.google.cloud.bigquery.job.LoadJob: A new load job.
 
         Raises:
             TypeError:
                 If ``job_config`` is not an instance of
-                :class:`~google.cloud.bigquery.job.LoadJobConfig` class.
+                :class:`~arrivy.google.cloud.bigquery.job.LoadJobConfig` class.
         """
         job_id = _make_job_id(job_id, job_id_prefix)
 
@@ -2403,7 +2403,7 @@ class Client(ClientWithProject):
         """Upload the contents of this table from a file-like object.
 
         Similar to :meth:`load_table_from_uri`, this method creates, starts and
-        returns a :class:`~google.cloud.bigquery.job.LoadJob`.
+        returns a :class:`~arrivy.google.cloud.bigquery.job.LoadJob`.
 
         Args:
             file_obj:
@@ -2412,7 +2412,7 @@ class Client(ClientWithProject):
                 Table into which data is to be loaded. If a string is passed
                 in, this method attempts to create a table reference from a
                 string using
-                :func:`google.cloud.bigquery.table.TableReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.table.TableReference.from_string`.
 
         Keyword Arguments:
             rewind:
@@ -2444,7 +2444,7 @@ class Client(ClientWithProject):
                 See :meth:`requests.Session.request` documentation for details.
 
         Returns:
-            google.cloud.bigquery.job.LoadJob: A new load job.
+            arrivy.google.cloud.bigquery.job.LoadJob: A new load job.
 
         Raises:
             ValueError:
@@ -2454,7 +2454,7 @@ class Client(ClientWithProject):
 
             TypeError:
                 If ``job_config`` is not an instance of
-                :class:`~google.cloud.bigquery.job.LoadJobConfig` class.
+                :class:`~arrivy.google.cloud.bigquery.job.LoadJobConfig` class.
         """
         job_id = _make_job_id(job_id, job_id_prefix)
 
@@ -2512,7 +2512,7 @@ class Client(ClientWithProject):
         """Upload the contents of a table from a pandas DataFrame.
 
         Similar to :meth:`load_table_from_uri`, this method creates, starts and
-        returns a :class:`~google.cloud.bigquery.job.LoadJob`.
+        returns a :class:`~arrivy.google.cloud.bigquery.job.LoadJob`.
 
         .. note::
 
@@ -2537,7 +2537,7 @@ class Client(ClientWithProject):
 
                 If a string is passed in, this method attempts to create a
                 table reference from a string using
-                :func:`google.cloud.bigquery.table.TableReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.table.TableReference.from_string`.
 
         Keyword Arguments:
             num_retries: Number of upload retries.
@@ -2557,17 +2557,17 @@ class Client(ClientWithProject):
 
                 To override the default pandas data type conversions, supply
                 a value for
-                :attr:`~google.cloud.bigquery.job.LoadJobConfig.schema` with
+                :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.schema` with
                 column names matching those of the dataframe. The BigQuery
                 schema is used to determine the correct data type conversion.
                 Indexes are not loaded.
 
                 By default, this method uses the parquet source format. To
                 override this, supply a value for
-                :attr:`~google.cloud.bigquery.job.LoadJobConfig.source_format`
+                :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.source_format`
                 with the format name. Currently only
-                :attr:`~google.cloud.bigquery.job.SourceFormat.CSV` and
-                :attr:`~google.cloud.bigquery.job.SourceFormat.PARQUET` are
+                :attr:`~arrivy.google.cloud.bigquery.job.SourceFormat.CSV` and
+                :attr:`~arrivy.google.cloud.bigquery.job.SourceFormat.PARQUET` are
                 supported.
             parquet_compression:
                 [Beta] The compression method to use if intermittently
@@ -2591,7 +2591,7 @@ class Client(ClientWithProject):
                 See :meth:`requests.Session.request` documentation for details.
 
         Returns:
-            google.cloud.bigquery.job.LoadJob: A new load job.
+            arrivy.google.cloud.bigquery.job.LoadJob: A new load job.
 
         Raises:
             ValueError:
@@ -2599,7 +2599,7 @@ class Client(ClientWithProject):
                 requires :mod:`pyarrow` to be installed.
             TypeError:
                 If ``job_config`` is not an instance of
-                :class:`~google.cloud.bigquery.job.LoadJobConfig` class.
+                :class:`~arrivy.google.cloud.bigquery.job.LoadJobConfig` class.
         """
         job_id = _make_job_id(job_id, job_id_prefix)
 
@@ -2764,7 +2764,7 @@ class Client(ClientWithProject):
 
                     If your data is already a newline-delimited JSON string,
                     it is best to wrap it into a file-like object and pass it
-                    to :meth:`~google.cloud.bigquery.client.Client.load_table_from_file`::
+                    to :meth:`~arrivy.google.cloud.bigquery.client.Client.load_table_from_file`::
 
                         import io
                         from google.cloud import bigquery
@@ -2779,7 +2779,7 @@ class Client(ClientWithProject):
                 Table into which data is to be loaded. If a string is passed
                 in, this method attempts to create a table reference from a
                 string using
-                :func:`google.cloud.bigquery.table.TableReference.from_string`.
+                :func:`arrivy.google.cloud.bigquery.table.TableReference.from_string`.
 
         Keyword Arguments:
             num_retries: Number of upload retries.
@@ -2796,7 +2796,7 @@ class Client(ClientWithProject):
             job_config:
                 Extra configuration options for the job. The ``source_format``
                 setting is always set to
-                :attr:`~google.cloud.bigquery.job.SourceFormat.NEWLINE_DELIMITED_JSON`.
+                :attr:`~arrivy.google.cloud.bigquery.job.SourceFormat.NEWLINE_DELIMITED_JSON`.
             timeout:
                 The number of seconds to wait for the underlying HTTP transport
                 before using ``retry``. Depending on the retry strategy, a request may
@@ -2806,12 +2806,12 @@ class Client(ClientWithProject):
                 See :meth:`requests.Session.request` documentation for details.
 
         Returns:
-            google.cloud.bigquery.job.LoadJob: A new load job.
+            arrivy.google.cloud.bigquery.job.LoadJob: A new load job.
 
         Raises:
             TypeError:
                 If ``job_config`` is not an instance of
-                :class:`~google.cloud.bigquery.job.LoadJobConfig` class.
+                :class:`~arrivy.google.cloud.bigquery.job.LoadJobConfig` class.
         """
         job_id = _make_job_id(job_id, job_id_prefix)
 
@@ -3074,24 +3074,24 @@ class Client(ClientWithProject):
 
         Args:
             sources (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str, \
                 Sequence[ \
                     Union[ \
-                        google.cloud.bigquery.table.Table, \
-                        google.cloud.bigquery.table.TableReference, \
-                        google.cloud.bigquery.table.TableListItem, \
+                        arrivy.google.cloud.bigquery.table.Table, \
+                        arrivy.google.cloud.bigquery.table.TableReference, \
+                        arrivy.google.cloud.bigquery.table.TableListItem, \
                         str, \
                     ] \
                 ], \
             ]):
                 Table or tables to be copied.
             destination (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str, \
             ]):
                 Table into which data is to be copied.
@@ -3107,7 +3107,7 @@ class Client(ClientWithProject):
             project (Optional[str]):
                 Project ID of the project of where to run the job. Defaults
                 to the client's project.
-            job_config (Optional[google.cloud.bigquery.job.CopyJobConfig]):
+            job_config (Optional[arrivy.google.cloud.bigquery.job.CopyJobConfig]):
                 Extra configuration options for the job.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
@@ -3116,11 +3116,11 @@ class Client(ClientWithProject):
                 before using ``retry``.
 
         Returns:
-            google.cloud.bigquery.job.CopyJob: A new copy job instance.
+            arrivy.google.cloud.bigquery.job.CopyJob: A new copy job instance.
 
         Raises:
             TypeError:
-                If ``job_config`` is not an instance of :class:`~google.cloud.bigquery.job.CopyJobConfig`
+                If ``job_config`` is not an instance of :class:`~arrivy.google.cloud.bigquery.job.CopyJobConfig`
                 class.
         """
         job_id = _make_job_id(job_id, job_id_prefix)
@@ -3151,7 +3151,7 @@ class Client(ClientWithProject):
         destination = _table_arg_to_table_ref(destination, default_project=self.project)
 
         if job_config:
-            _verify_job_config_type(job_config, google.cloud.bigquery.job.CopyJobConfig)
+            _verify_job_config_type(job_config, arrivy.google.cloud.bigquery.job.CopyJobConfig)
             job_config = copy.deepcopy(job_config)
 
         copy_job = job.CopyJob(
@@ -3181,11 +3181,11 @@ class Client(ClientWithProject):
 
         Args:
             source (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
-                google.cloud.bigquery.model.Model, \
-                google.cloud.bigquery.model.ModelReference, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.model.Model, \
+                arrivy.google.cloud.bigquery.model.ModelReference, \
                 src, \
             ]):
                 Table or Model to be extracted.
@@ -3205,7 +3205,7 @@ class Client(ClientWithProject):
             project (Optional[str]):
                 Project ID of the project of where to run the job. Defaults
                 to the client's project.
-            job_config (Optional[google.cloud.bigquery.job.ExtractJobConfig]):
+            job_config (Optional[arrivy.google.cloud.bigquery.job.ExtractJobConfig]):
                 Extra configuration options for the job.
             retry (Optional[google.api_core.retry.Retry]):
                 How to retry the RPC.
@@ -3215,11 +3215,11 @@ class Client(ClientWithProject):
             source_type (Optional[str]):
                 Type of source to be extracted.``Table`` or ``Model``. Defaults to ``Table``.
         Returns:
-            google.cloud.bigquery.job.ExtractJob: A new extract job instance.
+            arrivy.google.cloud.bigquery.job.ExtractJob: A new extract job instance.
 
         Raises:
             TypeError:
-                If ``job_config`` is not an instance of :class:`~google.cloud.bigquery.job.ExtractJobConfig`
+                If ``job_config`` is not an instance of :class:`~arrivy.google.cloud.bigquery.job.ExtractJobConfig`
                 class.
             ValueError:
                 If ``source_type`` is not among ``Table``,``Model``.
@@ -3250,7 +3250,7 @@ class Client(ClientWithProject):
 
         if job_config:
             _verify_job_config_type(
-                job_config, google.cloud.bigquery.job.ExtractJobConfig
+                job_config, arrivy.google.cloud.bigquery.job.ExtractJobConfig
             )
             job_config = copy.deepcopy(job_config)
 
@@ -3285,7 +3285,7 @@ class Client(ClientWithProject):
                 dialect. Use the ``job_config`` parameter to change dialects.
 
         Keyword Arguments:
-            job_config (Optional[google.cloud.bigquery.job.QueryJobConfig]):
+            job_config (Optional[arrivy.google.cloud.bigquery.job.QueryJobConfig]):
                 Extra configuration options for the job.
                 To override any options that were previously set in
                 the ``default_query_job_config`` given to the
@@ -3327,16 +3327,16 @@ class Client(ClientWithProject):
             api_method (Union[str, enums.QueryApiMethod]):
                 Method with which to start the query job.
 
-                See :class:`google.cloud.bigquery.enums.QueryApiMethod` for
+                See :class:`arrivy.google.cloud.bigquery.enums.QueryApiMethod` for
                 details on the difference between the query start methods.
 
         Returns:
-            google.cloud.bigquery.job.QueryJob: A new query job instance.
+            arrivy.google.cloud.bigquery.job.QueryJob: A new query job instance.
 
         Raises:
             TypeError:
                 If ``job_config`` is not an instance of
-                :class:`~google.cloud.bigquery.job.QueryJobConfig`
+                :class:`~arrivy.google.cloud.bigquery.job.QueryJobConfig`
                 class, or if both ``job_id`` and non-``None`` non-default
                 ``job_retry`` are provided.
         """
@@ -3426,7 +3426,7 @@ class Client(ClientWithProject):
             query (str):
                 SQL query to be executed. Defaults to the standard SQL
                 dialect. Use the ``job_config`` parameter to change dialects.
-            job_config (Optional[google.cloud.bigquery.job.QueryJobConfig]):
+            job_config (Optional[arrivy.google.cloud.bigquery.job.QueryJobConfig]):
                 Extra configuration options for the job.
                 To override any options that were previously set in
                 the ``default_query_job_config`` given to the
@@ -3461,9 +3461,9 @@ class Client(ClientWithProject):
                 The maximum total number of rows from this request.
 
         Returns:
-            google.cloud.bigquery.table.RowIterator:
+            arrivy.google.cloud.bigquery.table.RowIterator:
                 Iterator of row data
-                :class:`~google.cloud.bigquery.table.Row`-s. During each
+                :class:`~arrivy.google.cloud.bigquery.table.Row`-s. During each
                 page, the iterator will have the ``total_rows`` attribute
                 set, which counts the total number of rows **in the result
                 set** (this is distinct from the total number of rows in the
@@ -3475,7 +3475,7 @@ class Client(ClientWithProject):
         Raises:
             TypeError:
                 If ``job_config`` is not an instance of
-                :class:`~google.cloud.bigquery.job.QueryJobConfig`
+                :class:`~arrivy.google.cloud.bigquery.job.QueryJobConfig`
                 class.
         """
         if project is None:
@@ -3527,8 +3527,8 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
                 str, \
             ]):
                 The destination table for the row data, or a reference to it.
@@ -3539,12 +3539,12 @@ class Client(ClientWithProject):
                 a list of dictionaries is given, the keys must include all
                 required fields in the schema. Keys which do not correspond
                 to a field in the schema are ignored.
-            selected_fields (Sequence[google.cloud.bigquery.schema.SchemaField]):
+            selected_fields (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]):
                 The fields to return. Required if ``table`` is a
-                :class:`~google.cloud.bigquery.table.TableReference`.
+                :class:`~arrivy.google.cloud.bigquery.table.TableReference`.
             kwargs (dict):
                 Keyword arguments to
-                :meth:`~google.cloud.bigquery.client.Client.insert_rows_json`.
+                :meth:`~arrivy.google.cloud.bigquery.client.Client.insert_rows_json`.
 
         Returns:
             Sequence[Mappings]:
@@ -3600,8 +3600,8 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
                 str, \
             ]):
                 The destination table for the row data, or a reference to it.
@@ -3609,14 +3609,14 @@ class Client(ClientWithProject):
                 A :class:`~pandas.DataFrame` containing the data to load. Any
                 ``NaN`` values present in the dataframe are omitted from the
                 streaming API request(s).
-            selected_fields (Sequence[google.cloud.bigquery.schema.SchemaField]):
+            selected_fields (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]):
                 The fields to return. Required if ``table`` is a
-                :class:`~google.cloud.bigquery.table.TableReference`.
+                :class:`~arrivy.google.cloud.bigquery.table.TableReference`.
             chunk_size (int):
                 The number of rows to stream in a single chunk. Must be positive.
             kwargs (Dict):
                 Keyword arguments to
-                :meth:`~google.cloud.bigquery.client.Client.insert_rows_json`.
+                :meth:`~arrivy.google.cloud.bigquery.client.Client.insert_rows_json`.
 
         Returns:
             Sequence[Sequence[Mappings]]:
@@ -3668,9 +3668,9 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str \
             ]):
                 The destination table for the row data, or a reference to it.
@@ -3801,9 +3801,9 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableReference, \
-                google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
                 str, \
             ]):
                 The table or reference from which to get partition info
@@ -3862,16 +3862,16 @@ class Client(ClientWithProject):
 
         Args:
             table (Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableListItem, \
-                google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
                 str, \
             ]):
                 The table to list, or a reference to it. When the table
                 object does not contain a schema and ``selected_fields`` is
                 not supplied, this method calls ``get_table`` to fetch the
                 table schema.
-            selected_fields (Sequence[google.cloud.bigquery.schema.SchemaField]):
+            selected_fields (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]):
                 The fields to return. If not supplied, data for all columns
                 are downloaded.
             max_results (Optional[int]):
@@ -3882,7 +3882,7 @@ class Client(ClientWithProject):
                 rows. The token marks the beginning of the iterator to be
                 returned and the value of the ``page_token`` can be accessed
                 at ``next_page_token`` of the
-                :class:`~google.cloud.bigquery.table.RowIterator`.
+                :class:`~arrivy.google.cloud.bigquery.table.RowIterator`.
             start_index (Optional[int]):
                 The zero-based index of the starting row to read.
             page_size (Optional[int]):
@@ -3897,9 +3897,9 @@ class Client(ClientWithProject):
                 applies to each individual request.
 
         Returns:
-            google.cloud.bigquery.table.RowIterator:
+            arrivy.google.cloud.bigquery.table.RowIterator:
                 Iterator of row data
-                :class:`~google.cloud.bigquery.table.Row`-s. During each
+                :class:`~arrivy.google.cloud.bigquery.table.Row`-s. During each
                 page, the iterator will have the ``total_rows`` attribute
                 set, which counts the total number of rows **in the table**
                 (this is distinct from the total number of rows in the
@@ -3974,15 +3974,15 @@ class Client(ClientWithProject):
             location (str): Location of the query job.
             project (str):
                 ID of the project where the query job was run.
-            schema (Sequence[google.cloud.bigquery.schema.SchemaField]):
+            schema (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField]):
                 The fields expected in these query results. Used to convert
                 from JSON to expected Python types.
             total_rows (Optional[int]):
                 Total number of rows in the query results.
             destination (Optional[Union[ \
-                google.cloud.bigquery.table.Table, \
-                google.cloud.bigquery.table.TableListItem, \
-                google.cloud.bigquery.table.TableReference, \
+                arrivy.google.cloud.bigquery.table.Table, \
+                arrivy.google.cloud.bigquery.table.TableListItem, \
+                arrivy.google.cloud.bigquery.table.TableReference, \
                 str, \
             ]]):
                 Destination table reference. Used to fetch the query results
@@ -4013,9 +4013,9 @@ class Client(ClientWithProject):
                 rows that were affected.
 
         Returns:
-            google.cloud.bigquery.table.RowIterator:
+            arrivy.google.cloud.bigquery.table.RowIterator:
                 Iterator of row data
-                :class:`~google.cloud.bigquery.table.Row`-s.
+                :class:`~arrivy.google.cloud.bigquery.table.Row`-s.
         """
         params: Dict[str, Any] = {
             "fields": _LIST_ROWS_FROM_QUERY_RESULTS_FIELDS,
@@ -4078,7 +4078,7 @@ class Client(ClientWithProject):
 
         Returns:
             List[SchemaField]:
-                List of :class:`~google.cloud.bigquery.schema.SchemaField` objects.
+                List of :class:`~arrivy.google.cloud.bigquery.schema.SchemaField` objects.
         """
         if isinstance(file_or_path, io.IOBase):
             return self._schema_from_json_file_object(file_or_path)
@@ -4120,7 +4120,7 @@ def _item_to_project(iterator, resource):
         resource (Dict): An item to be converted to a project.
 
     Returns:
-        google.cloud.bigquery.client.Project: The next project in the page.
+        arrivy.google.cloud.bigquery.client.Project: The next project in the page.
     """
     return Project.from_api_repr(resource)
 
@@ -4137,7 +4137,7 @@ def _item_to_dataset(iterator, resource):
         resource (Dict): An item to be converted to a dataset.
 
     Returns:
-        google.cloud.bigquery.dataset.DatasetListItem: The next dataset in the page.
+        arrivy.google.cloud.bigquery.dataset.DatasetListItem: The next dataset in the page.
     """
     return DatasetListItem(resource)
 
@@ -4165,7 +4165,7 @@ def _item_to_model(iterator, resource):
         resource (Dict): An item to be converted to a model.
 
     Returns:
-        google.cloud.bigquery.model.Model: The next model in the page.
+        arrivy.google.cloud.bigquery.model.Model: The next model in the page.
     """
     return Model.from_api_repr(resource)
 
@@ -4179,7 +4179,7 @@ def _item_to_routine(iterator, resource):
         resource (Dict): An item to be converted to a routine.
 
     Returns:
-        google.cloud.bigquery.routine.Routine: The next routine in the page.
+        arrivy.google.cloud.bigquery.routine.Routine: The next routine in the page.
     """
     return Routine.from_api_repr(resource)
 
@@ -4193,7 +4193,7 @@ def _item_to_table(iterator, resource):
         resource (Dict): An item to be converted to a table.
 
     Returns:
-        google.cloud.bigquery.table.Table: The next table in the page.
+        arrivy.google.cloud.bigquery.table.Table: The next table in the page.
     """
     return TableListItem(resource)
 
@@ -4204,10 +4204,10 @@ def _extract_job_reference(job, project=None, location=None):
     Args:
         job_id (Union[ \
             str, \
-            google.cloud.bigquery.job.LoadJob, \
-            google.cloud.bigquery.job.CopyJob, \
-            google.cloud.bigquery.job.ExtractJob, \
-            google.cloud.bigquery.job.QueryJob \
+            arrivy.google.cloud.bigquery.job.LoadJob, \
+            arrivy.google.cloud.bigquery.job.CopyJob, \
+            arrivy.google.cloud.bigquery.job.ExtractJob, \
+            arrivy.google.cloud.bigquery.job.QueryJob \
         ]): Job identifier.
         project (Optional[str]):
             Project where the job was run. Ignored if ``job_id`` is a job

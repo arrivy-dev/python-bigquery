@@ -15,7 +15,7 @@
 import mock
 import pytest
 
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
 from .helpers import make_connection
 
 
@@ -23,7 +23,7 @@ from .helpers import make_connection
     "extra,query", [({}, {}), (dict(page_size=42), dict(maxResults=42))]
 )
 def test_list_projects_defaults(client, PROJECT, extra, query):
-    from google.cloud.bigquery.client import Project
+    from arrivy.google.cloud.bigquery.client import Project
 
     PROJECT_2 = "PROJECT_TWO"
     TOKEN = "TOKEN"
@@ -50,7 +50,7 @@ def test_list_projects_defaults(client, PROJECT, extra, query):
     iterator = client.list_projects(**extra)
 
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         page = next(iterator.pages)
 
@@ -82,7 +82,7 @@ def test_list_projects_w_timeout(client):
     iterator = client.list_projects(timeout=7.5)
 
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         next(iterator.pages)
 
@@ -101,7 +101,7 @@ def test_list_projects_explicit_response_missing_projects_key(client):
     iterator = client.list_projects(max_results=3, page_token=TOKEN)
 
     with mock.patch(
-        "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+        "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
     ) as final_attributes:
         page = next(iterator.pages)
 

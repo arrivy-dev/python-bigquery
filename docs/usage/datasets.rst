@@ -17,7 +17,7 @@ Listing Datasets
 ^^^^^^^^^^^^^^^^
 
 List datasets for a project with the
-:func:`~google.cloud.bigquery.client.Client.list_datasets` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.list_datasets` method:
 
 .. literalinclude:: ../samples/list_datasets.py
    :language: python
@@ -26,7 +26,7 @@ List datasets for a project with the
    :end-before: [END bigquery_list_datasets]
 
 List datasets by label for a project with the
-:func:`~google.cloud.bigquery.client.Client.list_datasets` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.list_datasets` method:
 
 .. literalinclude:: ../samples/list_datasets_by_label.py
    :language: python
@@ -38,7 +38,7 @@ Getting a Dataset
 ^^^^^^^^^^^^^^^^^
 
 Get a dataset resource (to pick up changes made by another client) with the
-:func:`~google.cloud.bigquery.client.Client.get_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.get_dataset` method:
 
 .. literalinclude:: ../samples/get_dataset.py
    :language: python
@@ -47,7 +47,7 @@ Get a dataset resource (to pick up changes made by another client) with the
    :end-before: [END bigquery_get_dataset]
 
 Determine if a dataset exists with the
-:func:`~google.cloud.bigquery.client.Client.get_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.get_dataset` method:
 
 .. literalinclude:: ../samples/dataset_exists.py
    :language: python
@@ -59,7 +59,7 @@ Creating a Dataset
 ^^^^^^^^^^^^^^^^^^
 
 Create a new dataset with the
-:func:`~google.cloud.bigquery.client.Client.create_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.create_dataset` method:
 
 .. literalinclude:: ../samples/create_dataset.py
    :language: python
@@ -71,7 +71,7 @@ Updating a Dataset
 ^^^^^^^^^^^^^^^^^^
 
 Update a property in a dataset's metadata with the
-:func:`~google.cloud.bigquery.client.Client.update_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.update_dataset` method:
 
 .. literalinclude:: ../samples/update_dataset_description.py
    :language: python
@@ -80,7 +80,7 @@ Update a property in a dataset's metadata with the
    :end-before: [END bigquery_update_dataset_description]
 
 Modify user permissions on a dataset with the
-:func:`~google.cloud.bigquery.client.Client.update_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.update_dataset` method:
 
 .. literalinclude:: ../samples/update_dataset_access.py
    :language: python
@@ -92,7 +92,7 @@ Manage Dataset labels
 ^^^^^^^^^^^^^^^^^^^^^
 
 Add labels to a dataset with the
-:func:`~google.cloud.bigquery.client.Client.update_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.update_dataset` method:
 
 .. literalinclude:: ../samples/label_dataset.py
    :language: python
@@ -101,7 +101,7 @@ Add labels to a dataset with the
    :end-before: [END bigquery_label_dataset]
 
 Get dataset's labels with the
-:func:`~google.cloud.bigquery.client.Client.get_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.get_dataset` method:
 
 .. literalinclude:: ../samples/get_dataset_labels.py
    :language: python
@@ -110,7 +110,7 @@ Get dataset's labels with the
    :end-before: [END bigquery_get_dataset_labels]
    
 Delete dataset's labels with the
-:func:`~google.cloud.bigquery.client.Client.update_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.update_dataset` method:
 
 .. literalinclude:: ../samples/delete_dataset_labels.py
    :language: python
@@ -122,7 +122,7 @@ Deleting a Dataset
 ^^^^^^^^^^^^^^^^^^
 
 Delete a dataset with the
-:func:`~google.cloud.bigquery.client.Client.delete_dataset` method:
+:func:`~arrivy.google.cloud.bigquery.client.Client.delete_dataset` method:
 
 .. literalinclude:: ../samples/delete_dataset.py
    :language: python

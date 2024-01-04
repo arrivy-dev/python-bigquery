@@ -18,7 +18,7 @@ from .helpers import _Base
 class TestBiEngineStats:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job.query import BiEngineStats
+        from arrivy.google.cloud.bigquery.job.query import BiEngineStats
 
         return BiEngineStats
 
@@ -74,7 +74,7 @@ class TestBiEngineStats:
 class TestDmlStats:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import DmlStats
+        from arrivy.google.cloud.bigquery.job import DmlStats
 
         return DmlStats
 
@@ -111,7 +111,7 @@ class TestDmlStats:
 class TestSearchStatistics:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job.query import SearchStats
+        from arrivy.google.cloud.bigquery.job.query import SearchStats
 
         return SearchStats
 
@@ -137,7 +137,7 @@ class TestSearchStatistics:
 class TestIndexUnusedReason:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job.query import IndexUnusedReason
+        from arrivy.google.cloud.bigquery.job.query import IndexUnusedReason
 
         return IndexUnusedReason
 
@@ -183,7 +183,7 @@ class TestQueryPlanEntryStep(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import QueryPlanEntryStep
+        from arrivy.google.cloud.bigquery.job import QueryPlanEntryStep
 
         return QueryPlanEntryStep
 
@@ -267,7 +267,7 @@ class TestQueryPlanEntry(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import QueryPlanEntry
+        from arrivy.google.cloud.bigquery.job import QueryPlanEntry
 
         return QueryPlanEntry
 
@@ -307,7 +307,7 @@ class TestQueryPlanEntry(_Base):
         self.assertEqual(entry.steps, [])
 
     def test_from_api_repr_normal(self):
-        from google.cloud.bigquery.job import QueryPlanEntryStep
+        from arrivy.google.cloud.bigquery.job import QueryPlanEntryStep
 
         steps = [
             QueryPlanEntryStep(
@@ -394,7 +394,7 @@ class TestQueryPlanEntry(_Base):
 
 class TestScriptStackFrame(_Base):
     def _make_one(self, resource):
-        from google.cloud.bigquery.job import ScriptStackFrame
+        from arrivy.google.cloud.bigquery.job import ScriptStackFrame
 
         return ScriptStackFrame(resource)
 
@@ -435,7 +435,7 @@ class TestScriptStackFrame(_Base):
 
 class TestScriptStatistics(_Base):
     def _make_one(self, resource):
-        from google.cloud.bigquery.job import ScriptStatistics
+        from arrivy.google.cloud.bigquery.job import ScriptStatistics
 
         return ScriptStatistics(resource)
 
@@ -487,7 +487,7 @@ class TestTimelineEntry(_Base):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.job import TimelineEntry
+        from arrivy.google.cloud.bigquery.job import TimelineEntry
 
         return TimelineEntry
 

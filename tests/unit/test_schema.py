@@ -13,8 +13,8 @@
 # limitations under the License.
 
 from google.cloud import bigquery
-from google.cloud.bigquery.standard_sql import StandardSqlStructType
-from google.cloud.bigquery.schema import PolicyTagList
+from arrivy.google.cloud.bigquery.standard_sql import StandardSqlStructType
+from arrivy.google.cloud.bigquery.schema import PolicyTagList
 import unittest
 
 import mock
@@ -24,13 +24,13 @@ import pytest
 class TestSchemaField(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         return SchemaField
 
     @staticmethod
     def _get_standard_sql_data_type_class():
-        from google.cloud.bigquery import standard_sql
+        from arrivy.google.cloud.bigquery import standard_sql
 
         return standard_sql.StandardSqlDataType
 
@@ -98,7 +98,7 @@ class TestSchemaField(unittest.TestCase):
         self.assertEqual(field.fields[1], sub_field2)
 
     def test_to_api_repr(self):
-        from google.cloud.bigquery.schema import PolicyTagList
+        from arrivy.google.cloud.bigquery.schema import PolicyTagList
 
         policy = PolicyTagList(names=("foo", "bar"))
         self.assertEqual(
@@ -252,7 +252,7 @@ class TestSchemaField(unittest.TestCase):
             self.assertEqual(standard_field.type.type_kind, standard_type)
 
     def test_to_standard_sql_struct_type(self):
-        from google.cloud.bigquery import standard_sql
+        from arrivy.google.cloud.bigquery import standard_sql
 
         # Expected result object:
         #
@@ -337,7 +337,7 @@ class TestSchemaField(unittest.TestCase):
             self.assertEqual(standard_field, expected_result)
 
     def test_to_standard_sql_array_type_simple(self):
-        from google.cloud.bigquery import standard_sql
+        from arrivy.google.cloud.bigquery import standard_sql
 
         sql_type = self._get_standard_sql_data_type_class()
 
@@ -357,7 +357,7 @@ class TestSchemaField(unittest.TestCase):
         self.assertEqual(standard_field, expected_result)
 
     def test_to_standard_sql_array_type_struct(self):
-        from google.cloud.bigquery import standard_sql
+        from arrivy.google.cloud.bigquery import standard_sql
 
         sql_type = self._get_standard_sql_data_type_class()
 
@@ -583,7 +583,7 @@ class _SchemaBase(object):
 
 class Test_parse_schema_resource(unittest.TestCase, _SchemaBase):
     def _call_fut(self, resource):
-        from google.cloud.bigquery.schema import _parse_schema_resource
+        from arrivy.google.cloud.bigquery.schema import _parse_schema_resource
 
         return _parse_schema_resource(resource)
 
@@ -628,12 +628,12 @@ class Test_parse_schema_resource(unittest.TestCase, _SchemaBase):
 
 class Test_build_schema_resource(unittest.TestCase, _SchemaBase):
     def _call_fut(self, resource):
-        from google.cloud.bigquery.schema import _build_schema_resource
+        from arrivy.google.cloud.bigquery.schema import _build_schema_resource
 
         return _build_schema_resource(resource)
 
     def test_defaults(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         full_name = SchemaField("full_name", "STRING", mode="REQUIRED")
         age = SchemaField("age", "INTEGER", mode="REQUIRED")
@@ -649,7 +649,7 @@ class Test_build_schema_resource(unittest.TestCase, _SchemaBase):
         )
 
     def test_w_description(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         DESCRIPTION = "DESCRIPTION"
         full_name = SchemaField(
@@ -684,7 +684,7 @@ class Test_build_schema_resource(unittest.TestCase, _SchemaBase):
         )
 
     def test_w_subfields(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         full_name = SchemaField("full_name", "STRING", mode="REQUIRED")
         ph_type = SchemaField("type", "STRING", "REQUIRED")
@@ -715,7 +715,7 @@ class Test_build_schema_resource(unittest.TestCase, _SchemaBase):
 class Test_to_schema_fields(unittest.TestCase):
     @staticmethod
     def _call_fut(schema):
-        from google.cloud.bigquery.schema import _to_schema_fields
+        from arrivy.google.cloud.bigquery.schema import _to_schema_fields
 
         return _to_schema_fields(schema)
 
@@ -728,7 +728,7 @@ class Test_to_schema_fields(unittest.TestCase):
             self._call_fut(schema)
 
     def test_schema_fields_sequence(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             SchemaField("full_name", "STRING", mode="REQUIRED"),
@@ -746,7 +746,7 @@ class Test_to_schema_fields(unittest.TestCase):
             self._call_fut(schema)
 
     def test_valid_mapping_representation(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         schema = [
             {"name": "full_name", "type": "STRING", "mode": "REQUIRED"},
@@ -781,7 +781,7 @@ class Test_to_schema_fields(unittest.TestCase):
 class TestPolicyTags(unittest.TestCase):
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.schema import PolicyTagList
+        from arrivy.google.cloud.bigquery.schema import PolicyTagList
 
         return PolicyTagList
 
@@ -928,7 +928,7 @@ class TestPolicyTags(unittest.TestCase):
     ],
 )
 def test_from_api_repr_parameterized(api, expect, key2):
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     field = SchemaField.from_api_repr(api)
 
@@ -1021,6 +1021,6 @@ def test_from_api_repr_parameterized(api, expect, key2):
     ],
 )
 def test_to_api_repr_parameterized(field, api):
-    from google.cloud.bigquery.schema import SchemaField
+    from arrivy.google.cloud.bigquery.schema import SchemaField
 
     assert SchemaField(**field).to_api_repr() == api

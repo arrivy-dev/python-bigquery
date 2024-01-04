@@ -24,7 +24,7 @@ from google.protobuf import wrappers_pb2  # type: ignore
 
 
 __protobuf__ = proto.module(
-    package="google.cloud.bigquery.v2",
+    package="arrivy.google.cloud.bigquery.v2",
     manifest={
         "Model",
         "GetModelRequest",

@@ -18,8 +18,8 @@ import collections
 import enum
 from typing import Any, Dict, Iterable, Optional, Union
 
-from google.cloud.bigquery import standard_sql
-from google.cloud.bigquery.enums import StandardSqlTypeNames
+from arrivy.google.cloud.bigquery import standard_sql
+from arrivy.google.cloud.bigquery.enums import StandardSqlTypeNames
 
 
 _STRUCT_TYPES = ("RECORD", "STRUCT")
@@ -171,7 +171,7 @@ class SchemaField(object):
                 :meth:`to_api_repr`.
 
         Returns:
-            google.cloud.bigquery.schema.SchemaField: The ``SchemaField`` object.
+            arrivy.google.cloud.bigquery.schema.SchemaField: The ``SchemaField`` object.
         """
         field_type = api_repr["type"].upper()
 
@@ -262,7 +262,7 @@ class SchemaField(object):
 
     @property
     def policy_tags(self):
-        """Optional[google.cloud.bigquery.schema.PolicyTagList]: Policy tag list
+        """Optional[arrivy.google.cloud.bigquery.schema.PolicyTagList]: Policy tag list
         definition for this field.
         """
         resource = self._properties.get("policyTags")
@@ -290,7 +290,7 @@ class SchemaField(object):
         Used to compute this instance's hashcode and evaluate equality.
 
         Returns:
-            Tuple: The contents of this :class:`~google.cloud.bigquery.schema.SchemaField`.
+            Tuple: The contents of this :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`.
         """
         field_type = self.field_type.upper() if self.field_type is not None else None
 
@@ -384,7 +384,7 @@ def _parse_schema_resource(info):
         info: (Mapping[str, Dict]): should contain a "fields" key to be parsed
 
     Returns:
-        Optional[Sequence[google.cloud.bigquery.schema.SchemaField`]:
+        Optional[Sequence[arrivy.google.cloud.bigquery.schema.SchemaField`]:
             A list of parsed fields, or ``None`` if no "fields" key found.
     """
     return [SchemaField.from_api_repr(f) for f in info.get("fields", ())]
@@ -394,7 +394,7 @@ def _build_schema_resource(fields):
     """Generate a resource fragment for a schema.
 
     Args:
-        fields (Sequence[google.cloud.bigquery.schema.SchemaField): schema to be dumped.
+        fields (Sequence[arrivy.google.cloud.bigquery.schema.SchemaField): schema to be dumped.
 
     Returns:
         Sequence[Dict]: Mappings describing the schema of the supplied fields.
@@ -407,19 +407,19 @@ def _to_schema_fields(schema):
 
     Args:
         schema(Sequence[Union[ \
-            :class:`~google.cloud.bigquery.schema.SchemaField`, \
+            :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`, \
             Mapping[str, Any] \
         ]]):
             Table schema to convert. If some items are passed as mappings,
             their content must be compatible with
-            :meth:`~google.cloud.bigquery.schema.SchemaField.from_api_repr`.
+            :meth:`~arrivy.google.cloud.bigquery.schema.SchemaField.from_api_repr`.
 
     Returns:
-        Sequence[:class:`~google.cloud.bigquery.schema.SchemaField`]
+        Sequence[:class:`~arrivy.google.cloud.bigquery.schema.SchemaField`]
 
     Raises:
         Exception: If ``schema`` is not a sequence, or if any item in the
-        sequence is not a :class:`~google.cloud.bigquery.schema.SchemaField`
+        sequence is not a :class:`~arrivy.google.cloud.bigquery.schema.SchemaField`
         instance or a compatible mapping representation of the field.
     """
     for field in schema:
@@ -460,7 +460,7 @@ class PolicyTagList(object):
         Used to compute this instance's hashcode and evaluate equality.
 
         Returns:
-            Tuple: The contents of this :class:`~google.cloud.bigquery.schema.PolicyTagList`.
+            Tuple: The contents of this :class:`~arrivy.google.cloud.bigquery.schema.PolicyTagList`.
         """
         return tuple(sorted(self._properties.get("names", ())))
 
@@ -494,7 +494,7 @@ class PolicyTagList(object):
                 what is output by :meth:`to_api_repr`.
 
         Returns:
-            Optional[google.cloud.bigquery.schema.PolicyTagList]:
+            Optional[arrivy.google.cloud.bigquery.schema.PolicyTagList]:
                 The ``PolicyTagList`` object or None.
         """
         if api_repr is None:

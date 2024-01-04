@@ -22,7 +22,7 @@ from google.cloud import bigquery as bq
 class TestStandardSqlDataType:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.standard_sql import StandardSqlDataType
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlDataType
 
         return StandardSqlDataType
 
@@ -77,8 +77,8 @@ class TestStandardSqlDataType:
         assert result == {"typeKind": "STRUCT"}
 
     def test_to_api_repr_struct_type_w_field_types(self):
-        from google.cloud.bigquery.standard_sql import StandardSqlField
-        from google.cloud.bigquery.standard_sql import StandardSqlStructType
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlStructType
 
         StandardSqlDataType = self._get_target_class()
         TypeNames = bq.StandardSqlTypeNames
@@ -180,8 +180,8 @@ class TestStandardSqlDataType:
         assert result == expected
 
     def test_from_api_repr_struct_type_nested(self):
-        from google.cloud.bigquery.standard_sql import StandardSqlField
-        from google.cloud.bigquery.standard_sql import StandardSqlStructType
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlStructType
 
         klass = self._get_target_class()
         TypeNames = bq.StandardSqlTypeNames
@@ -247,8 +247,8 @@ class TestStandardSqlDataType:
         assert result == expected
 
     def test_from_api_repr_struct_type_incomplete_field_info(self):
-        from google.cloud.bigquery.standard_sql import StandardSqlField
-        from google.cloud.bigquery.standard_sql import StandardSqlStructType
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlStructType
 
         klass = self._get_target_class()
         TypeNames = bq.StandardSqlTypeNames
@@ -339,7 +339,7 @@ class TestStandardSqlField:
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
 
         return StandardSqlField
 
@@ -426,7 +426,7 @@ class TestStandardSqlStructType:
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.standard_sql import StandardSqlStructType
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlStructType
 
         return StandardSqlStructType
 
@@ -475,7 +475,7 @@ class TestStandardSqlStructType:
 class TestStandardSqlTableType:
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.standard_sql import StandardSqlTableType
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlTableType
 
         return StandardSqlTableType
 
@@ -483,7 +483,7 @@ class TestStandardSqlTableType:
         return self._get_target_class()(*args, **kw)
 
     def test_columns_shallow_copy(self):
-        from google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
 
         columns = [
             StandardSqlField("foo"),
@@ -498,7 +498,7 @@ class TestStandardSqlTableType:
         assert len(instance.columns) == 3  # Still the same.
 
     def test_columns_setter(self):
-        from google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
 
         columns = [StandardSqlField("foo")]
         instance = self._make_one(columns=columns)
@@ -514,7 +514,7 @@ class TestStandardSqlTableType:
         assert result == {"columns": []}
 
     def test_to_api_repr_with_columns(self):
-        from google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
 
         columns = [StandardSqlField("foo"), StandardSqlField("bar")]
         instance = self._make_one(columns=columns)
@@ -532,8 +532,8 @@ class TestStandardSqlTableType:
         assert result.columns == []
 
     def test_from_api_repr_with_incomplete_columns(self):
-        from google.cloud.bigquery.standard_sql import StandardSqlDataType
-        from google.cloud.bigquery.standard_sql import StandardSqlField
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlDataType
+        from arrivy.google.cloud.bigquery.standard_sql import StandardSqlField
 
         resource = {
             "columns": [

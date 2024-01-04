@@ -68,11 +68,11 @@ from google.api_core import client_info
 import google.cloud._helpers
 from google.cloud import bigquery
 
-from google.cloud.bigquery.dataset import DatasetReference
-from google.cloud.bigquery import exceptions
-from google.cloud.bigquery import ParquetOptions
-from google.cloud.bigquery.retry import DEFAULT_TIMEOUT
-import google.cloud.bigquery.table
+from arrivy.google.cloud.bigquery.dataset import DatasetReference
+from arrivy.google.cloud.bigquery import exceptions
+from arrivy.google.cloud.bigquery import ParquetOptions
+from arrivy.google.cloud.bigquery.retry import DEFAULT_TIMEOUT
+import arrivy.google.cloud.bigquery.table
 
 try:
     from google.cloud import bigquery_storage
@@ -124,7 +124,7 @@ class TestClient(unittest.TestCase):
 
     @staticmethod
     def _get_target_class():
-        from google.cloud.bigquery.client import Client
+        from arrivy.google.cloud.bigquery.client import Client
 
         return Client
 
@@ -142,7 +142,7 @@ class TestClient(unittest.TestCase):
         }
 
     def test_ctor_defaults(self):
-        from google.cloud.bigquery._http import Connection
+        from arrivy.google.cloud.bigquery._http import Connection
 
         creds = _make_credentials()
         http = object()
@@ -202,7 +202,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_ctor_w_location(self):
-        from google.cloud.bigquery._http import Connection
+        from arrivy.google.cloud.bigquery._http import Connection
 
         creds = _make_credentials()
         http = object()
@@ -216,8 +216,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(client.location, location)
 
     def test_ctor_w_query_job_config(self):
-        from google.cloud.bigquery._http import Connection
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery._http import Connection
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         creds = _make_credentials()
         http = object()
@@ -241,8 +241,8 @@ class TestClient(unittest.TestCase):
         self.assertTrue(client._default_query_job_config.dry_run)
 
     def test_ctor_w_load_job_config(self):
-        from google.cloud.bigquery._http import Connection
-        from google.cloud.bigquery import LoadJobConfig
+        from arrivy.google.cloud.bigquery._http import Connection
+        from arrivy.google.cloud.bigquery import LoadJobConfig
 
         creds = _make_credentials()
         http = object()
@@ -267,7 +267,7 @@ class TestClient(unittest.TestCase):
 
     def test__call_api_applying_custom_retry_on_timeout(self):
         from concurrent.futures import TimeoutError
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         creds = _make_credentials()
         client = self._make_one(project=self.PROJECT, credentials=creds)
@@ -292,7 +292,7 @@ class TestClient(unittest.TestCase):
 
     def test__call_api_span_creator_not_called(self):
         from concurrent.futures import TimeoutError
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         creds = _make_credentials()
         client = self._make_one(project=self.PROJECT, credentials=creds)
@@ -308,7 +308,7 @@ class TestClient(unittest.TestCase):
 
         with api_request_patcher:
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client._call_api(retry)
 
@@ -316,7 +316,7 @@ class TestClient(unittest.TestCase):
 
     def test__call_api_span_creator_called(self):
         from concurrent.futures import TimeoutError
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         creds = _make_credentials()
         client = self._make_one(project=self.PROJECT, credentials=creds)
@@ -332,7 +332,7 @@ class TestClient(unittest.TestCase):
 
         with api_request_patcher:
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client._call_api(
                     retry,
@@ -351,7 +351,7 @@ class TestClient(unittest.TestCase):
         path = "/projects/other-project/queries/nothere"
         with self.assertRaises(NotFound):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client._get_query_results(
                     "nothere",
@@ -372,7 +372,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test__get_query_results_miss_w_short_timeout(self):
-        import google.cloud.bigquery.client
+        import arrivy.google.cloud.bigquery.client
         from google.cloud.exceptions import NotFound
 
         creds = _make_credentials()
@@ -393,11 +393,11 @@ class TestClient(unittest.TestCase):
             method="GET",
             path=path,
             query_params={"maxResults": 0, "timeoutMs": 500, "location": self.LOCATION},
-            timeout=google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
+            timeout=arrivy.google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
         )
 
     def test__get_query_results_miss_w_default_timeout(self):
-        import google.cloud.bigquery.client
+        import arrivy.google.cloud.bigquery.client
         from google.cloud.exceptions import NotFound
 
         creds = _make_credentials()
@@ -418,7 +418,7 @@ class TestClient(unittest.TestCase):
             method="GET",
             path=path,
             query_params={"maxResults": 0, "timeoutMs": 500, "location": self.LOCATION},
-            timeout=google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
+            timeout=arrivy.google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
         )
 
     def test__get_query_results_miss_w_client_location(self):
@@ -466,7 +466,7 @@ class TestClient(unittest.TestCase):
 
     def test__list_rows_from_query_results_w_none_timeout(self):
         from google.cloud.exceptions import NotFound
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         creds = _make_credentials()
         client = self._make_one(self.PROJECT, creds)
@@ -499,9 +499,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test__list_rows_from_query_results_w_default_timeout(self):
-        import google.cloud.bigquery.client
+        import arrivy.google.cloud.bigquery.client
         from google.cloud.exceptions import NotFound
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         creds = _make_credentials()
         client = self._make_one(self.PROJECT, creds)
@@ -530,11 +530,11 @@ class TestClient(unittest.TestCase):
                 "location": None,
                 "formatOptions.useInt64Timestamp": True,
             },
-            timeout=google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
+            timeout=arrivy.google.cloud.bigquery.client._MIN_GET_QUERY_RESULTS_TIMEOUT,
         )
 
     def test_default_query_job_config(self):
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         creds = _make_credentials()
         http = object()
@@ -547,7 +547,7 @@ class TestClient(unittest.TestCase):
         self.assertIsInstance(client.default_query_job_config, QueryJobConfig)
 
     def test_default_load_job_config(self):
-        from google.cloud.bigquery import LoadJobConfig
+        from arrivy.google.cloud.bigquery import LoadJobConfig
 
         creds = _make_credentials()
         http = object()
@@ -568,7 +568,7 @@ class TestClient(unittest.TestCase):
         resource = {"kind": "bigquery#getServiceAccountResponse", "email": email}
         conn = client._connection = make_connection(resource)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             service_account_email = client.get_service_account_email(timeout=7.5)
 
@@ -586,7 +586,7 @@ class TestClient(unittest.TestCase):
         resource = {"kind": "bigquery#getServiceAccountResponse", "email": email}
         conn = client._connection = make_connection(resource)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             service_account_email = client.get_service_account_email(project=project)
 
@@ -597,7 +597,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(service_account_email, email)
 
     def test_get_service_account_email_w_custom_retry(self):
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         api_path = "/projects/{}/serviceAccount".format(self.PROJECT)
         creds = _make_credentials()
@@ -620,7 +620,7 @@ class TestClient(unittest.TestCase):
 
         with api_request_patcher as fake_api_request:
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 service_account_email = client.get_service_account_email(
                     retry=retry, timeout=7.5
@@ -639,7 +639,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_dataset_with_specified_project(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         creds = _make_credentials()
         http = object()
@@ -662,7 +662,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(dataset.project, self.PROJECT)
 
     def test_dataset_with_default_project(self):
-        from google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
 
         creds = _make_credentials()
         http = object()
@@ -698,7 +698,7 @@ class TestClient(unittest.TestCase):
         conn = client._connection = make_connection(resource)
         dataset_ref = DatasetReference(self.PROJECT, self.DS_ID)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             dataset = client.get_dataset(dataset_ref, timeout=7.5)
 
@@ -715,7 +715,7 @@ class TestClient(unittest.TestCase):
         client._connection = make_connection(Exception(""), resource)
         with self.assertRaises(Exception):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.get_dataset(dataset_ref)
 
@@ -725,7 +725,7 @@ class TestClient(unittest.TestCase):
         client._connection = make_connection(ServerError(""), resource)
         with self.assertRaises(ServerError):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.get_dataset(dataset_ref)
 
@@ -737,7 +737,7 @@ class TestClient(unittest.TestCase):
         )
         with self.assertRaises(ServerError):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.get_dataset(dataset_ref)
 
@@ -749,7 +749,7 @@ class TestClient(unittest.TestCase):
         )
         with self.assertRaises(ServerError):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.get_dataset(dataset_ref, retry=None)
 
@@ -760,7 +760,7 @@ class TestClient(unittest.TestCase):
             ServerError("", errors=[{"reason": "backendError"}]), resource
         )
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             dataset = client.get_dataset(
                 # Test with a string for dataset ID.
@@ -828,7 +828,7 @@ class TestClient(unittest.TestCase):
         client = self._make_one(project=self.PROJECT, credentials=creds)
 
         patcher = mock.patch(
-            "google.cloud.bigquery.client._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
+            "arrivy.google.cloud.bigquery.client._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
             side_effect=exceptions.LegacyBigQueryStorageError("BQ Storage too old"),
         )
         with patcher, warnings.catch_warnings(record=True) as warned:
@@ -863,7 +863,7 @@ class TestClient(unittest.TestCase):
         mock_storage_client = mock.sentinel.mock_storage_client
 
         patcher = mock.patch(
-            "google.cloud.bigquery.client._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
+            "arrivy.google.cloud.bigquery.client._versions_helpers.BQ_STORAGE_VERSIONS.try_import",
             side_effect=exceptions.LegacyBigQueryStorageError("BQ Storage too old"),
         )
         with patcher, warnings.catch_warnings(record=True) as warned:
@@ -876,8 +876,8 @@ class TestClient(unittest.TestCase):
         assert matching_warnings, "Obsolete dependency warning not raised."
 
     def test_create_routine_w_minimal_resource(self):
-        from google.cloud.bigquery.routine import Routine
-        from google.cloud.bigquery.routine import RoutineReference
+        from arrivy.google.cloud.bigquery.routine import Routine
+        from arrivy.google.cloud.bigquery.routine import RoutineReference
 
         creds = _make_credentials()
         path = "/projects/test-routine-project/datasets/test_routines/routines"
@@ -893,7 +893,7 @@ class TestClient(unittest.TestCase):
         full_routine_id = "test-routine-project.test_routines.minimal_routine"
         routine = Routine(full_routine_id)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             actual_routine = client.create_routine(routine, timeout=7.5)
 
@@ -910,7 +910,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_create_routine_w_conflict(self):
-        from google.cloud.bigquery.routine import Routine
+        from arrivy.google.cloud.bigquery.routine import Routine
 
         creds = _make_credentials()
         client = self._make_one(project=self.PROJECT, credentials=creds)
@@ -923,7 +923,7 @@ class TestClient(unittest.TestCase):
 
         with pytest.raises(google.api_core.exceptions.AlreadyExists):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.create_routine(routine)
 
@@ -945,7 +945,7 @@ class TestClient(unittest.TestCase):
 
     @unittest.skipIf(opentelemetry is None, "Requires `opentelemetry`")
     def test_span_status_is_set(self):
-        from google.cloud.bigquery.routine import Routine
+        from arrivy.google.cloud.bigquery.routine import Routine
 
         tracer_provider = TracerProvider()
         memory_exporter = InMemorySpanExporter()
@@ -986,7 +986,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_create_routine_w_conflict_exists_ok(self):
-        from google.cloud.bigquery.routine import Routine
+        from arrivy.google.cloud.bigquery.routine import Routine
 
         creds = _make_credentials()
         client = self._make_one(project=self.PROJECT, credentials=creds)
@@ -1005,7 +1005,7 @@ class TestClient(unittest.TestCase):
         full_routine_id = "test-routine-project.test_routines.minimal_routine"
         routine = Routine(full_routine_id)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             actual_routine = client.create_routine(routine, exists_ok=True)
 
@@ -1033,8 +1033,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_create_table_w_day_partition(self):
-        from google.cloud.bigquery.table import Table
-        from google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
 
         path = "projects/%s/datasets/%s/tables" % (self.PROJECT, self.DS_ID)
         creds = _make_credentials()
@@ -1044,7 +1044,7 @@ class TestClient(unittest.TestCase):
         table = Table(self.TABLE_REF)
         table.time_partitioning = TimePartitioning()
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(table, timeout=7.5)
 
@@ -1072,7 +1072,7 @@ class TestClient(unittest.TestCase):
     def test_create_table_w_custom_property(self):
         # The library should handle sending properties to the API that are not
         # yet part of the library
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables" % (self.PROJECT, self.DS_ID)
         creds = _make_credentials()
@@ -1083,7 +1083,7 @@ class TestClient(unittest.TestCase):
         table = Table(self.TABLE_REF)
         table._properties["newAlphaProperty"] = "unreleased property"
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(table)
 
@@ -1109,10 +1109,10 @@ class TestClient(unittest.TestCase):
         self.assertEqual(got.table_id, self.TABLE_ID)
 
     def test_create_table_w_encryption_configuration(self):
-        from google.cloud.bigquery.encryption_configuration import (
+        from arrivy.google.cloud.bigquery.encryption_configuration import (
             EncryptionConfiguration,
         )
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables" % (self.PROJECT, self.DS_ID)
         creds = _make_credentials()
@@ -1124,7 +1124,7 @@ class TestClient(unittest.TestCase):
             kms_key_name=self.KMS_KEY_NAME
         )
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(table)
 
@@ -1149,8 +1149,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(got.table_id, self.TABLE_ID)
 
     def test_create_table_w_day_partition_and_expire(self):
-        from google.cloud.bigquery.table import Table
-        from google.cloud.bigquery.table import TimePartitioning
+        from arrivy.google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import TimePartitioning
 
         path = "projects/%s/datasets/%s/tables" % (self.PROJECT, self.DS_ID)
         creds = _make_credentials()
@@ -1160,7 +1160,7 @@ class TestClient(unittest.TestCase):
         table = Table(self.TABLE_REF)
         table.time_partitioning = TimePartitioning(expiration_ms=100)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(table)
 
@@ -1187,8 +1187,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(got.table_id, self.TABLE_ID)
 
     def test_create_table_w_schema_and_query(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables" % (self.PROJECT, self.DS_ID)
         query = "SELECT * from %s:%s" % (self.DS_ID, self.TABLE_ID)
@@ -1215,7 +1215,7 @@ class TestClient(unittest.TestCase):
         table.view_query = query
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(table)
 
@@ -1250,9 +1250,9 @@ class TestClient(unittest.TestCase):
         self.assertEqual(got.view_query, query)
 
     def test_create_table_w_external(self):
-        from google.cloud.bigquery.external_config import ExternalConfig
-        from google.cloud.bigquery.job import SourceFormat
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.external_config import ExternalConfig
+        from arrivy.google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables" % (self.PROJECT, self.DS_ID)
         creds = _make_credentials()
@@ -1273,7 +1273,7 @@ class TestClient(unittest.TestCase):
         table.external_data_configuration = ec
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(table)
 
@@ -1314,7 +1314,7 @@ class TestClient(unittest.TestCase):
         conn = client._connection = make_connection(resource)
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(self.TABLE_REF)
 
@@ -1346,7 +1346,7 @@ class TestClient(unittest.TestCase):
         resource = self._make_table_resource()
         conn = client._connection = make_connection(resource)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(
                 "{}.{}.{}".format(self.PROJECT, self.DS_ID, self.TABLE_ID)
@@ -1380,7 +1380,7 @@ class TestClient(unittest.TestCase):
         resource = self._make_table_resource()
         conn = client._connection = make_connection(resource)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table("{}.{}".format(self.DS_ID, self.TABLE_ID))
 
@@ -1417,7 +1417,7 @@ class TestClient(unittest.TestCase):
 
         with pytest.raises(google.api_core.exceptions.AlreadyExists):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.create_table("{}.{}".format(self.DS_ID, self.TABLE_ID))
 
@@ -1456,7 +1456,7 @@ class TestClient(unittest.TestCase):
         )
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.create_table(
                 "{}.{}".format(self.DS_ID, self.TABLE_ID), exists_ok=True
@@ -1518,7 +1518,7 @@ class TestClient(unittest.TestCase):
 
         model_ref = DatasetReference(self.PROJECT, self.DS_ID).model(self.MODEL_ID)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.get_model(model_ref, timeout=7.5)
 
@@ -1549,7 +1549,7 @@ class TestClient(unittest.TestCase):
 
         model_id = "{}.{}.{}".format(self.PROJECT, self.DS_ID, self.MODEL_ID)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             got = client.get_model(model_id)
 
@@ -1561,8 +1561,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(got.model_id, self.MODEL_ID)
 
     def test_get_routine(self):
-        from google.cloud.bigquery.routine import Routine
-        from google.cloud.bigquery.routine import RoutineReference
+        from arrivy.google.cloud.bigquery.routine import Routine
+        from arrivy.google.cloud.bigquery.routine import RoutineReference
 
         full_routine_id = "test-routine-project.test_routines.minimal_routine"
         routines = [
@@ -1587,7 +1587,7 @@ class TestClient(unittest.TestCase):
             conn = client._connection = make_connection(resource)
 
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 actual_routine = client.get_routine(routine, timeout=7.5)
 
@@ -1626,7 +1626,7 @@ class TestClient(unittest.TestCase):
         resource = self._make_table_resource()
         conn = client._connection = make_connection(resource)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             table = client.get_table(self.TABLE_REF, timeout=7.5)
 
@@ -1672,9 +1672,9 @@ class TestClient(unittest.TestCase):
         self.assertIn("my-application/1.2.3", expected_user_agent)
 
     def test_get_iam_policy(self):
-        from google.cloud.bigquery.iam import BIGQUERY_DATA_OWNER_ROLE
-        from google.cloud.bigquery.iam import BIGQUERY_DATA_EDITOR_ROLE
-        from google.cloud.bigquery.iam import BIGQUERY_DATA_VIEWER_ROLE
+        from arrivy.google.cloud.bigquery.iam import BIGQUERY_DATA_OWNER_ROLE
+        from arrivy.google.cloud.bigquery.iam import BIGQUERY_DATA_EDITOR_ROLE
+        from arrivy.google.cloud.bigquery.iam import BIGQUERY_DATA_VIEWER_ROLE
         from google.api_core.iam import Policy
 
         PATH = "/projects/{}/datasets/{}/tables/{}:getIamPolicy".format(
@@ -1710,7 +1710,7 @@ class TestClient(unittest.TestCase):
         client = self._make_one(project=self.PROJECT, credentials=creds, _http=http)
         conn = client._connection = make_connection(RETURNED)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             policy = client.get_iam_policy(self.TABLE_REF, timeout=7.5)
 
@@ -1748,9 +1748,9 @@ class TestClient(unittest.TestCase):
             client.get_iam_policy(self.TABLE_REF, requested_policy_version=2)
 
     def test_set_iam_policy(self):
-        from google.cloud.bigquery.iam import BIGQUERY_DATA_OWNER_ROLE
-        from google.cloud.bigquery.iam import BIGQUERY_DATA_EDITOR_ROLE
-        from google.cloud.bigquery.iam import BIGQUERY_DATA_VIEWER_ROLE
+        from arrivy.google.cloud.bigquery.iam import BIGQUERY_DATA_OWNER_ROLE
+        from arrivy.google.cloud.bigquery.iam import BIGQUERY_DATA_EDITOR_ROLE
+        from arrivy.google.cloud.bigquery.iam import BIGQUERY_DATA_VIEWER_ROLE
         from google.api_core.iam import Policy
 
         PATH = "/projects/%s/datasets/%s/tables/%s:setIamPolicy" % (
@@ -1786,7 +1786,7 @@ class TestClient(unittest.TestCase):
         conn = client._connection = make_connection(RETURNED)
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             returned_policy = client.set_iam_policy(
                 self.TABLE_REF, policy, updateMask=MASK, timeout=7.5
@@ -1819,7 +1819,7 @@ class TestClient(unittest.TestCase):
         client = self._make_one(project=self.PROJECT, credentials=creds, _http=http)
         conn = client._connection = make_connection(RETURNED)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             client.set_iam_policy(self.TABLE_REF, policy, timeout=7.5)
 
@@ -1876,7 +1876,7 @@ class TestClient(unittest.TestCase):
         client = self._make_one(project=self.PROJECT, credentials=creds, _http=http)
         conn = client._connection = make_connection(RETURNED)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             client.test_iam_permissions(self.TABLE_REF, PERMISSIONS, timeout=7.5)
 
@@ -1903,7 +1903,7 @@ class TestClient(unittest.TestCase):
             client.test_iam_permissions(table_resource_string, PERMISSIONS)
 
     def test_update_dataset_w_invalid_field(self):
-        from google.cloud.bigquery.dataset import Dataset
+        from arrivy.google.cloud.bigquery.dataset import Dataset
 
         creds = _make_credentials()
         client = self._make_one(project=self.PROJECT, credentials=creds)
@@ -1913,7 +1913,7 @@ class TestClient(unittest.TestCase):
             )
 
     def test_update_dataset(self):
-        from google.cloud.bigquery.dataset import Dataset, AccessEntry
+        from arrivy.google.cloud.bigquery.dataset import Dataset, AccessEntry
 
         PATH = "projects/%s/datasets/%s" % (self.PROJECT, self.DS_ID)
         DESCRIPTION = "DESCRIPTION"
@@ -1951,7 +1951,7 @@ class TestClient(unittest.TestCase):
         ]
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             ds2 = client.update_dataset(
                 ds,
@@ -1990,7 +1990,7 @@ class TestClient(unittest.TestCase):
     def test_update_dataset_w_custom_property(self):
         # The library should handle sending properties to the API that are not
         # yet part of the library
-        from google.cloud.bigquery.dataset import Dataset
+        from arrivy.google.cloud.bigquery.dataset import Dataset
 
         path = "/projects/%s/datasets/%s" % (self.PROJECT, self.DS_ID)
         resource = {
@@ -2004,7 +2004,7 @@ class TestClient(unittest.TestCase):
         dataset._properties["newAlphaProperty"] = "unreleased property"
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             dataset = client.update_dataset(dataset, ["newAlphaProperty"])
 
@@ -2024,7 +2024,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(dataset._properties["newAlphaProperty"], "unreleased property")
 
     def test_update_model(self):
-        from google.cloud.bigquery.model import Model
+        from arrivy.google.cloud.bigquery.model import Model
 
         path = "projects/%s/datasets/%s/models/%s" % (
             self.PROJECT,
@@ -2059,7 +2059,7 @@ class TestClient(unittest.TestCase):
         model.labels = {"x": "y"}
         fields = ["description", "friendly_name", "labels", "expires"]
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             updated_model = client.update_model(model, fields, timeout=7.5)
 
@@ -2089,8 +2089,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(req[1]["headers"]["If-Match"], "etag")
 
     def test_update_routine(self):
-        from google.cloud.bigquery.routine import Routine
-        from google.cloud.bigquery.routine import RoutineArgument
+        from arrivy.google.cloud.bigquery.routine import Routine
+        from arrivy.google.cloud.bigquery.routine import RoutineArgument
 
         full_routine_id = "routines-project.test_routines.updated_routine"
         resource = {
@@ -2132,7 +2132,7 @@ class TestClient(unittest.TestCase):
         ]
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             actual_routine = client.update_routine(
                 routine,
@@ -2161,7 +2161,7 @@ class TestClient(unittest.TestCase):
         # ETag becomes If-Match header.
         routine._properties["etag"] = "im-an-etag"
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             client.update_routine(routine, [])
 
@@ -2173,9 +2173,9 @@ class TestClient(unittest.TestCase):
         self.assertEqual(req[1]["headers"]["If-Match"], "im-an-etag")
 
     def test_update_table(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.schema import PolicyTagList
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import PolicyTagList
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables/%s" % (
             self.PROJECT,
@@ -2233,7 +2233,7 @@ class TestClient(unittest.TestCase):
         table.labels = {"x": "y"}
         fields = ["schema", "description", "friendly_name", "labels"]
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             updated_table = client.update_table(table, fields, timeout=7.5)
         span_path = "/%s" % path
@@ -2275,7 +2275,7 @@ class TestClient(unittest.TestCase):
         # ETag becomes If-Match header.
         table._properties["etag"] = "etag"
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             client.update_table(table, [])
 
@@ -2287,7 +2287,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(req[1]["headers"]["If-Match"], "etag")
 
     def test_update_table_w_custom_property(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables/%s" % (
             self.PROJECT,
@@ -2303,7 +2303,7 @@ class TestClient(unittest.TestCase):
         table._properties["newAlphaProperty"] = "unreleased property"
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             updated_table = client.update_table(table, ["newAlphaProperty"])
 
@@ -2324,7 +2324,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_update_table_only_use_legacy_sql(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables/%s" % (
             self.PROJECT,
@@ -2339,7 +2339,7 @@ class TestClient(unittest.TestCase):
         table = Table(self.TABLE_REF)
         table.view_use_legacy_sql = True
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             updated_table = client.update_table(table, ["view_use_legacy_sql"])
 
@@ -2361,8 +2361,8 @@ class TestClient(unittest.TestCase):
         import datetime
         from google.cloud._helpers import UTC
         from google.cloud._helpers import _millis
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         path = "projects/%s/datasets/%s/tables/%s" % (
             self.PROJECT,
@@ -2421,7 +2421,7 @@ class TestClient(unittest.TestCase):
         table.view_use_legacy_sql = True
         updated_properties = ["schema", "view_query", "expires", "view_use_legacy_sql"]
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             updated_table = client.update_table(table, updated_properties)
 
@@ -2472,7 +2472,7 @@ class TestClient(unittest.TestCase):
         client = self._make_one(project=self.PROJECT, credentials=creds)
         conn = client._connection = make_connection(resource1, resource2)
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             table = client.get_table(
                 # Test with string for table ID
@@ -2488,7 +2488,7 @@ class TestClient(unittest.TestCase):
         table.schema = None
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             updated_table = client.update_table(table, ["schema"])
 
@@ -2505,7 +2505,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(len(updated_table.schema), 0)
 
     def test_update_table_delete_property(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         description = "description"
         title = "title"
@@ -2526,7 +2526,7 @@ class TestClient(unittest.TestCase):
         table.friendly_name = title
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             table2 = client.update_table(table, ["description", "friendly_name"])
 
@@ -2540,7 +2540,7 @@ class TestClient(unittest.TestCase):
         table2.description = None
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             table3 = client.update_table(table2, ["description"])
 
@@ -2592,7 +2592,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_delete_job_metadata_with_resource(self):
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         query_resource = {
             "jobReference": {
@@ -2617,7 +2617,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_delete_model(self):
-        from google.cloud.bigquery.model import Model
+        from arrivy.google.cloud.bigquery.model import Model
 
         path = "projects/%s/datasets/%s/models/%s" % (
             self.PROJECT,
@@ -2637,7 +2637,7 @@ class TestClient(unittest.TestCase):
 
         for arg in models:
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.delete_model(arg, timeout=7.5)
 
@@ -2683,7 +2683,7 @@ class TestClient(unittest.TestCase):
             google.api_core.exceptions.NotFound("model not found")
         )
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             client.delete_model(
                 "{}.{}".format(self.DS_ID, self.MODEL_ID), not_found_ok=True
@@ -2696,8 +2696,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_delete_routine(self):
-        from google.cloud.bigquery.routine import Routine
-        from google.cloud.bigquery.routine import RoutineReference
+        from arrivy.google.cloud.bigquery.routine import Routine
+        from arrivy.google.cloud.bigquery.routine import RoutineReference
 
         full_routine_id = "test-routine-project.test_routines.minimal_routine"
         routines = [
@@ -2713,7 +2713,7 @@ class TestClient(unittest.TestCase):
 
         for routine in routines:
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.delete_routine(routine, timeout=7.5)
 
@@ -2742,7 +2742,7 @@ class TestClient(unittest.TestCase):
 
         with self.assertRaises(google.api_core.exceptions.NotFound):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.delete_routine("routines-project.test_routines.test_routine")
 
@@ -2764,7 +2764,7 @@ class TestClient(unittest.TestCase):
         path = "/projects/routines-project/datasets/test_routines/routines/test_routine"
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             client.delete_routine(
                 "routines-project.test_routines.test_routine", not_found_ok=True
@@ -2779,7 +2779,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_delete_table(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         tables = (
             self.TABLE_REF,
@@ -2802,7 +2802,7 @@ class TestClient(unittest.TestCase):
 
         for arg in tables:
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.delete_table(arg, timeout=7.5)
 
@@ -2833,7 +2833,7 @@ class TestClient(unittest.TestCase):
 
         with self.assertRaises(google.api_core.exceptions.NotFound):
             with mock.patch(
-                "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+                "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
             ) as final_attributes:
                 client.delete_table("{}.{}".format(self.DS_ID, self.TABLE_ID))
 
@@ -2855,7 +2855,7 @@ class TestClient(unittest.TestCase):
         )
 
         with mock.patch(
-            "google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
+            "arrivy.google.cloud.bigquery.opentelemetry_tracing._get_final_span_attributes"
         ) as final_attributes:
             client.delete_table(
                 "{}.{}".format(self.DS_ID, self.TABLE_ID), not_found_ok=True
@@ -2980,7 +2980,7 @@ class TestClient(unittest.TestCase):
 
     def test_create_job_query_config_w_rateLimitExceeded_error(self):
         from google.cloud.exceptions import Forbidden
-        from google.cloud.bigquery.retry import DEFAULT_RETRY
+        from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY
 
         query = "select count(*) from persons"
         configuration = {
@@ -3052,7 +3052,7 @@ class TestClient(unittest.TestCase):
         self.assertIn("Invalid job configuration", exc.exception.args[0])
 
     def test_job_from_resource_unknown_type(self):
-        from google.cloud.bigquery.job import UnknownJob
+        from arrivy.google.cloud.bigquery.job import UnknownJob
 
         creds = _make_credentials()
         client = self._make_one(self.PROJECT, creds)
@@ -3098,9 +3098,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_get_job_hit_w_timeout(self):
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import QueryJob
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         JOB_ID = "query_job"
         QUERY_DESTINATION_TABLE = "query_destination_table"
@@ -3186,7 +3186,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_cancel_job_hit(self):
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         JOB_ID = "query_job"
         QUERY = "SELECT * from test_dataset:test_table"
@@ -3246,7 +3246,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_load_table_from_uri(self):
-        from google.cloud.bigquery.job import LoadJob, LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import LoadJob, LoadJobConfig
 
         JOB = "job_name"
         DESTINATION = "destination_table"
@@ -3392,7 +3392,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_load_table_from_uri_w_invalid_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         JOB = "job_name"
         DESTINATION = "destination_table"
@@ -3412,7 +3412,7 @@ class TestClient(unittest.TestCase):
         self.assertIn("Expected an instance of LoadJobConfig", exc.exception.args[0])
 
     def test_load_table_from_uri_w_explicit_job_config(self):
-        from google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
 
         JOB = "job_name"
         DESTINATION = "destination_table"
@@ -3456,7 +3456,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_load_table_from_uri_w_explicit_job_config_override(self):
-        from google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
 
         JOB = "job_name"
         DESTINATION = "destination_table"
@@ -3507,7 +3507,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_load_table_from_uri_w_default_load_config(self):
-        from google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
 
         JOB = "job_name"
         DESTINATION = "destination_table"
@@ -3570,12 +3570,12 @@ class TestClient(unittest.TestCase):
 
     def _initiate_resumable_upload_helper(self, num_retries=None, mtls=False):
         from google.resumable_media.requests import ResumableUpload
-        from google.cloud.bigquery.client import _DEFAULT_CHUNKSIZE
-        from google.cloud.bigquery.client import _GENERIC_CONTENT_TYPE
-        from google.cloud.bigquery.client import _get_upload_headers
-        from google.cloud.bigquery.job import LoadJob
-        from google.cloud.bigquery.job import LoadJobConfig
-        from google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_CHUNKSIZE
+        from arrivy.google.cloud.bigquery.client import _GENERIC_CONTENT_TYPE
+        from arrivy.google.cloud.bigquery.client import _get_upload_headers
+        from arrivy.google.cloud.bigquery.job import LoadJob
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import SourceFormat
 
         # Create mocks to be checked for doing transport.
         resumable_url = "http://test.invalid?upload_id=hey-you"
@@ -3650,10 +3650,10 @@ class TestClient(unittest.TestCase):
     def _do_multipart_upload_success_helper(
         self, get_boundary, num_retries=None, project=None, mtls=False
     ):
-        from google.cloud.bigquery.client import _get_upload_headers
-        from google.cloud.bigquery.job import LoadJob
-        from google.cloud.bigquery.job import LoadJobConfig
-        from google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.client import _get_upload_headers
+        from arrivy.google.cloud.bigquery.job import LoadJob
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import SourceFormat
 
         fake_transport = self._mock_transport(http.client.OK, {})
         client = self._make_one(project=self.PROJECT, _http=fake_transport)
@@ -3722,7 +3722,7 @@ class TestClient(unittest.TestCase):
         self._do_multipart_upload_success_helper(get_boundary, project="custom-project")
 
     def test_copy_table(self):
-        from google.cloud.bigquery.job import CopyJob
+        from arrivy.google.cloud.bigquery.job import CopyJob
 
         JOB = "job_name"
         SOURCE = "source_table"
@@ -3771,8 +3771,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(job.destination, destination)
 
     def test_copy_table_w_multiple_sources(self):
-        from google.cloud.bigquery.job import CopyJob
-        from google.cloud.bigquery.table import TableReference
+        from arrivy.google.cloud.bigquery.job import CopyJob
+        from arrivy.google.cloud.bigquery.table import TableReference
 
         job_id = "job_name"
         source_id = "my-project.my_dataset.source_table"
@@ -3966,7 +3966,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(job.destination, expected_destination)
 
     def test_copy_table_w_invalid_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         JOB = "job_name"
         SOURCE = "source_table"
@@ -3985,7 +3985,7 @@ class TestClient(unittest.TestCase):
         self.assertIn("Expected an instance of CopyJobConfig", exc.exception.args[0])
 
     def test_copy_table_w_valid_job_config(self):
-        from google.cloud.bigquery.job import CopyJobConfig
+        from arrivy.google.cloud.bigquery.job import CopyJobConfig
 
         JOB = "job_name"
         SOURCE = "source_table"
@@ -4034,7 +4034,7 @@ class TestClient(unittest.TestCase):
         assert job_config.to_api_repr() == original_config_copy.to_api_repr()
 
     def test_extract_table(self):
-        from google.cloud.bigquery.job import ExtractJob
+        from arrivy.google.cloud.bigquery.job import ExtractJob
 
         JOB = "job_id"
         SOURCE = "source_table"
@@ -4077,7 +4077,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(list(job.destination_uris), [DESTINATION])
 
     def test_extract_table_w_invalid_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         JOB = "job_id"
         SOURCE = "source_table"
@@ -4183,9 +4183,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_extract_table_generated_job_id(self):
-        from google.cloud.bigquery.job import ExtractJob
-        from google.cloud.bigquery.job import ExtractJobConfig
-        from google.cloud.bigquery.job import DestinationFormat
+        from arrivy.google.cloud.bigquery.job import ExtractJob
+        from arrivy.google.cloud.bigquery.job import ExtractJobConfig
+        from arrivy.google.cloud.bigquery.job import DestinationFormat
 
         JOB = "job_id"
         SOURCE = "source_table"
@@ -4234,7 +4234,7 @@ class TestClient(unittest.TestCase):
         assert job_config.to_api_repr() == original_config_copy.to_api_repr()
 
     def test_extract_table_w_destination_uris(self):
-        from google.cloud.bigquery.job import ExtractJob
+        from arrivy.google.cloud.bigquery.job import ExtractJob
 
         JOB = "job_id"
         SOURCE = "source_table"
@@ -4277,7 +4277,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(list(job.destination_uris), [DESTINATION1, DESTINATION2])
 
     def test_extract_table_for_source_type_model(self):
-        from google.cloud.bigquery.job import ExtractJob
+        from arrivy.google.cloud.bigquery.job import ExtractJob
 
         JOB = "job_id"
         SOURCE = "source_model"
@@ -4361,7 +4361,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_extract_table_for_source_type_model_w_model_object(self):
-        from google.cloud.bigquery.model import Model
+        from arrivy.google.cloud.bigquery.model import Model
 
         JOB = "job_id"
         DESTINATION = "gs://bucket_name/object_name"
@@ -4420,7 +4420,7 @@ class TestClient(unittest.TestCase):
         self.assertIn("Cannot pass", exc.exception.args[0])
 
     def test_query_defaults(self):
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         QUERY = "select count(*) from persons"
         RESOURCE = {
@@ -4489,7 +4489,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_query_w_api_method_query_legacy_sql(self):
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         query = "select count(*) from persons"
         response = {
@@ -4532,7 +4532,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_query_w_api_method_query_parameters(self):
-        from google.cloud.bigquery import QueryJobConfig, ScalarQueryParameter
+        from arrivy.google.cloud.bigquery import QueryJobConfig, ScalarQueryParameter
 
         query = "select count(*) from persons"
         response = {
@@ -4682,7 +4682,7 @@ class TestClient(unittest.TestCase):
         creds = _make_credentials()
         http = object()
 
-        from google.cloud.bigquery import QueryJobConfig, DatasetReference
+        from arrivy.google.cloud.bigquery import QueryJobConfig, DatasetReference
 
         default_job_config = QueryJobConfig()
         default_job_config.default_dataset = DatasetReference(
@@ -4740,7 +4740,7 @@ class TestClient(unittest.TestCase):
         creds = _make_credentials()
         http = object()
 
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         client = self._make_one(
             project=self.PROJECT,
@@ -4794,7 +4794,7 @@ class TestClient(unittest.TestCase):
         creds = _make_credentials()
         http = object()
 
-        from google.cloud.bigquery import QueryJobConfig, DatasetReference
+        from arrivy.google.cloud.bigquery import QueryJobConfig, DatasetReference
 
         default_job_config = QueryJobConfig()
         default_job_config.default_dataset = DatasetReference(
@@ -4825,8 +4825,8 @@ class TestClient(unittest.TestCase):
         assert default_job_config.to_api_repr() == default_config_copy.to_api_repr()
 
     def test_query_w_invalid_job_config(self):
-        from google.cloud.bigquery import QueryJobConfig, DatasetReference
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import QueryJobConfig, DatasetReference
+        from arrivy.google.cloud.bigquery import job
 
         job_id = "some-job-id"
         query = "select count(*) from persons"
@@ -4876,7 +4876,7 @@ class TestClient(unittest.TestCase):
         creds = _make_credentials()
         http = object()
 
-        from google.cloud.bigquery import QueryJobConfig, DatasetReference
+        from arrivy.google.cloud.bigquery import QueryJobConfig, DatasetReference
 
         default_job_config = QueryJobConfig()
         default_job_config.default_dataset = DatasetReference(
@@ -4930,7 +4930,7 @@ class TestClient(unittest.TestCase):
         creds = _make_credentials()
         http = object()
 
-        from google.cloud.bigquery import QueryJobConfig
+        from arrivy.google.cloud.bigquery import QueryJobConfig
 
         default_job_config = QueryJobConfig()
         default_job_config.maximum_bytes_billed = 1000
@@ -5023,9 +5023,9 @@ class TestClient(unittest.TestCase):
         self.assertIsNone(sent["jobReference"].get("location"))
 
     def test_query_w_udf_resources(self):
-        from google.cloud.bigquery.job import QueryJob
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.query import UDFResource
+        from arrivy.google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.query import UDFResource
 
         RESOURCE_URI = "gs://some-bucket/js/lib.js"
         JOB = "job_name"
@@ -5075,9 +5075,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_query_w_query_parameters(self):
-        from google.cloud.bigquery.job import QueryJob
-        from google.cloud.bigquery.job import QueryJobConfig
-        from google.cloud.bigquery.query import ScalarQueryParameter
+        from arrivy.google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJobConfig
+        from arrivy.google.cloud.bigquery.query import ScalarQueryParameter
 
         JOB = "job_name"
         QUERY = "select count(*) from persons"
@@ -5136,7 +5136,7 @@ class TestClient(unittest.TestCase):
 
     def test_query_job_rpc_fail_w_random_error(self):
         from google.api_core.exceptions import Unknown
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         creds = _make_credentials()
         http = object()
@@ -5152,7 +5152,7 @@ class TestClient(unittest.TestCase):
 
     def test_query_job_rpc_fail_w_conflict_job_id_given(self):
         from google.api_core.exceptions import Conflict
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         creds = _make_credentials()
         http = object()
@@ -5169,7 +5169,7 @@ class TestClient(unittest.TestCase):
     def test_query_job_rpc_fail_w_conflict_random_id_job_fetch_fails(self):
         from google.api_core.exceptions import Conflict
         from google.api_core.exceptions import DataLoss
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         creds = _make_credentials()
         http = object()
@@ -5192,7 +5192,7 @@ class TestClient(unittest.TestCase):
 
     def test_query_job_rpc_fail_w_conflict_random_id_job_fetch_succeeds(self):
         from google.api_core.exceptions import Conflict
-        from google.cloud.bigquery.job import QueryJob
+        from arrivy.google.cloud.bigquery.job import QueryJob
 
         creds = _make_credentials()
         http = object()
@@ -5235,7 +5235,7 @@ class TestClient(unittest.TestCase):
 
         rows = client.query_and_wait(query)
 
-        self.assertIsInstance(rows, google.cloud.bigquery.table.RowIterator)
+        self.assertIsInstance(rows, arrivy.google.cloud.bigquery.table.RowIterator)
         self.assertEqual(rows.query_id, "job_abcDEF_")
         self.assertEqual(rows.total_rows, 1)
         # No job reference in the response should be OK for completed query.
@@ -5254,7 +5254,7 @@ class TestClient(unittest.TestCase):
         self.assertFalse(sent["useLegacySql"])
 
     def test_query_and_wait_w_default_query_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         query = "select count(*) from `bigquery-public-data.usa_names.usa_1910_2013`"
         jobs_query_response = {
@@ -5285,7 +5285,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(sent["labels"], {"default-label": "default-value"})
 
     def test_query_and_wait_w_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         query = "select count(*) from `bigquery-public-data.usa_names.usa_1910_2013`"
         jobs_query_response = {
@@ -5356,8 +5356,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(req["path"], "/projects/not-the-client-project/queries")
 
     def test_insert_rows_w_timeout(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         creds = _make_credentials()
         http = object()
@@ -5381,7 +5381,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(req.get("timeout"), 7.5)
 
     def test_insert_rows_wo_schema(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         creds = _make_credentials()
         http = object()
@@ -5404,7 +5404,7 @@ class TestClient(unittest.TestCase):
         from google.cloud._helpers import UTC
         from google.cloud._helpers import _datetime_to_rfc3339
         from google.cloud._helpers import _RFC3339_MICROS
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         WHEN_TS = 1437767599.006
         WHEN = datetime.datetime.utcfromtimestamp(WHEN_TS).replace(tzinfo=UTC)
@@ -5464,8 +5464,8 @@ class TestClient(unittest.TestCase):
         from google.cloud._helpers import UTC
         from google.cloud._helpers import _datetime_to_rfc3339
         from google.cloud._helpers import _RFC3339_MICROS
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         WHEN_TS = 1437767599.006
         WHEN = datetime.datetime.utcfromtimestamp(WHEN_TS).replace(tzinfo=UTC)
@@ -5529,9 +5529,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_w_list_of_Rows(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
-        from google.cloud.bigquery.table import Row
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Row
 
         PATH = "projects/%s/datasets/%s/tables/%s/insertAll" % (
             self.PROJECT,
@@ -5574,8 +5574,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_w_skip_invalid_and_ignore_unknown(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         PATH = "projects/%s/datasets/%s/tables/%s/insertAll" % (
             self.PROJECT,
@@ -5651,8 +5651,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_w_repeated_fields(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         PATH = "projects/%s/datasets/%s/tables/%s/insertAll" % (
             self.PROJECT,
@@ -5755,7 +5755,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_w_record_schema(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         PATH = "projects/%s/datasets/%s/tables/%s/insertAll" % (
             self.PROJECT,
@@ -5821,8 +5821,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_w_explicit_none_insert_ids(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         PATH = "projects/{}/datasets/{}/tables/{}/insertAll".format(
             self.PROJECT,
@@ -5860,8 +5860,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_errors(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         ROWS = [
             ("Phred Phlyntstone", 32, True),
@@ -5896,8 +5896,8 @@ class TestClient(unittest.TestCase):
             client.insert_rows(table, {"full_name": "value"})
 
     def test_insert_rows_w_numeric(self):
-        from google.cloud.bigquery import table
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         project = "PROJECT"
         ds_id = "DS_ID"
@@ -5945,8 +5945,8 @@ class TestClient(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_insert_rows_from_dataframe(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         API_PATH = "/projects/{}/datasets/{}/tables/{}/insertAll".format(
             self.PROJECT, self.DS_ID, self.TABLE_REF.table_id
@@ -6032,8 +6032,8 @@ class TestClient(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_insert_rows_from_dataframe_nan(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         API_PATH = "/projects/{}/datasets/{}/tables/{}/insertAll".format(
             self.PROJECT, self.DS_ID, self.TABLE_REF.table_id
@@ -6100,8 +6100,8 @@ class TestClient(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_insert_rows_from_dataframe_many_columns(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         API_PATH = "/projects/{}/datasets/{}/tables/{}/insertAll".format(
             self.PROJECT, self.DS_ID, self.TABLE_REF.table_id
@@ -6153,8 +6153,8 @@ class TestClient(unittest.TestCase):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_insert_rows_from_dataframe_w_explicit_none_insert_ids(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         API_PATH = "/projects/{}/datasets/{}/tables/{}/insertAll".format(
             self.PROJECT, self.DS_ID, self.TABLE_REF.table_id
@@ -6204,9 +6204,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_json_default_behavior(self):
-        from google.cloud.bigquery.dataset import DatasetReference
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         PROJECT = "PROJECT"
         DS_ID = "DS_ID"
@@ -6254,7 +6254,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_json_w_explicitly_requested_autogenerated_insert_ids(self):
-        from google.cloud.bigquery import AutoRowIDs
+        from arrivy.google.cloud.bigquery import AutoRowIDs
 
         rows = [{"col1": "val1"}, {"col2": "val2"}]
         creds = _make_credentials()
@@ -6287,7 +6287,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_json_w_explicitly_disabled_insert_ids(self):
-        from google.cloud.bigquery import AutoRowIDs
+        from arrivy.google.cloud.bigquery import AutoRowIDs
 
         rows = [{"col1": "val1"}, {"col2": "val2"}]
         creds = _make_credentials()
@@ -6440,9 +6440,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_insert_rows_w_wrong_arg(self):
-        from google.cloud.bigquery.dataset import DatasetReference
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.dataset import DatasetReference
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         PROJECT = "PROJECT"
         DS_ID = "DS_ID"
@@ -6465,7 +6465,7 @@ class TestClient(unittest.TestCase):
             client.insert_rows_json(table, ROW)
 
     def test_list_partitions(self):
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Table
 
         rows = 3
         meta_info = _make_list_partitons_meta_info(
@@ -6509,9 +6509,9 @@ class TestClient(unittest.TestCase):
     def test_list_rows(self):
         import datetime
         from google.cloud._helpers import UTC
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
-        from google.cloud.bigquery.table import Row
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Row
 
         PATH = "projects/%s/datasets/%s/tables/%s/data" % (
             self.PROJECT,
@@ -6577,9 +6577,9 @@ class TestClient(unittest.TestCase):
         )
 
     def test_list_rows_w_start_index_w_page_size(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
-        from google.cloud.bigquery.table import Row
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.table import Row
 
         PATH = "projects/%s/datasets/%s/tables/%s/data" % (
             self.PROJECT,
@@ -6680,8 +6680,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual(rows.total_rows, 0)
 
     def test_list_rows_query_params(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         creds = _make_credentials()
         http = object()
@@ -6704,8 +6704,8 @@ class TestClient(unittest.TestCase):
             self.assertEqual(req[1]["query_params"], test[1], "for kwargs %s" % test[0])
 
     def test_list_rows_w_numeric(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         resource = {
             "totalRows": 3,
@@ -6741,7 +6741,7 @@ class TestClient(unittest.TestCase):
         self.assertIsNone(rows[2]["bignum"])
 
     def test_list_rows_repeated_fields(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         PATH = "projects/%s/datasets/%s/tables/%s/data" % (
             self.PROJECT,
@@ -6805,8 +6805,8 @@ class TestClient(unittest.TestCase):
         )
 
     def test_list_rows_w_record_schema(self):
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.table import Table
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.table import Table
 
         PATH = "projects/%s/datasets/%s/tables/%s/data" % (
             self.PROJECT,
@@ -6875,7 +6875,7 @@ class TestClient(unittest.TestCase):
         )
 
     def test_list_rows_with_missing_schema(self):
-        from google.cloud.bigquery.table import Table, TableListItem
+        from arrivy.google.cloud.bigquery.table import Table, TableListItem
 
         table_path = "/projects/{}/datasets/{}/tables/{}".format(
             self.PROJECT, self.DS_ID, self.TABLE_ID
@@ -6979,7 +6979,7 @@ class TestClientUpload(object):
     # NOTE: This is a "partner" to `TestClient` meant to test some of the
     #       "load_table_from_file" portions of `Client`. It also uses
     #       `pytest`-style tests rather than `unittest`-style.
-    from google.cloud.bigquery.job import SourceFormat
+    from arrivy.google.cloud.bigquery.job import SourceFormat
 
     PROJECT = "project_id"
     TABLE_REF = DatasetReference(PROJECT, "test_dataset").table("test_table")
@@ -6988,8 +6988,8 @@ class TestClientUpload(object):
 
     @classmethod
     def _make_client(cls, transport=None, location=None):
-        from google.cloud.bigquery import _http
-        from google.cloud.bigquery import client
+        from arrivy.google.cloud.bigquery import _http
+        from arrivy.google.cloud.bigquery import client
 
         cl = client.Client(
             project=cls.PROJECT,
@@ -7051,8 +7051,8 @@ class TestClientUpload(object):
 
     @staticmethod
     def _make_config():
-        from google.cloud.bigquery.job import LoadJobConfig
-        from google.cloud.bigquery.job import SourceFormat
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.job import SourceFormat
 
         config = LoadJobConfig()
         config.source_format = SourceFormat.CSV
@@ -7061,7 +7061,7 @@ class TestClientUpload(object):
     # High-level tests
 
     def test_load_table_from_file_resumable(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client()
         file_obj = self._make_file_obj()
@@ -7091,7 +7091,7 @@ class TestClientUpload(object):
         assert job_config.to_api_repr() == original_config_copy.to_api_repr()
 
     def test_load_table_from_file_w_explicit_project(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client()
         file_obj = self._make_file_obj()
@@ -7121,7 +7121,7 @@ class TestClientUpload(object):
         )
 
     def test_load_table_from_file_w_client_location(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client(location=self.LOCATION)
         file_obj = self._make_file_obj()
@@ -7155,9 +7155,9 @@ class TestClientUpload(object):
         )
 
     def test_load_table_from_file_resumable_metadata(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery.job import CreateDisposition
-        from google.cloud.bigquery.job import WriteDisposition
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.job import CreateDisposition
+        from arrivy.google.cloud.bigquery.job import WriteDisposition
 
         client = self._make_client()
         file_obj = self._make_file_obj()
@@ -7217,7 +7217,7 @@ class TestClientUpload(object):
         )
 
     def test_load_table_from_file_multipart(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client()
         file_obj = self._make_file_obj()
@@ -7283,7 +7283,7 @@ class TestClientUpload(object):
         assert file_obj.tell() == 0
 
     def test_load_table_from_file_with_readable_gzip(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client()
         gzip_file = self._make_gzip_file_obj(writable=False)
@@ -7349,7 +7349,7 @@ class TestClientUpload(object):
             client.load_table_from_file(file_obj, self.TABLE_REF)
 
     def test_load_table_from_file_w_invalid_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         client = self._make_client()
         gzip_file = self._make_gzip_file_obj(writable=True)
@@ -7362,7 +7362,7 @@ class TestClientUpload(object):
         assert "Expected an instance of LoadJobConfig" in err_msg
 
     def test_load_table_from_file_w_explicit_job_config(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client()
         file_obj = self._make_file_obj()
@@ -7397,8 +7397,8 @@ class TestClientUpload(object):
         )
 
     def test_load_table_from_file_w_explicit_job_config_override(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
 
         client = self._make_client()
         file_obj = self._make_file_obj()
@@ -7437,8 +7437,8 @@ class TestClientUpload(object):
         )
 
     def test_load_table_from_file_w_default_load_config(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery.job import LoadJobConfig
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.job import LoadJobConfig
 
         client = self._make_client()
         file_obj = self._make_file_obj()
@@ -7476,9 +7476,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import PolicyTagList, SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import PolicyTagList, SchemaField
 
         client = self._make_client()
         records = [
@@ -7519,12 +7519,12 @@ class TestClientUpload(object):
         ]
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(schema=get_table_schema),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch:
             client.load_table_from_dataframe(dataframe, self.TABLE_REF)
@@ -7572,23 +7572,23 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_client_location(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client(location=self.LOCATION)
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
         dataframe = pandas.DataFrame(records)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch:
             client.load_table_from_dataframe(dataframe, self.TABLE_REF)
@@ -7617,9 +7617,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_custom_job_config_wihtout_source_format(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -7630,14 +7630,14 @@ class TestClientUpload(object):
         original_config_copy = copy.deepcopy(job_config)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch as get_table:
             client.load_table_from_dataframe(
@@ -7672,9 +7672,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_custom_job_config_w_source_format(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -7686,14 +7686,14 @@ class TestClientUpload(object):
         original_config_copy = copy.deepcopy(job_config)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch as get_table:
             client.load_table_from_dataframe(
@@ -7728,9 +7728,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_parquet_options_none(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -7742,14 +7742,14 @@ class TestClientUpload(object):
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch as get_table:
             client.load_table_from_dataframe(
@@ -7780,9 +7780,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_list_inference_none(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -7799,14 +7799,14 @@ class TestClientUpload(object):
         original_config_copy = copy.deepcopy(job_config)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch as get_table:
             client.load_table_from_dataframe(
@@ -7840,9 +7840,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_explicit_job_config_override(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -7861,14 +7861,14 @@ class TestClientUpload(object):
         original_config_copy = copy.deepcopy(job_config)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch:
             client.load_table_from_dataframe(
@@ -7901,9 +7901,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_default_load_config(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -7915,14 +7915,14 @@ class TestClientUpload(object):
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch:
             client.load_table_from_dataframe(
@@ -7951,9 +7951,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_list_inference_false(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -7971,14 +7971,14 @@ class TestClientUpload(object):
         original_config_copy = copy.deepcopy(job_config)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch as get_table:
             client.load_table_from_dataframe(
@@ -8012,7 +8012,7 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_custom_job_config_w_wrong_source_format(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -8032,9 +8032,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_automatic_schema(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         df_data = collections.OrderedDict(
@@ -8090,11 +8090,11 @@ class TestClientUpload(object):
         )
         dataframe = pandas.DataFrame(df_data, columns=df_data.keys())
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
@@ -8133,8 +8133,8 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_automatic_schema_detection_fails(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
 
         client = self._make_client()
 
@@ -8145,10 +8145,10 @@ class TestClientUpload(object):
         dataframe = pandas.DataFrame(df_data, columns=["col_record_list"])
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
@@ -8193,9 +8193,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_index_and_auto_schema(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         df_data = collections.OrderedDict(
@@ -8207,11 +8207,11 @@ class TestClientUpload(object):
         )
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[
@@ -8255,19 +8255,19 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_unknown_table(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
         dataframe = pandas.DataFrame(records)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch:
             # there should be no error
@@ -8291,18 +8291,18 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_nullable_int64_datatype(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         dataframe = pandas.DataFrame({"x": [1, 2, None, 4]}, dtype="Int64")
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(schema=[SchemaField("x", "INT64", "NULLABLE")]),
         )
@@ -8336,18 +8336,18 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     # @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_nullable_int64_datatype_automatic_schema(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         dataframe = pandas.DataFrame({"x": [1, 2, None, 4]}, dtype="Int64")
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
@@ -8381,9 +8381,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_struct_fields(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
 
@@ -8403,11 +8403,11 @@ class TestClientUpload(object):
         job_config = job.LoadJobConfig(schema=schema)
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
@@ -8445,9 +8445,9 @@ class TestClientUpload(object):
 
         See: https://github.com/googleapis/python-bigquery/issues/19
         """
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
 
@@ -8467,11 +8467,11 @@ class TestClientUpload(object):
         job_config = job.LoadJobConfig(schema=schema)
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
@@ -8510,9 +8510,9 @@ class TestClientUpload(object):
 
         See: https://github.com/googleapis/python-bigquery/issues/19
         """
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
 
@@ -8531,11 +8531,11 @@ class TestClientUpload(object):
         ]
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
@@ -8569,9 +8569,9 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_partial_schema(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         df_data = collections.OrderedDict(
@@ -8608,7 +8608,7 @@ class TestClientUpload(object):
         )
         dataframe = pandas.DataFrame(df_data, columns=df_data.keys())
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         schema = (
@@ -8653,8 +8653,8 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_partial_schema_extra_types(self):
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         df_data = collections.OrderedDict(
@@ -8666,7 +8666,7 @@ class TestClientUpload(object):
         )
         dataframe = pandas.DataFrame(df_data, columns=df_data.keys())
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         schema = (
@@ -8690,8 +8690,8 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_schema_arrow_custom_compression(self):
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"name": "Monty", "age": 100}, {"name": "Python", "age": 60}]
@@ -8700,10 +8700,10 @@ class TestClientUpload(object):
         job_config = job.LoadJobConfig(schema=schema)
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         to_parquet_patch = mock.patch(
-            "google.cloud.bigquery.client._pandas_helpers.dataframe_to_parquet",
+            "arrivy.google.cloud.bigquery.client._pandas_helpers.dataframe_to_parquet",
             autospec=True,
         )
 
@@ -8728,14 +8728,14 @@ class TestClientUpload(object):
         dataframe = pandas.DataFrame(records)
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
-        pyarrow_patch = mock.patch("google.cloud.bigquery.client.pyarrow", None)
+        pyarrow_patch = mock.patch("arrivy.google.cloud.bigquery.client.pyarrow", None)
         to_parquet_patch = mock.patch.object(
             dataframe, "to_parquet", wraps=dataframe.to_parquet
         )
@@ -8758,16 +8758,16 @@ class TestClientUpload(object):
         dataframe = pandas.DataFrame(records)
 
         pyarrow_version_patch = mock.patch(
-            "google.cloud.bigquery._versions_helpers.PYARROW_VERSIONS._installed_version",
+            "arrivy.google.cloud.bigquery._versions_helpers.PYARROW_VERSIONS._installed_version",
             packaging.version.parse("2.0.0"),  # A known bad version of pyarrow.
         )
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             side_effect=google.api_core.exceptions.NotFound("Table not found"),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         with load_patch, get_table_patch, pyarrow_version_patch:
@@ -8786,9 +8786,9 @@ class TestClientUpload(object):
 
         See: https://github.com/googleapis/google-cloud-python/issues/7370
         """
-        from google.cloud.bigquery.schema import SchemaField
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
 
         client = self._make_client()
         records = [{"name": None, "age": None}, {"name": None, "age": None}]
@@ -8797,7 +8797,7 @@ class TestClientUpload(object):
         job_config = job.LoadJobConfig(schema=schema)
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file:
             client.load_table_from_dataframe(
@@ -8825,7 +8825,7 @@ class TestClientUpload(object):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_load_table_from_dataframe_w_invaild_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         client = self._make_client()
 
@@ -8843,9 +8843,9 @@ class TestClientUpload(object):
 
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     def test_load_table_from_dataframe_with_csv_source_format(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
         records = [{"id": 1, "age": 100}, {"id": 2, "age": 60}]
@@ -8856,14 +8856,14 @@ class TestClientUpload(object):
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table",
+            "arrivy.google.cloud.bigquery.client.Client.get_table",
             autospec=True,
             return_value=mock.Mock(
                 schema=[SchemaField("id", "INTEGER"), SchemaField("age", "INTEGER")]
             ),
         )
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch:
             client.load_table_from_dataframe(
@@ -8894,19 +8894,19 @@ class TestClientUpload(object):
     @unittest.skipIf(pandas is None, "Requires `pandas`")
     @unittest.skipIf(pyarrow is None, "Requires `pyarrow`")
     def test_load_table_from_dataframe_w_higher_scale_decimal128_datatype(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.schema import SchemaField
         from decimal import Decimal
 
         client = self._make_client()
         dataframe = pandas.DataFrame({"x": [Decimal("0.1234567891")]})
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         get_table_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.get_table", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.get_table", autospec=True
         )
         with load_patch as load_table_from_file, get_table_patch:
             client.load_table_from_dataframe(
@@ -8935,8 +8935,8 @@ class TestClientUpload(object):
         )
 
     def test_load_table_from_json_basic_use(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery import job
 
         client = self._make_client()
 
@@ -8946,7 +8946,7 @@ class TestClientUpload(object):
         ]
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         with load_patch as load_table_from_file:
@@ -8972,9 +8972,9 @@ class TestClientUpload(object):
         assert sent_config.autodetect
 
     def test_load_table_from_json_non_default_args(self):
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
 
@@ -8993,7 +8993,7 @@ class TestClientUpload(object):
         original_config_copy = copy.deepcopy(job_config)
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         with load_patch as load_table_from_file:
@@ -9030,7 +9030,7 @@ class TestClientUpload(object):
         assert job_config.to_api_repr() == original_config_copy.to_api_repr()
 
     def test_load_table_from_json_w_invalid_job_config(self):
-        from google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery import job
 
         client = self._make_client()
         json_rows = [
@@ -9050,9 +9050,9 @@ class TestClientUpload(object):
         assert "Expected an instance of LoadJobConfig" in err_msg
 
     def test_load_table_from_json_w_explicit_job_config_override(self):
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
 
@@ -9076,7 +9076,7 @@ class TestClientUpload(object):
         original_config_copy = copy.deepcopy(job_config)
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         with load_patch as load_table_from_file:
@@ -9112,9 +9112,9 @@ class TestClientUpload(object):
         assert job_config.to_api_repr() == original_config_copy.to_api_repr()
 
     def test_load_table_from_json_w_default_job_config(self):
-        from google.cloud.bigquery import job
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery import job
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         client = self._make_client()
 
@@ -9131,7 +9131,7 @@ class TestClientUpload(object):
         client.default_load_job_config = job.LoadJobConfig(schema=schema)
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         with load_patch as load_table_from_file:
@@ -9162,7 +9162,7 @@ class TestClientUpload(object):
         assert sent_config.schema == schema
 
     def test_load_table_from_json_unicode_emoji_data_case(self):
-        from google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
+        from arrivy.google.cloud.bigquery.client import _DEFAULT_NUM_RETRIES
 
         client = self._make_client()
 
@@ -9171,7 +9171,7 @@ class TestClientUpload(object):
         json_rows = [json_row]
 
         load_patch = mock.patch(
-            "google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
+            "arrivy.google.cloud.bigquery.client.Client.load_table_from_file", autospec=True
         )
 
         with load_patch as load_table_from_file:
@@ -9351,7 +9351,7 @@ class TestClientUpload(object):
             client._do_multipart_upload(file_obj, {}, file_obj_len + 1, None, None)
 
     def test_schema_from_json_with_file_path(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         file_content = """[
           {
@@ -9407,7 +9407,7 @@ class TestClientUpload(object):
         assert expected == actual
 
     def test_schema_from_json_with_file_object(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         file_content = """[
           {
@@ -9445,7 +9445,7 @@ class TestClientUpload(object):
         assert expected == actual
 
     def test_schema_to_json_with_file_path(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         file_content = [
             {
@@ -9491,7 +9491,7 @@ class TestClientUpload(object):
             )
 
     def test_schema_to_json_with_file_object(self):
-        from google.cloud.bigquery.schema import SchemaField
+        from arrivy.google.cloud.bigquery.schema import SchemaField
 
         file_content = [
             {
@@ -9531,7 +9531,7 @@ class TestClientUpload(object):
 
 
 def test_upload_chunksize(client):
-    with mock.patch("google.cloud.bigquery.client.ResumableUpload") as RU:
+    with mock.patch("arrivy.google.cloud.bigquery.client.ResumableUpload") as RU:
         upload = RU.return_value
 
         upload.finished = False

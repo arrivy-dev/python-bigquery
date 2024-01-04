@@ -37,7 +37,7 @@ if opentelemetry is not None:
 
 import pytest
 
-from google.cloud.bigquery import opentelemetry_tracing
+from arrivy.google.cloud.bigquery import opentelemetry_tracing
 
 TEST_SPAN_NAME = "bar"
 TEST_SPAN_ATTRIBUTES = {"foo": "baz"}
@@ -102,7 +102,7 @@ def test_default_client_attributes(setup):
         "db.name": "test_project",
         "location": "test_location",
     }
-    with mock.patch("google.cloud.bigquery.client.Client") as test_client:
+    with mock.patch("arrivy.google.cloud.bigquery.client.Client") as test_client:
         test_client.project = "test_project"
         test_client.location = "test_location"
         with opentelemetry_tracing.create_span(
@@ -144,7 +144,7 @@ def test_default_job_attributes(setup):
         "hasErrors": True,
         "state": "some_job_state",
     }
-    with mock.patch("google.cloud.bigquery.job._AsyncJob") as test_job_ref:
+    with mock.patch("arrivy.google.cloud.bigquery.job._AsyncJob") as test_job_ref:
         test_job_ref.job_id = "test_job_id"
         test_job_ref.location = "test_location"
         test_job_ref.project = "test_project_id"
@@ -173,7 +173,7 @@ def test_optional_job_attributes(setup):
         2010, 5, 19, 16, 0, 0, tzinfo=google.cloud._helpers.UTC
     )
 
-    with mock.patch("google.cloud.bigquery.job._AsyncJob") as test_job_ref:
+    with mock.patch("arrivy.google.cloud.bigquery.job._AsyncJob") as test_job_ref:
         test_job_ref.job_id = "test_job_id"
         test_job_ref.location = None
         test_job_ref.project = "test_project_id"
@@ -193,8 +193,8 @@ def test_optional_job_attributes(setup):
 @pytest.mark.skipif(opentelemetry is None, reason="Require `opentelemetry`")
 def test_default_no_data_leakage(setup):
     import google.auth.credentials
-    from google.cloud.bigquery import client
-    from google.cloud.bigquery import job
+    from arrivy.google.cloud.bigquery import client
+    from arrivy.google.cloud.bigquery import job
 
     mock_credentials = mock.Mock(spec=google.auth.credentials.Credentials)
     test_client = client.Client(
@@ -241,7 +241,7 @@ def test_default_no_data_leakage(setup):
 @pytest.mark.skipif(opentelemetry is None, reason="Require `opentelemetry`")
 def test_span_creation_error(setup):
     import google.auth.credentials
-    from google.cloud.bigquery import client
+    from arrivy.google.cloud.bigquery import client
     from google.api_core.exceptions import GoogleAPICallError, InvalidArgument
 
     mock_credentials = mock.Mock(spec=google.auth.credentials.Credentials)

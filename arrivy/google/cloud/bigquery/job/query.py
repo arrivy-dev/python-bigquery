@@ -25,14 +25,14 @@ from google.api_core.future import polling as polling_future
 from google.api_core import retry as retries
 import requests
 
-from google.cloud.bigquery.dataset import Dataset
-from google.cloud.bigquery.dataset import DatasetListItem
-from google.cloud.bigquery.dataset import DatasetReference
-from google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
-from google.cloud.bigquery.enums import KeyResultStatementKind, DefaultPandasDTypes
-from google.cloud.bigquery.external_config import ExternalConfig
-from google.cloud.bigquery import _helpers
-from google.cloud.bigquery.query import (
+from arrivy.google.cloud.bigquery.dataset import Dataset
+from arrivy.google.cloud.bigquery.dataset import DatasetListItem
+from arrivy.google.cloud.bigquery.dataset import DatasetReference
+from arrivy.google.cloud.bigquery.encryption_configuration import EncryptionConfiguration
+from arrivy.google.cloud.bigquery.enums import KeyResultStatementKind, DefaultPandasDTypes
+from arrivy.google.cloud.bigquery.external_config import ExternalConfig
+from arrivy.google.cloud.bigquery import _helpers
+from arrivy.google.cloud.bigquery.query import (
     _query_param_from_api_repr,
     ArrayQueryParameter,
     ConnectionProperty,
@@ -40,19 +40,19 @@ from google.cloud.bigquery.query import (
     StructQueryParameter,
     UDFResource,
 )
-from google.cloud.bigquery.retry import DEFAULT_RETRY, DEFAULT_JOB_RETRY
-from google.cloud.bigquery.routine import RoutineReference
-from google.cloud.bigquery.schema import SchemaField
-from google.cloud.bigquery.table import _EmptyRowIterator
-from google.cloud.bigquery.table import RangePartitioning
-from google.cloud.bigquery.table import _table_arg_to_table_ref
-from google.cloud.bigquery.table import TableReference
-from google.cloud.bigquery.table import TimePartitioning
-from google.cloud.bigquery._tqdm_helpers import wait_for_query
+from arrivy.google.cloud.bigquery.retry import DEFAULT_RETRY, DEFAULT_JOB_RETRY
+from arrivy.google.cloud.bigquery.routine import RoutineReference
+from arrivy.google.cloud.bigquery.schema import SchemaField
+from arrivy.google.cloud.bigquery.table import _EmptyRowIterator
+from arrivy.google.cloud.bigquery.table import RangePartitioning
+from arrivy.google.cloud.bigquery.table import _table_arg_to_table_ref
+from arrivy.google.cloud.bigquery.table import TableReference
+from arrivy.google.cloud.bigquery.table import TimePartitioning
+from arrivy.google.cloud.bigquery._tqdm_helpers import wait_for_query
 
-from google.cloud.bigquery.job.base import _AsyncJob
-from google.cloud.bigquery.job.base import _JobConfig
-from google.cloud.bigquery.job.base import _JobReference
+from arrivy.google.cloud.bigquery.job.base import _AsyncJob
+from arrivy.google.cloud.bigquery.job.base import _JobConfig
+from arrivy.google.cloud.bigquery.job.base import _JobReference
 
 try:
     import pandas  # type: ignore
@@ -71,8 +71,8 @@ if typing.TYPE_CHECKING:  # pragma: NO COVER
     import geopandas  # type: ignore
     import pyarrow  # type: ignore
     from google.cloud import bigquery_storage
-    from google.cloud.bigquery.client import Client
-    from google.cloud.bigquery.table import RowIterator
+    from arrivy.google.cloud.bigquery.client import Client
+    from arrivy.google.cloud.bigquery.table import RowIterator
 
 
 _CONTAINS_ORDER_BY = re.compile(r"ORDER\s+BY", re.IGNORECASE)
@@ -277,7 +277,7 @@ class ScriptOptions:
                 ScriptOptions representation returned from API.
 
         Returns:
-            google.cloud.bigquery.ScriptOptions:
+            arrivy.google.cloud.bigquery.ScriptOptions:
                 ScriptOptions sample parsed from ``resource``.
         """
         entry = cls()
@@ -338,7 +338,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def destination_encryption_configuration(self):
-        """google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
+        """arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
         encryption configuration for the destination table.
 
         Custom encryption configuration (e.g., Cloud KMS keys) or :data:`None`
@@ -393,7 +393,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def create_disposition(self):
-        """google.cloud.bigquery.job.CreateDisposition: Specifies behavior
+        """arrivy.google.cloud.bigquery.job.CreateDisposition: Specifies behavior
         for creating tables.
 
         See
@@ -408,11 +408,11 @@ class QueryJobConfig(_JobConfig):
     @property
     def create_session(self) -> Optional[bool]:
         """[Preview] If :data:`True`, creates a new session, where
-        :attr:`~google.cloud.bigquery.job.QueryJob.session_info` will contain a
+        :attr:`~arrivy.google.cloud.bigquery.job.QueryJob.session_info` will contain a
         random server generated session id.
 
         If :data:`False`, runs query with an existing ``session_id`` passed in
-        :attr:`~google.cloud.bigquery.job.QueryJobConfig.connection_properties`,
+        :attr:`~arrivy.google.cloud.bigquery.job.QueryJobConfig.connection_properties`,
         otherwise runs query in non-session mode.
 
         See
@@ -428,14 +428,14 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def default_dataset(self):
-        """google.cloud.bigquery.dataset.DatasetReference: the default dataset
+        """arrivy.google.cloud.bigquery.dataset.DatasetReference: the default dataset
         to use for unqualified table names in the query or :data:`None` if not
         set.
 
         The ``default_dataset`` setter accepts:
 
-        - a :class:`~google.cloud.bigquery.dataset.Dataset`, or
-        - a :class:`~google.cloud.bigquery.dataset.DatasetReference`, or
+        - a :class:`~arrivy.google.cloud.bigquery.dataset.Dataset`, or
+        - a :class:`~arrivy.google.cloud.bigquery.dataset.DatasetReference`, or
         - a :class:`str` of the fully-qualified dataset ID in standard SQL
           format. The value must included a project ID and dataset ID
           separated by ``.``. For example: ``your-project.your_dataset``.
@@ -465,13 +465,13 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def destination(self):
-        """google.cloud.bigquery.table.TableReference: table where results are
+        """arrivy.google.cloud.bigquery.table.TableReference: table where results are
         written or :data:`None` if not set.
 
         The ``destination`` setter accepts:
 
-        - a :class:`~google.cloud.bigquery.table.Table`, or
-        - a :class:`~google.cloud.bigquery.table.TableReference`, or
+        - a :class:`~arrivy.google.cloud.bigquery.table.Table`, or
+        - a :class:`~arrivy.google.cloud.bigquery.table.TableReference`, or
         - a :class:`str` of the fully-qualified table ID in standard SQL
           format. The value must included a project ID, dataset ID, and table
           ID, each separated by ``.``. For example:
@@ -551,7 +551,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def priority(self):
-        """google.cloud.bigquery.job.QueryPriority: Priority of the query.
+        """arrivy.google.cloud.bigquery.job.QueryPriority: Priority of the query.
 
         See
         https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationQuery.FIELDS.priority
@@ -564,9 +564,9 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def query_parameters(self):
-        """List[Union[google.cloud.bigquery.query.ArrayQueryParameter, \
-        google.cloud.bigquery.query.ScalarQueryParameter, \
-        google.cloud.bigquery.query.StructQueryParameter]]: list of parameters
+        """List[Union[arrivy.google.cloud.bigquery.query.ArrayQueryParameter, \
+        arrivy.google.cloud.bigquery.query.ScalarQueryParameter, \
+        arrivy.google.cloud.bigquery.query.StructQueryParameter]]: list of parameters
         for parameterized query (empty by default)
 
         See:
@@ -581,7 +581,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def range_partitioning(self):
-        """Optional[google.cloud.bigquery.table.RangePartitioning]:
+        """Optional[arrivy.google.cloud.bigquery.table.RangePartitioning]:
         Configures range-based partitioning for destination table.
 
         .. note::
@@ -589,13 +589,13 @@ class QueryJobConfig(_JobConfig):
             pre-release state and might change or have limited support.
 
         Only specify at most one of
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
 
         Raises:
             ValueError:
                 If the value is not
-                :class:`~google.cloud.bigquery.table.RangePartitioning` or
+                :class:`~arrivy.google.cloud.bigquery.table.RangePartitioning` or
                 :data:`None`.
         """
         resource = self._get_sub_prop("rangePartitioning")
@@ -615,7 +615,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def udf_resources(self):
-        """List[google.cloud.bigquery.query.UDFResource]: user
+        """List[arrivy.google.cloud.bigquery.query.UDFResource]: user
         defined function resources (empty by default)
 
         See:
@@ -658,7 +658,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def write_disposition(self):
-        """google.cloud.bigquery.job.WriteDisposition: Action that occurs if
+        """arrivy.google.cloud.bigquery.job.WriteDisposition: Action that occurs if
         the destination table already exists.
 
         See
@@ -672,7 +672,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def table_definitions(self):
-        """Dict[str, google.cloud.bigquery.external_config.ExternalConfig]:
+        """Dict[str, arrivy.google.cloud.bigquery.external_config.ExternalConfig]:
         Definitions for external tables or :data:`None` if not set.
 
         See
@@ -689,17 +689,17 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def time_partitioning(self):
-        """Optional[google.cloud.bigquery.table.TimePartitioning]: Specifies
+        """Optional[arrivy.google.cloud.bigquery.table.TimePartitioning]: Specifies
         time-based partitioning for the destination table.
 
         Only specify at most one of
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
-        :attr:`~google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.time_partitioning` or
+        :attr:`~arrivy.google.cloud.bigquery.job.LoadJobConfig.range_partitioning`.
 
         Raises:
             ValueError:
                 If the value is not
-                :class:`~google.cloud.bigquery.table.TimePartitioning` or
+                :class:`~arrivy.google.cloud.bigquery.table.TimePartitioning` or
                 :data:`None`.
         """
         prop = self._get_sub_prop("timePartitioning")
@@ -744,7 +744,7 @@ class QueryJobConfig(_JobConfig):
 
     @property
     def schema_update_options(self):
-        """List[google.cloud.bigquery.job.SchemaUpdateOption]: Specifies
+        """List[arrivy.google.cloud.bigquery.job.SchemaUpdateOption]: Specifies
         updates to the destination table schema to allow as a side effect of
         the query job.
         """
@@ -797,11 +797,11 @@ class QueryJob(_AsyncJob):
 
         query (str): SQL query string.
 
-        client (google.cloud.bigquery.client.Client):
+        client (arrivy.google.cloud.bigquery.client.Client):
             A client which holds credentials and project configuration
             for the dataset (which requires a project).
 
-        job_config (Optional[google.cloud.bigquery.job.QueryJobConfig]):
+        job_config (Optional[arrivy.google.cloud.bigquery.job.QueryJobConfig]):
             Extra configuration options for the query job.
     """
 
@@ -828,7 +828,7 @@ class QueryJob(_AsyncJob):
     @property
     def allow_large_results(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.allow_large_results`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.allow_large_results`.
         """
         return self.configuration.allow_large_results
 
@@ -840,7 +840,7 @@ class QueryJob(_AsyncJob):
     @property
     def connection_properties(self) -> List[ConnectionProperty]:
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.connection_properties`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.connection_properties`.
 
         .. versionadded:: 2.29.0
         """
@@ -849,14 +849,14 @@ class QueryJob(_AsyncJob):
     @property
     def create_disposition(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.create_disposition`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.create_disposition`.
         """
         return self.configuration.create_disposition
 
     @property
     def create_session(self) -> Optional[bool]:
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.create_session`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.create_session`.
 
         .. versionadded:: 2.29.0
         """
@@ -865,48 +865,48 @@ class QueryJob(_AsyncJob):
     @property
     def default_dataset(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.default_dataset`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.default_dataset`.
         """
         return self.configuration.default_dataset
 
     @property
     def destination(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.destination`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.destination`.
         """
         return self.configuration.destination
 
     @property
     def destination_encryption_configuration(self):
-        """google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
+        """arrivy.google.cloud.bigquery.encryption_configuration.EncryptionConfiguration: Custom
         encryption configuration for the destination table.
 
         Custom encryption configuration (e.g., Cloud KMS keys) or :data:`None`
         if using default encryption.
 
         See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.destination_encryption_configuration`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.destination_encryption_configuration`.
         """
         return self.configuration.destination_encryption_configuration
 
     @property
     def dry_run(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.dry_run`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.dry_run`.
         """
         return self.configuration.dry_run
 
     @property
     def flatten_results(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.flatten_results`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.flatten_results`.
         """
         return self.configuration.flatten_results
 
     @property
     def priority(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.priority`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.priority`.
         """
         return self.configuration.priority
 
@@ -942,84 +942,84 @@ class QueryJob(_AsyncJob):
     @property
     def query_parameters(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.query_parameters`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.query_parameters`.
         """
         return self.configuration.query_parameters
 
     @property
     def udf_resources(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.udf_resources`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.udf_resources`.
         """
         return self.configuration.udf_resources
 
     @property
     def use_legacy_sql(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.use_legacy_sql`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.use_legacy_sql`.
         """
         return self.configuration.use_legacy_sql
 
     @property
     def use_query_cache(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.use_query_cache`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.use_query_cache`.
         """
         return self.configuration.use_query_cache
 
     @property
     def write_disposition(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.write_disposition`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.write_disposition`.
         """
         return self.configuration.write_disposition
 
     @property
     def maximum_billing_tier(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.maximum_billing_tier`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.maximum_billing_tier`.
         """
         return self.configuration.maximum_billing_tier
 
     @property
     def maximum_bytes_billed(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.maximum_bytes_billed`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.maximum_bytes_billed`.
         """
         return self.configuration.maximum_bytes_billed
 
     @property
     def range_partitioning(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.range_partitioning`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.range_partitioning`.
         """
         return self.configuration.range_partitioning
 
     @property
     def table_definitions(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.table_definitions`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.table_definitions`.
         """
         return self.configuration.table_definitions
 
     @property
     def time_partitioning(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.time_partitioning`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.time_partitioning`.
         """
         return self.configuration.time_partitioning
 
     @property
     def clustering_fields(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.clustering_fields`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.clustering_fields`.
         """
         return self.configuration.clustering_fields
 
     @property
     def schema_update_options(self):
         """See
-        :attr:`google.cloud.bigquery.job.QueryJobConfig.schema_update_options`.
+        :attr:`arrivy.google.cloud.bigquery.job.QueryJobConfig.schema_update_options`.
         """
         return self.configuration.schema_update_options
 
@@ -1040,12 +1040,12 @@ class QueryJob(_AsyncJob):
         Args:
             resource (Dict): dataset job representation returned from the API
 
-            client (google.cloud.bigquery.client.Client):
+            client (arrivy.google.cloud.bigquery.client.Client):
                 Client which holds credentials and project
                 configuration for the dataset.
 
         Returns:
-            google.cloud.bigquery.job.QueryJob: Job parsed from ``resource``.
+            arrivy.google.cloud.bigquery.job.QueryJob: Job parsed from ``resource``.
         """
         job_ref_properties = resource.setdefault(
             "jobReference", {"projectId": client.project, "jobId": None}
@@ -1063,7 +1063,7 @@ class QueryJob(_AsyncJob):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobStatistics2.FIELDS.query_plan
 
         Returns:
-            List[google.cloud.bigquery.job.QueryPlanEntry]:
+            List[arrivy.google.cloud.bigquery.job.QueryPlanEntry]:
                 mappings describing the query plan, or an empty list
                 if the query has not yet completed.
         """
@@ -1164,7 +1164,7 @@ class QueryJob(_AsyncJob):
 
     @property
     def ddl_target_routine(self):
-        """Optional[google.cloud.bigquery.routine.RoutineReference]: Return the DDL target routine, present
+        """Optional[arrivy.google.cloud.bigquery.routine.RoutineReference]: Return the DDL target routine, present
             for CREATE/DROP FUNCTION/PROCEDURE  queries.
 
         See:
@@ -1177,7 +1177,7 @@ class QueryJob(_AsyncJob):
 
     @property
     def ddl_target_table(self):
-        """Optional[google.cloud.bigquery.table.TableReference]: Return the DDL target table, present
+        """Optional[arrivy.google.cloud.bigquery.table.TableReference]: Return the DDL target table, present
             for CREATE/DROP TABLE/VIEW queries.
 
         See:
@@ -1262,9 +1262,9 @@ class QueryJob(_AsyncJob):
 
         Returns:
             List[Union[ \
-                google.cloud.bigquery.query.ArrayQueryParameter, \
-                google.cloud.bigquery.query.ScalarQueryParameter, \
-                google.cloud.bigquery.query.StructQueryParameter \
+                arrivy.google.cloud.bigquery.query.ArrayQueryParameter, \
+                arrivy.google.cloud.bigquery.query.ScalarQueryParameter, \
+                arrivy.google.cloud.bigquery.query.StructQueryParameter \
             ]]:
                 Undeclared parameters, or an empty list if the query has
                 not yet completed.
@@ -1362,7 +1362,7 @@ class QueryJob(_AsyncJob):
         https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert
 
         Args:
-            client (Optional[google.cloud.bigquery.client.Client]):
+            client (Optional[arrivy.google.cloud.bigquery.client.Client]):
                 The client to use. If not passed, falls back to the ``client``
                 associated with the job object or``NoneType``.
             retry (Optional[google.api_core.retry.Retry]):
@@ -1513,9 +1513,9 @@ class QueryJob(_AsyncJob):
                 non-default ``job_retry`` is also provided.
 
         Returns:
-            google.cloud.bigquery.table.RowIterator:
+            arrivy.google.cloud.bigquery.table.RowIterator:
                 Iterator of row data
-                :class:`~google.cloud.bigquery.table.Row`-s. During each
+                :class:`~arrivy.google.cloud.bigquery.table.Row`-s. During each
                 page, the iterator will have the ``total_rows`` attribute
                 set, which counts the total number of rows **in the result
                 set** (this is distinct from the total number of rows in the
@@ -1765,7 +1765,7 @@ class QueryJob(_AsyncJob):
                 ``tqdm`` package to use this feature.
 
                 See
-                :func:`~google.cloud.bigquery.table.RowIterator.to_dataframe`
+                :func:`~arrivy.google.cloud.bigquery.table.RowIterator.to_dataframe`
                 for details.
 
                 .. versionadded:: 1.11.0
@@ -1943,7 +1943,7 @@ class QueryJob(_AsyncJob):
                 ``tqdm`` package to use this feature.
 
                 See
-                :func:`~google.cloud.bigquery.table.RowIterator.to_dataframe`
+                :func:`~arrivy.google.cloud.bigquery.table.RowIterator.to_dataframe`
                 for details.
 
                 .. versionadded:: 1.11.0
@@ -2016,7 +2016,7 @@ class QueryPlanEntryStep(object):
             resource (Dict): JSON representation of the entry.
 
         Returns:
-            google.cloud.bigquery.job.QueryPlanEntryStep:
+            arrivy.google.cloud.bigquery.job.QueryPlanEntryStep:
                 New instance built from the resource.
         """
         return cls(kind=resource.get("kind"), substeps=resource.get("substeps", ()))
@@ -2047,7 +2047,7 @@ class QueryPlanEntry(object):
                 ExplainQueryStage representation returned from API.
 
         Returns:
-            google.cloud.bigquery.job.QueryPlanEntry:
+            arrivy.google.cloud.bigquery.job.QueryPlanEntry:
                 Query plan entry parsed from ``resource``.
         """
         entry = cls()
@@ -2285,7 +2285,7 @@ class TimelineEntry(object):
                 QueryTimelineSample representation returned from API.
 
         Returns:
-            google.cloud.bigquery.TimelineEntry:
+            arrivy.google.cloud.bigquery.TimelineEntry:
                 Timeline sample parsed from ``resource``.
         """
         entry = cls()
