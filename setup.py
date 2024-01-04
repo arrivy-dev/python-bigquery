@@ -20,7 +20,7 @@ import setuptools
 
 # Package metadata.
 
-name = "google-cloud-bigquery"
+name = "arrivy-google-cloud-bigquery"
 description = "Google BigQuery API client library"
 
 # Should be one of:
@@ -101,7 +101,7 @@ with io.open(readme_filename, encoding="utf-8") as readme_file:
     readme = readme_file.read()
 
 version = {}
-with open(os.path.join(package_root, "google/cloud/bigquery/version.py")) as fp:
+with open(os.path.join(package_root, "arrivy/google/cloud/bigquery/version.py")) as fp:
     exec(fp.read(), version)
 version = version["__version__"]
 
@@ -110,7 +110,7 @@ version = version["__version__"]
 packages = [
     package
     for package in setuptools.find_namespace_packages()
-    if package.startswith("google")
+    if package.startswith("arrivy")
 ]
 
 setuptools.setup(
@@ -118,8 +118,8 @@ setuptools.setup(
     version=version,
     description=description,
     long_description=readme,
-    author="Google LLC",
-    author_email="googleapis-packages@google.com",
+    author="Arrivy",
+    author_email="support@arrivy.com",
     license="Apache 2.0",
     url="https://github.com/googleapis/python-bigquery",
     classifiers=[
